@@ -3,7 +3,7 @@ import { FC } from 'react';
 
 export type PositionTagProps = {
   position: PositionType;
-  onClick: () => void;
+  onClick?: () => void;
 };
 
 export const PositionTag: FC<PositionTagProps> = (props) => {
