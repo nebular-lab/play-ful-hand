@@ -1,9 +1,9 @@
 import { FC } from 'react';
 
 import { StreetTag } from '@/component/common/Tag/StreetTag';
+import { StreetNodeType } from '@/types/schema';
 
 import { CardNode } from '../CardNode';
-import { StreetNodeType } from '@/types/schema';
 
 export const StreetNode: FC<StreetNodeType> = (streetNode) => {
   return (

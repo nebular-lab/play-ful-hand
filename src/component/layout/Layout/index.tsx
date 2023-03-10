@@ -1,5 +1,6 @@
-import { Header } from '@/component/common/Header';
 import { FC, ReactNode } from 'react';
+
+import { Header } from '@/component/common/Header';
 
 export type LayoutProps = {
   children: ReactNode;

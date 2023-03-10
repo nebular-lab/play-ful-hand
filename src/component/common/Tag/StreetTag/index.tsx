@@ -1,5 +1,6 @@
-import { StreetType } from '@/types/schema';
 import { FC } from 'react';
+
+import { StreetType } from '@/types/schema';
 
 export type StreetTagProps = {
   street: StreetType;

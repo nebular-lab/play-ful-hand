@@ -1,5 +1,6 @@
-import { PositionType } from '@/types/schema';
 import { FC } from 'react';
+
+import { PositionType } from '@/types/schema';
 
 export type PositionTagProps = {
   position: PositionType;

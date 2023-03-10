@@ -1,6 +1,6 @@
-import { CardType } from '@/types/schema';
 import { FC } from 'react';
 
+import { CardType } from '@/types/schema';
 
 import { Card } from '../../Card';
 

@@ -1,57 +1,40 @@
-import { editingHandRangeState } from '@/store/editingHandRangeState';
-import produce from 'immer';
 import { FC, memo } from 'react';
-import { useRecoilState } from 'recoil';
+
+import { registeredActionType } from '@/types/schema';
 
 export type SquareProps = {
-  indexes: { colIndex13: number; rowIndex13: number; colIndex4: number; rowIndex4: number };
+  hand: number;
   isMouseDown: boolean;
-  isSquare: boolean;
-};
-
-export const Square: FC<SquareProps> = memo((props) => {
-  const { isMouseDown, indexes } = props;
-  const [editingHandRange, setEditingHandRange] = useRecoilState(editingHandRangeState);
-  
-  const actionNumber =
-    editingHandRange.handRange[indexes.colIndex13][indexes.rowIndex13][indexes.colIndex4][
-      indexes.rowIndex4
-    ];
-
-  const actionColor = editingHandRange.registeredActions.find(
-    (registeredAction) => actionNumber == registeredAction.actionNum,
-  );
-
-  const updateEditingHandRange = (indexes: {
+  registeredActions: registeredActionType;
+  indexes: { colIndex13: number; rowIndex13: number; colIndex4: number; rowIndex4: number };
+  updateEditingHandRange: (indexes: {
     colIndex13: number;
     rowIndex13: number;
     colIndex4: number;
     rowIndex4: number;
-  }) => {
-    const nextState = produce(editingHandRange, (draft) => {
-      draft.handRange[indexes.colIndex13][indexes.rowIndex13][indexes.colIndex4][
-        indexes.rowIndex4
-      ] = 2;
-    });
-    // setEditingHandRange(nextState);
-  };
+  }) => void;
+};
+
+export const Square: FC<SquareProps> = memo((props) => {
+  const {
+    isMouseDown,
+    hand: actionNumber,
+    registeredActions,
+    indexes,
+    updateEditingHandRange,
+  } = props;
+
+  const actionColor = registeredActions.find(
+    (registeredAction) => actionNumber == registeredAction.actionNum,
+  );
+
   const onMouseOver = () => {
     if (isMouseDown) {
-      updateEditingHandRange({
-        colIndex13: indexes.colIndex13,
-        rowIndex13: indexes.rowIndex13,
-        colIndex4: indexes.colIndex4,
-        rowIndex4: indexes.rowIndex4,
-      });
+      updateEditingHandRange(indexes);
     }
   };
   const onClick = () => {
-    updateEditingHandRange({
-      colIndex13: indexes.colIndex13,
-      rowIndex13: indexes.rowIndex13,
-      colIndex4: indexes.colIndex4,
-      rowIndex4: indexes.rowIndex4,
-    });
+    updateEditingHandRange(indexes);
   };
 
   if (actionColor?.action.move !== 'undefined' && actionColor !== undefined) {
@@ -63,6 +46,6 @@ export const Square: FC<SquareProps> = memo((props) => {
       ></div>
     );
   } else {
-    return <div className={` h-2 w-2 bg-white `}></div>;
+    return <div className={` h-2 w-2  `}></div>;
   }
 });

@@ -1,6 +1,11 @@
 import { z } from 'zod';
 
-export const CardMarkTypeSchema = z.union([z.literal('h'), z.literal('c'), z.literal('s'), z.literal('d')]);
+export const CardMarkTypeSchema = z.union([
+  z.literal('h'),
+  z.literal('c'),
+  z.literal('s'),
+  z.literal('d'),
+]);
 export type CardMarkType = z.infer<typeof CardMarkTypeSchema>;
 
 export const CardNumTypeSchema = z.union([
@@ -48,7 +53,10 @@ export type MoveType = z.infer<typeof MoveTypeSchema>;
 
 export const exceptionSchema = z.union([z.literal('no-set'), z.literal('undefined')]);
 
-export const ActionTypeSchema = z.object({ move: MoveTypeSchema.or(exceptionSchema), size: z.number() });
+export const ActionTypeSchema = z.object({
+  move: MoveTypeSchema.or(exceptionSchema),
+  size: z.number(),
+});
 export type ActionType = z.infer<typeof ActionTypeSchema>;
 
 export const StreetTypeSchema = z.union([z.literal('FLOP'), z.literal('TURN'), z.literal('RIVER')]);

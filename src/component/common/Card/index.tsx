@@ -1,5 +1,6 @@
-import { CardType } from '@/types/schema';
 import { type FC } from 'react';
+
+import { CardType } from '@/types/schema';
 
 export type CardProps = CardType;
 
@@ -15,5 +16,11 @@ export const Card: FC<CardProps> = (props) => {
       : mark == 's'
       ? 'bg-gray-400'
       : '';
-  return <div className={`${bgColor} flex h-6  w-5 items-center justify-center rounded text-sm text-white`}>{num}</div>;
+  return (
+    <div
+      className={`${bgColor} flex h-6  w-5 items-center justify-center rounded text-sm text-white`}
+    >
+      {num}
+    </div>
+  );
 };

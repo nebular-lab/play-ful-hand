@@ -1,5 +1,6 @@
-import { HandNodeType, PositionType } from '@/types/schema';
 import { FC } from 'react';
+
+import { HandNodeType, PositionType } from '@/types/schema';
 
 import { StreetNode } from './StreetNode';
 

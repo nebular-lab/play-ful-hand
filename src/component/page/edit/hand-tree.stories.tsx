@@ -1,5 +1,7 @@
-import { defaultHandRange } from '@/types/data/defaultHandRange';
 import { Meta, StoryObj } from '@storybook/react';
+
+import { defaultHandRange } from '@/types/data/defaultHandRange';
+
 import { HandTreePage } from '.';
 
 type T = typeof HandTreePage;

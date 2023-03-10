@@ -1,28 +1,60 @@
+import { FC, memo, useMemo } from 'react';
+
 import { registeredActionType } from '@/types/schema';
-import { FC, memo } from 'react';
+
 import { Square } from '../Square';
 
 export type HandSquareProps = {
-  colIndex13: number;
+  hands: number[][];
   rowIndex13: number;
+  colIndex13: number;
   isMouseDown: boolean;
+  registeredActions: registeredActionType;
+  updateEditingHandRange: (indexes: {
+    colIndex13: number;
+    rowIndex13: number;
+    colIndex4: number;
+    rowIndex4: number;
+  }) => void;
 };
 
 export const HandSquare: FC<HandSquareProps> = memo((props) => {
-  const { isMouseDown, colIndex13, rowIndex13,  } = props;
-
+  const {
+    isMouseDown,
+    hands: handRange,
+    registeredActions,
+    rowIndex13,
+    colIndex13,
+    updateEditingHandRange,
+  } = props;
+  
   return (
-    <div className="flex w-fit flex-col border-2 border-gray-400">
-      {[...Array(4)].map((_, colIndex4) => {
+    <div className={`flex w-fit flex-col border-2 border-gray-400 `}>
+      {handRange.map((rows, colIndex4) => {
         return (
           <div key={colIndex4} className="flex ">
-            {[...Array(4)].map((_, rowIndex4) => {
+            {rows.map((hand, rowIndex4) => {
+              const indexes = useMemo<{
+                colIndex13: number;
+                rowIndex13: number;
+                colIndex4: number;
+                rowIndex4: number;
+              }>(
+                () => ({
+                  colIndex13: colIndex13,
+                  rowIndex13: rowIndex13,
+                  colIndex4: colIndex4,
+                  rowIndex4: rowIndex4,
+                }),
+                [],
+              );
               return (
                 <Square
-                  key={rowIndex4}
-                  indexes={{ colIndex13, rowIndex13, colIndex4, rowIndex4 }}
+                  hand={hand}
+                  indexes={indexes}
                   isMouseDown={isMouseDown}
-                  isSquare={true}
+                  registeredActions={registeredActions}
+                  updateEditingHandRange={updateEditingHandRange}
                 />
               );
             })}

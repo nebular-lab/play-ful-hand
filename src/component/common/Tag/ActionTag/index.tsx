@@ -1,6 +1,6 @@
-import { MoveType } from '@/types/schema';
 import { FC } from 'react';
 
+import { MoveType } from '@/types/schema';
 
 export type ActionTagProps = {
   move: MoveType;
@@ -24,7 +24,9 @@ export const ActionTag: FC<ActionTagProps> = (props) => {
       ? 'border-blue-400'
       : '';
   return (
-    <div className={`flex h-8 w-20 items-center justify-center rounded-md border-2 ${moveColor} bg-white`}>
+    <div
+      className={`flex h-8 w-20 items-center justify-center rounded-md border-2 ${moveColor} bg-white`}
+    >
       {move} {size == 0 ? '' : size}
     </div>
   );
