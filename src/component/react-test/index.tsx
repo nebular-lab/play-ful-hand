@@ -1,29 +1,30 @@
-import { Dispatch, FC, memo, SetStateAction, useState } from 'react';
+import { FC } from 'react';
+import { Updater, useImmer } from 'use-immer';
 
 export const Test = () => {
-  const [test, setTest] = useState({ name: 'aa', pass: '' });
+  const [test, setTest] = useImmer({ name: 'aa', pass: '' });
 
   return (
     <>
-      {test.name}
       <Child name={test.name} setTest={setTest} />
     </>
   );
 };
 type Props = {
   name: string;
-  setTest: Dispatch<
-    SetStateAction<{
-      name: string;
-      pass: string;
-    }>
-  >;
+  setTest: Updater<{
+    name: string;
+    pass: string;
+  }>;
 };
-const Child: FC<Props> = memo(({ name, setTest }) => {
-  console.log('child');
-  return (
-    <button className="w-10 bg-red-500" onClick={() => setTest({ name: 'aa', pass: '' })}>
-      {name}
-    </button>
-  );
-});
+
+const Child: FC<Props> = (props) => {
+  const { name, setTest } = props;
+  const clickHandler = () => {
+    setTest((draft) => {
+      draft.name = 'b';
+    });
+  
+  };
+  return <button onClick={clickHandler}>{name}</button>;
+};

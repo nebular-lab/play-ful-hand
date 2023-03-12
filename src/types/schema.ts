@@ -51,10 +51,12 @@ export const MoveTypeSchema = z.union([
 ]);
 export type MoveType = z.infer<typeof MoveTypeSchema>;
 
-export const exceptionSchema = z.union([z.literal('no-set'), z.literal('undefined')]);
-
+export const MoveTypeSchemaForException = MoveTypeSchema.or(
+  z.union([z.literal('no-set'), z.literal('no-defined')]),
+);
+export type MoveTypeForException = z.infer<typeof MoveTypeSchemaForException>;
 export const ActionTypeSchema = z.object({
-  move: MoveTypeSchema.or(exceptionSchema),
+  move: MoveTypeSchemaForException,
   size: z.number(),
 });
 export type ActionType = z.infer<typeof ActionTypeSchema>;
@@ -62,20 +64,16 @@ export type ActionType = z.infer<typeof ActionTypeSchema>;
 export const StreetTypeSchema = z.union([z.literal('FLOP'), z.literal('TURN'), z.literal('RIVER')]);
 export type StreetType = z.infer<typeof StreetTypeSchema>;
 
-export const RegisteredActionSchema = z.array(
-  z.object({ action: ActionTypeSchema, actionNum: z.number(), color: z.string() }),
-);
-export type registeredActionType = z.infer<typeof RegisteredActionSchema>;
+export const RegisteredActionSchema = z.object({
+  action: ActionTypeSchema,
+  id: z.number(),
+  color: z.string(),
+});
+export type RegisteredActionType = z.infer<typeof RegisteredActionSchema>;
 
-export const NumHandRangeSchema = z
+export const HandRangeSchema = z
   .array(z.array(z.array(z.array(z.number()).length(4)).length(4)).length(13))
   .length(13);
-export type NumHandRangeType = z.infer<typeof NumHandRangeSchema>;
-
-export const HandRangeSchema = z.object({
-  registeredActions: RegisteredActionSchema,
-  handRange: NumHandRangeSchema,
-});
 export type HandRangeType = z.infer<typeof HandRangeSchema>;
 
 export interface StreetNodeType {
@@ -84,13 +82,13 @@ export interface StreetNodeType {
   street: 'FLOP' | 'TURN' | 'RIVER';
   pot: number;
   stack: number;
-  children?: CardNodeType[];
+  child?: CardNodeType[];
 }
 
 export interface CardNodeType {
   id: string;
   cards: CardType[];
-  children?: PositionNodeType;
+  child?: PositionNodeType;
 }
 
 export interface PositionNodeType {
@@ -98,14 +96,14 @@ export interface PositionNodeType {
   type: 'PositionNode';
   position: PositionType;
   handRange: HandRangeType;
-  children: ActionNodeType[];
+  child: ActionNodeType[];
 }
 
 export interface ActionNodeType {
   id: string;
   move: MoveType;
   size: number;
-  children?: StreetNodeType | PositionNodeType;
+  child?: StreetNodeType | PositionNodeType;
 }
 export interface HandNodeType {
   id: string;
@@ -123,13 +121,13 @@ export const StreetNodeTypeSchema: z.ZodSchema<StreetNodeType> = z.object({
   street: StreetTypeSchema,
   pot: z.number(),
   stack: z.number(),
-  children: z.lazy(() => z.array(CardNodeTypeSchema)).optional(),
+  child: z.lazy(() => z.array(CardNodeTypeSchema)).optional(),
 });
 
 export const CardNodeTypeSchema = z.object({
   id: z.string(),
   cards: z.array(CardTypeSchema),
-  children: z.lazy(() => PositionNodeTypeSchema).optional(),
+  child: z.lazy(() => PositionNodeTypeSchema).optional(),
 });
 
 export const PositionNodeTypeSchema: z.ZodSchema<PositionNodeType> = z.object({
@@ -137,12 +135,12 @@ export const PositionNodeTypeSchema: z.ZodSchema<PositionNodeType> = z.object({
   type: z.literal('PositionNode'),
   position: PositionTypeSchema,
   handRange: HandRangeSchema,
-  children: z.lazy(() => z.array(ActionNodeTypeSchema)),
+  child: z.lazy(() => z.array(ActionNodeTypeSchema)),
 });
 
 export const ActionNodeTypeSchema: z.ZodSchema<ActionNodeType> = z.object({
   id: z.string(),
   move: MoveTypeSchema,
   size: z.number(),
-  children: z.lazy(() => z.union([StreetNodeTypeSchema, PositionNodeTypeSchema])).optional(),
+  child: z.lazy(() => z.union([StreetNodeTypeSchema, PositionNodeTypeSchema])).optional(),
 });

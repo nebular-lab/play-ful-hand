@@ -4,6 +4,6 @@ import { defaultHandRange } from '@/types/data/defaultHandRange';
 import { HandRangeType } from '@/types/schema';
 
 export const editingHandRangeState = atom<HandRangeType>({
-  key: 'editingHandRange',
+  key: 'editingHandRangeState',
   default: defaultHandRange,
 });

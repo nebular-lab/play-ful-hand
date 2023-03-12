@@ -1,26 +1,34 @@
 import { FC } from 'react';
-import { useRecoilState } from 'recoil';
+import { useSetRecoilState } from 'recoil';
 
 import { PositionTag } from '@/component/common/Tag/PositionTag';
 import { editingHandRangeState } from '@/store/editingHandRangeState';
+import { editingNodePathState } from '@/store/editingNodePathState';
 import { PositionNodeType } from '@/types/schema';
 
 import { ActionNode } from '../ActionNode';
 
-export const PositionNode: FC<PositionNodeType> = (positionNode) => {
-  const [editingHandRange, setEditingHandRange] = useRecoilState(editingHandRangeState);
+export const PositionNode: FC<PositionNodeType & { path: Array<number | string> }> = (
+  positionNode,
+) => {
+  const setEditingHandRange = useSetRecoilState(editingHandRangeState);
+  const setEditingNodePath = useSetRecoilState(editingNodePathState);
   return (
     <>
       <PositionTag
         position={positionNode.position}
         onClick={() => {
-          console.log(positionNode.handRange);
           setEditingHandRange(positionNode.handRange);
+          setEditingNodePath(positionNode.path);
         }}
       />
       <ul className="">
-        {positionNode.children.map((actionNode) => (
-          <ActionNode key={actionNode.id} {...actionNode} />
+        {positionNode.child.map((actionNode, index) => (
+          <ActionNode
+            key={actionNode.id}
+            {...actionNode}
+            path={[...positionNode.path, 'child', index]}
+          />
         ))}
       </ul>
     </>

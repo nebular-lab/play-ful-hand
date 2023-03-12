@@ -21,10 +21,10 @@ export const Header: FC<HeaderProps> = (props) => {
       {isLogin ? (
         <div className="flex gap-3">
           <Avatar src={'https://placehold.jp/40x40.png'} />
-          <Button label="新規作成" />
+          <Button>新規登録</Button>
         </div>
       ) : (
-        <Button label="login" />
+        <Button>ログイン</Button>
       )}
     </nav>
   );

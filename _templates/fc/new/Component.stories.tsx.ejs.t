@@ -1,8 +1,9 @@
 ---
 to: <%= path %>/<%= name%>.stories.tsx
 ---
-import { Meta, StoryObj } from '@storybook/react'
-import { <%= name %> } from '.'
+import { Meta, StoryObj } from '@storybook/react';
+
+import { <%= name %> } from '.';
 
 type T = typeof <%= name %>
 type Story = StoryObj<T>

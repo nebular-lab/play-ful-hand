@@ -1,9 +1,11 @@
-import { FC, memo } from 'react';
+import { FC } from 'react';
+import { useRecoilState } from 'recoil';
 
 import { Layout } from '@/component/layout/Layout';
+import { editingHandNodeState } from '@/store/editingHandNodeState';
 import { HandNodeType, PositionType } from '@/types/schema';
 
-import { HandRange } from './draw/HandRange';
+import { Draw } from './draw';
 import { Tree } from './Tree';
 
 export type HandTreePageProps = {
@@ -14,14 +16,16 @@ export type HandTreePageProps = {
   };
 };
 
-export const HandTreePage: FC<HandTreePageProps> = memo((props) => {
+export const HandTreePage: FC<HandTreePageProps> = (props) => {
   const { handNode, treeInfo } = props;
+  const [editingHandNode, setEditingHandNode] = useRecoilState(editingHandNodeState);
+  const path: Array<number | string> = [];
   return (
     <Layout>
-      <div className="flex flex-col">
-        <Tree handNode={handNode} treeInfo={treeInfo} />
-        <HandRange />
+      <div className="flex flex-col gap-10">
+        <Tree handNode={editingHandNode} treeInfo={treeInfo} path={path} />
+        <Draw />
       </div>
     </Layout>
   );
-});
+};
