@@ -1,8 +1,6 @@
-import Link from 'next/link';
+import { Avatar, Button, Flex, Heading, Spacer } from '@chakra-ui/react';
 import { type FC } from 'react';
 
-import { Avatar } from '../Avatar';
-import { Button } from '../Button';
 export type HeaderProps = {
   isLogin: boolean;
 };
@@ -10,22 +8,17 @@ export type HeaderProps = {
 export const Header: FC<HeaderProps> = (props) => {
   const { isLogin } = props;
   return (
-    <nav className="sticky top-0 flex h-14 items-center justify-between bg-white px-7">
-      <div className="flex items-center justify-between gap-5">
-        <div>PLAYFUL HAND</div>
-        <Link className="rounded bg-gray-700 text-white hover:bg-gray-500" href="/edit">
-          投稿
-        </Link>
-      </div>
-
+    <Flex h={14} px={7} alignItems={'center'} justifyContent={'center'} top={0} bg={'blue.50'}>
+      <Heading>PLAYFUL HAND</Heading>
+      <Spacer />
       {isLogin ? (
-        <div className="flex gap-3">
+        <Flex gap={3}>
           <Avatar src={'https://placehold.jp/40x40.png'} />
           <Button>新規登録</Button>
-        </div>
+        </Flex>
       ) : (
         <Button>ログイン</Button>
       )}
-    </nav>
+    </Flex>
   );
 };

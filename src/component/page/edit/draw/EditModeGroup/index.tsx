@@ -1,21 +1,35 @@
-import { ChangeEventHandler, FC } from 'react';
+import { HStack, useRadioGroup } from '@chakra-ui/react';
+import { FC } from 'react';
 import { useSetRecoilState } from 'recoil';
 
 import { editModeState } from '@/store/editModeState';
 
-import { EditModeOption } from '../EditModeOption';
+import { EditModeCard } from '../EditModeCard';
 
 export const EditModeGroup: FC = (props) => {
   const setEditMode = useSetRecoilState(editModeState);
-  const editModes: Array<'one' | 'square'> = ['one', 'square'];
-  const handleChange: ChangeEventHandler<HTMLInputElement> | undefined = (e) => {
-    setEditMode(e.target.value == 'one' ? 'one' : 'square');
+  const options: Array<'one' | 'square'> = ['one', 'square'];
+  const handleEditMode = (value: 'one' | 'square') => {
+    setEditMode(value);
   };
+  const { getRootProps, getRadioProps } = useRadioGroup({
+    name: 'editMode',
+    defaultValue: 'square',
+    onChange: handleEditMode,
+  });
+
+  const group = getRootProps();
+
   return (
-    <div className="grid  grid-cols-2 gap-2">
-      {editModes.map((editMode) => {
-        return <EditModeOption key={editMode} mode={editMode} handleChange={handleChange} />;
+    <HStack {...group}>
+      {options.map((value) => {
+        const radio = getRadioProps({ value });
+        return (
+          <EditModeCard key={value} {...radio}>
+            {value}
+          </EditModeCard>
+        );
       })}
-    </div>
+    </HStack>
   );
 };

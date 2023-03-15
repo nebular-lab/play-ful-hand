@@ -1,12 +1,12 @@
 import { Meta, StoryObj } from '@storybook/react';
 
-import { Avatar } from '.';
+import { EditModeCard } from '.';
 
-type T = typeof Avatar;
+type T = typeof EditModeCard;
 type Story = StoryObj<T>;
 
 export default {
-  component: Avatar,
+  component: EditModeCard,
   args: {},
 } as Meta<T>;
 

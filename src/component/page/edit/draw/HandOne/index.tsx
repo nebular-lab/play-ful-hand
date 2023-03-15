@@ -1,10 +1,11 @@
+import { Box } from '@chakra-ui/react';
 import { FC, memo } from 'react';
 import { useRecoilValue } from 'recoil';
 
 import { editingRegisteredActionsState } from '@/store/editingRegisteredActionsState';
 import { editModeState } from '@/store/editModeState';
 
-export type SquareProps = {
+export type HandOneProps = {
   hand: number;
   isMouseDown: boolean;
   indexes: { colIndex13: number; rowIndex13: number; colIndex4: number; rowIndex4: number };
@@ -16,7 +17,7 @@ export type SquareProps = {
   }) => void;
 };
 
-export const Square: FC<SquareProps> = memo((props) => {
+export const HandOne: FC<HandOneProps> = memo((props) => {
   const { isMouseDown, hand: actionNumber, indexes, updateEditingHandRange } = props;
 
   const registeredActions = useRecoilValue(editingRegisteredActionsState);
@@ -37,13 +38,17 @@ export const Square: FC<SquareProps> = memo((props) => {
 
   if (actionColor?.action.move !== 'no-defined' && actionColor !== undefined) {
     return (
-      <div
-        className={` h-2 w-2 ${actionColor.color} border`}
+      <Box
+        h={2}
+        w={2}
+        bg={actionColor.color}
+        border={'1px'}
+        borderColor={'gray.200'}
         onMouseOver={onMouseOver}
         onClick={onClick}
-      ></div>
+      ></Box>
     );
   } else {
-    return <div className={` h-2 w-2  `}></div>;
+    return <Box h={2} w={2}></Box>;
   }
 });

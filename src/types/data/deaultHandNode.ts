@@ -8,5 +8,6 @@ export const defaultHandNode: HandNodeType = {
     street: 'FLOP',
     pot: 100,
     stack: 100,
+    child: [],
   },
 };

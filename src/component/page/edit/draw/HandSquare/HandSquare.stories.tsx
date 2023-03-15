@@ -7,7 +7,17 @@ type Story = StoryObj<T>;
 
 export default {
   component: HandSquare,
-  args: { type: 'suit', isMouseDown: true, drawingColor: 'bg-green-300' },
+  args: {
+    type: 'suit',
+    isMouseDown: true,
+    drawingColor: 'green.300',
+    hands: [
+      [0, 1, 1, 1],
+      [0, 0, 1, 1],
+      [0, 0, 0, 1],
+      [0, 0, 0, 0],
+    ],
+  },
 } as Meta<T>;
 
 export const Default: Story = {};

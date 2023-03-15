@@ -1,26 +1,39 @@
+import { Flex } from '@chakra-ui/react';
 import { type FC } from 'react';
 
 import { CardType } from '@/types/schema';
 
-export type CardProps = CardType;
-
+export interface CardProps extends CardType {
+  onClick?: () => void;
+  size: 'sm' | 'md';
+}
 export const Card: FC<CardProps> = (props) => {
-  const { num, mark } = props;
+  const { num, mark, onClick, size } = props;
   const bgColor =
     mark == 'h'
-      ? 'bg-red-400'
+      ? 'red.400'
       : mark == 'c'
-      ? 'bg-green-400'
+      ? 'green.400'
       : mark == 'd'
-      ? 'bg-blue-400'
+      ? 'blue.400'
       : mark == 's'
-      ? 'bg-gray-400'
+      ? 'gray.400'
       : '';
+  const height = size == 'sm' ? 6 : 10;
+  const width = size == 'sm' ? 5 : 8;
   return (
-    <div
-      className={`${bgColor} flex h-6  w-5 items-center justify-center rounded text-sm text-white`}
+    <Flex
+      bg={bgColor}
+      h={height}
+      w={width}
+      alignItems={'center'}
+      justifyContent={'center'}
+      rounded={'sm'}
+      fontSize={'sm'}
+      textColor={'white'}
+      onClick={onClick}
     >
       {num}
-    </div>
+    </Flex>
   );
 };

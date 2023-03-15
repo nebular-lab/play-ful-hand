@@ -1,3 +1,4 @@
+import { Box, VStack } from '@chakra-ui/react';
 import { FC } from 'react';
 
 import { StreetType } from '@/types/schema';
@@ -6,17 +7,24 @@ export type StreetTagProps = {
   street: StreetType;
   pot: number;
   stack: number;
+  onClick?: () => void;
 };
 
 export const StreetTag: FC<StreetTagProps> = (props) => {
-  const { street, pot, stack } = props;
+  const { street, pot, stack, onClick } = props;
   return (
-    <div>
-      <div className="flex w-24 flex-col items-center gap-2 rounded-md border-2 border-gray-400 bg-white py-1">
-        <div className="rounded-2xl border border-gray-400 p-1">{street}</div>
-        <div>POT {pot}</div>
-        <div>STACK {stack}</div>
-      </div>
-    </div>
+    <VStack
+      w={32}
+      border={'1px'}
+      borderColor={'gray.300'}
+      rounded={'xl'}
+      p={'2'}
+      onClick={onClick}
+      cursor={'pointer'}
+    >
+      <Box>{street}</Box>
+      <Box>POT {pot}</Box>
+      <Box>STACK {stack}</Box>
+    </VStack>
   );
 };

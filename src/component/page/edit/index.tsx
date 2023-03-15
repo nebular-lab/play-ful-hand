@@ -1,3 +1,4 @@
+import { Box } from '@chakra-ui/react';
 import { FC } from 'react';
 import { useRecoilState } from 'recoil';
 
@@ -20,12 +21,15 @@ export const HandTreePage: FC<HandTreePageProps> = (props) => {
   const { handNode, treeInfo } = props;
   const [editingHandNode, setEditingHandNode] = useRecoilState(editingHandNodeState);
   const path: Array<number | string> = [];
+
   return (
     <Layout>
-      <div className="flex flex-col gap-10">
+      <Box flex="1" overflowY="auto" px={10}>
         <Tree handNode={editingHandNode} treeInfo={treeInfo} path={path} />
+      </Box>
+      <Box position="sticky" bottom="0" zIndex="1000" bg="white" px={10} pb={5}>
         <Draw />
-      </div>
+      </Box>
     </Layout>
   );
 };

@@ -1,3 +1,4 @@
+import { UnorderedList } from '@chakra-ui/react';
 import { FC } from 'react';
 import { useSetRecoilState } from 'recoil';
 
@@ -22,15 +23,16 @@ export const PositionNode: FC<PositionNodeType & { path: Array<number | string> 
           setEditingNodePath(positionNode.path);
         }}
       />
-      <ul className="">
-        {positionNode.child.map((actionNode, index) => (
+
+      <UnorderedList  m={0}>
+        {positionNode.child?.map((actionNode, index) => (
           <ActionNode
             key={actionNode.id}
             {...actionNode}
             path={[...positionNode.path, 'child', index]}
           />
         ))}
-      </ul>
+      </UnorderedList>
     </>
   );
 };

@@ -11,6 +11,7 @@ export const parameters = {
   chakra: {
     theme,
   },
+  layout: 'fullscreen',
 };
 const withRecoil = (Story) => (
   <RecoilRoot>

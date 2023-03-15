@@ -1,3 +1,4 @@
+import { Flex, ListItem } from '@chakra-ui/react';
 import { FC } from 'react';
 
 import { CardTag } from '@/component/common/Tag/CardTag';
@@ -7,11 +8,11 @@ import { PositionNode } from '../PositionNode';
 
 export const CardNode: FC<CardNodeType & { path: Array<number | string> }> = (cardNode) => {
   return (
-    <li className=" flex gap-1">
-      <CardTag cards={cardNode.cards} />
-      {cardNode.child && (
-        <PositionNode {...cardNode.child} path={[...cardNode.path, 'child']} />
-      )}
-    </li>
+    <ListItem listStyleType={'none'} p={0}>
+      <Flex gap={1}>
+        <CardTag cards={cardNode.cards} />
+        {cardNode.child && <PositionNode {...cardNode.child} path={[...cardNode.path, 'child']} />}
+      </Flex>
+    </ListItem>
   );
 };

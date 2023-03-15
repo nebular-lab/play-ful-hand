@@ -1,3 +1,4 @@
+import { Flex } from '@chakra-ui/react';
 import { FC } from 'react';
 
 import { MoveType } from '@/types/schema';
@@ -11,23 +12,21 @@ export const ActionTag: FC<ActionTagProps> = (props) => {
   const { move, size } = props;
   const moveColor =
     move == 'CALL'
-      ? 'border-green-400'
+      ? 'green.400'
       : move == 'CHECK'
-      ? 'border-green-400'
+      ? 'green.400'
       : move == 'ALLIN'
-      ? 'border-red-400'
+      ? 'red.400'
       : move == 'BET'
-      ? 'border-red-400'
+      ? 'red.400'
       : move == 'RAISE'
-      ? 'border-orange-400'
+      ? 'orange.400'
       : move == 'FOLD'
-      ? 'border-blue-400'
+      ? 'blue.400'
       : '';
   return (
-    <div
-      className={`flex h-8 w-20 items-center justify-center rounded-md border-2 ${moveColor} bg-white`}
-    >
+    <Flex h={8} w={20} rounded={'xl'} border={'1px'} p={'2'} justifyContent={'center'} alignItems={'center'} borderColor={moveColor} bg={'white'}>
       {move} {size == 0 ? '' : size}
-    </div>
+    </Flex>
   );
 };

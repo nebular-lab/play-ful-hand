@@ -1,8 +1,13 @@
 import { RegisteredActionType } from '../schema';
 
 export const defaultRegisteredActons: RegisteredActionType[] = [
-  { action: { move: 'no-defined', size: 0 }, id: 0, color: 'bg-white' },
-  { action: { move: 'no-set', size: 0 }, id: 1, color: 'bg-gray-300' },
-  { action: { move: 'BET', size: 10 }, id: 2, color: 'bg-orange-300' },
-  { action: { move: 'CHECK', size: 0 }, id: 3, color: 'bg-green-300' },
+  { action: { move: 'no-defined', size: 0 }, id: 0, color: 'white' },
+  { action: { move: 'no-set', size: 0 }, id: 1, color: 'gray.300' },
+  { action: { move: 'BET', size: 30 }, id: 2, color: 'orange.300' },
+  { action: { move: 'BET', size: 70 }, id: 3, color: 'red.300' },
+  { action: { move: 'BET', size: 120 }, id: 4, color: 'purple.300' },
+  { action: { move: 'CHECK', size: 0 }, id: 5, color: 'green.300' },
+  { action: { move: 'CALL', size: 0 }, id: 6, color: 'green.300' },
+  { action: { move: 'ALLIN', size: 0 }, id: 7, color: 'pink.300' },
+  { action: { move: 'RAISE', size: 50 }, id: 8, color: 'red.300' },
 ];

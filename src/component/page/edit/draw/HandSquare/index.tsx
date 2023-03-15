@@ -1,9 +1,10 @@
+import { Flex } from '@chakra-ui/react';
 import { FC, memo } from 'react';
 import { useRecoilValue } from 'recoil';
 
 import { editModeState } from '@/store/editModeState';
 
-import { Square } from '../Square';
+import { HandOne } from '../HandOne';
 
 export type HandSquareProps = {
   hands: number[][];
@@ -40,16 +41,17 @@ export const HandSquare: FC<HandSquareProps> = memo((props) => {
       updateEditingHandRangeSquare({ colIndex13: colIndex13, rowIndex13: rowIndex13 });
   };
   return (
-    <div
-      className={`flex w-fit flex-col border-2 ${
-        (colIndex13 == 4 && rowIndex13 == 4||colIndex13 == 8 && rowIndex13 == 8) ? 'border-red-400' : 'border-gray-400'
-      } `}
+    <Flex
+      direction={'column'}
+      border={'2px'}
+      borderColor={'gray.300'}
+      w={'fit-content'}
       onMouseOver={onMouseOver}
       onClick={onClick}
     >
       {handRange.map((rows, colIndex4) => {
         return (
-          <div key={colIndex4} className="flex ">
+          <Flex key={colIndex4}>
             {rows.map((hand, rowIndex4) => {
               const indexes = {
                 colIndex13: colIndex13,
@@ -58,7 +60,7 @@ export const HandSquare: FC<HandSquareProps> = memo((props) => {
                 rowIndex4: rowIndex4,
               };
               return (
-                <Square
+                <HandOne
                   key={rowIndex4}
                   hand={hand}
                   indexes={indexes}
@@ -67,9 +69,9 @@ export const HandSquare: FC<HandSquareProps> = memo((props) => {
                 />
               );
             })}
-          </div>
+          </Flex>
         );
       })}
-    </div>
+    </Flex>
   );
 });

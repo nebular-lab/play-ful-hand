@@ -1,3 +1,4 @@
+import { Flex } from '@chakra-ui/react';
 import { FC } from 'react';
 
 import { ActionTag } from '@/component/common/Tag/ActionTag';
@@ -9,7 +10,7 @@ import { StreetNode } from '../StreetNode';
 export const ActionNode: FC<ActionNodeType & { path: Array<number | string> }> = (actionNode) => {
   const childType = actionNode.child?.type;
   return (
-    <div className="gap-1">
+    <Flex gap={1}>
       <ActionTag move={actionNode.move} size={actionNode.size} />
       {childType == 'StreetNode' && (
         <StreetNode
@@ -31,6 +32,6 @@ export const ActionNode: FC<ActionNodeType & { path: Array<number | string> }> =
           child={actionNode.child.child}
         />
       )}
-    </div>
+    </Flex>
   );
 };

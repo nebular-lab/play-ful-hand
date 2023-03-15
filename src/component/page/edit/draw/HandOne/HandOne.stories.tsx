@@ -1,12 +1,12 @@
 import { Meta, StoryObj } from '@storybook/react';
 
-import { Square } from '.';
+import { HandOne } from '.';
 
-type T = typeof Square;
+type T = typeof HandOne;
 type Story = StoryObj<T>;
 
 export default {
-  component: Square,
+  component: HandOne,
   args: {
     drawingColor: 'bg-green-500',
     isMouseDown: true,

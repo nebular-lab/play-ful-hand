@@ -31,14 +31,7 @@ export const CardTypeSchema = z.object({
 });
 export type CardType = z.infer<typeof CardTypeSchema>;
 
-export const PositionTypeSchema = z.union([
-  z.literal('SB'),
-  z.literal('BB'),
-  z.literal('UTG'),
-  z.literal('HJ'),
-  z.literal('CO'),
-  z.literal('BTN'),
-]);
+export const PositionTypeSchema = z.union([z.literal('OOP'), z.literal('IP')]);
 export type PositionType = z.infer<typeof PositionTypeSchema>;
 
 export const MoveTypeSchema = z.union([
@@ -76,6 +69,8 @@ export const HandRangeSchema = z
   .length(13);
 export type HandRangeType = z.infer<typeof HandRangeSchema>;
 
+
+
 export interface StreetNodeType {
   id: string;
   type: 'StreetNode';
@@ -96,7 +91,7 @@ export interface PositionNodeType {
   type: 'PositionNode';
   position: PositionType;
   handRange: HandRangeType;
-  child: ActionNodeType[];
+  child?: ActionNodeType[];
 }
 
 export interface ActionNodeType {

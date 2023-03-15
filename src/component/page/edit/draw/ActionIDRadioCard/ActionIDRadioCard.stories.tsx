@@ -1,12 +1,12 @@
 import { Meta, StoryObj } from '@storybook/react';
 
-import { SearchForm } from '.';
+import { ActionIDRadioCard } from '.';
 
-type T = typeof SearchForm;
+type T = typeof ActionIDRadioCard;
 type Story = StoryObj<T>;
 
 export default {
-  component: SearchForm,
+  component: ActionIDRadioCard,
   args: {},
 } as Meta<T>;
 
