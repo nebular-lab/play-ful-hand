@@ -1,4 +1,5 @@
-import { HandNodeType } from '../schema';
+import { HandNodeType } from '../types/schema';
+import { defaultHandRange } from './defaultHandRange';
 
 export const defaultHandNode: HandNodeType = {
   id: '111',
@@ -8,6 +9,6 @@ export const defaultHandNode: HandNodeType = {
     street: 'FLOP',
     pot: 100,
     stack: 100,
-    child: [],
+    handRange: { OOP: defaultHandRange, IP: defaultHandRange },
   },
 };

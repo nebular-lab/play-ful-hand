@@ -2,6 +2,7 @@ import { Flex } from '@chakra-ui/react';
 import { FC } from 'react';
 
 import { ActionTag } from '@/component/common/Tag/ActionTag';
+import { defaultHandRange } from '@/defaultData/defaultHandRange';
 import { ActionNodeType } from '@/types/schema';
 
 import { PositionNode } from '../PositionNode';
@@ -20,6 +21,8 @@ export const ActionNode: FC<ActionNodeType & { path: Array<number | string> }> =
           stack={actionNode.child?.stack ?? 0}
           type={actionNode.child?.type ?? 'StreetNode'}
           path={[...actionNode.path, 'child']}
+          handRange={actionNode.child?.handRange ?? { OOP: defaultHandRange, IP: defaultHandRange }}
+          child={actionNode.child?.child}
         />
       )}
       {childType == 'PositionNode' && actionNode.child && (

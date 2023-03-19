@@ -1,9 +1,9 @@
 import { atom } from 'recoil';
 
-import { defaultHandRange } from '@/types/data/defaultHandRange';
-import { HandRangeType } from '@/types/schema';
+import { defaultHandRange } from '@/defaultData/defaultHandRange';
+import { PairHandRangeType } from '@/types/schema';
 
-export const editingHandRangeState = atom<HandRangeType>({
+export const editingHandRangeState = atom<PairHandRangeType>({
   key: 'editingHandRangeState',
-  default: defaultHandRange,
+  default: { OOP: defaultHandRange, IP: defaultHandRange },
 });

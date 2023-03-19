@@ -1,6 +1,6 @@
-import { RegisteredActionType } from '../schema';
+import { RegisteredActionType } from '../types/schema';
 
-export const defaultRegisteredActons: RegisteredActionType[] = [
+export const defaultRegisteredActions: RegisteredActionType[] = [
   { action: { move: 'no-defined', size: 0 }, id: 0, color: 'white' },
   { action: { move: 'no-set', size: 0 }, id: 1, color: 'gray.300' },
   { action: { move: 'BET', size: 30 }, id: 2, color: 'orange.300' },

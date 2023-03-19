@@ -3,11 +3,13 @@ import { FC, memo } from 'react';
 import { useRecoilValue } from 'recoil';
 
 import { editModeState } from '@/store/editModeState';
+import { PositionType } from '@/types/schema';
 
 import { HandOne } from '../HandOne';
 
 export type HandSquareProps = {
   hands: number[][];
+  position: PositionType;
   rowIndex13: number;
   colIndex13: number;
   isMouseDown: boolean;

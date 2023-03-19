@@ -12,7 +12,7 @@ export const Layout: FC<LayoutProps> = (props) => {
   return (
     <Flex direction="column" height="100vh" overflow={'hidden'}>
       <Box position="sticky" top="0" zIndex="1000" bg="white">
-        <Header isLogin={true}  />
+        <Header isLogin={true} />
       </Box>
       {children}
     </Flex>

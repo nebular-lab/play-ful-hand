@@ -1,6 +1,6 @@
 import { Meta, StoryObj } from '@storybook/react';
 
-import { defaultHandRange } from '@/types/data/defaultHandRange';
+import { defaultHandRange } from '@/defaultData/defaultHandRange';
 
 import { HandTreePage } from '.';
 

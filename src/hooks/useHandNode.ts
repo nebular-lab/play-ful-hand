@@ -2,15 +2,16 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import produce from 'immer';
+import _ from 'lodash';
 import { useCallback } from 'react';
 import { useRecoilState } from 'recoil';
 
 import { editingActionIDState } from '@/store/editingActionIDState';
 import { editingHandNodeState } from '@/store/editingHandNodeState';
+import { editingHandRangePositionState } from '@/store/editingHandRangePosition';
 import { editingHandRangeState } from '@/store/editingHandRangeState';
 import { editingNodePathState } from '@/store/editingNodePathState';
 import { editingRegisteredActionsState } from '@/store/editingRegisteredActionsState';
-import { defaultHandRange } from '@/types/data/defaultHandRange';
 import { ActionNodeType, CardNodeType, CardType } from '@/types/schema';
 
 export const useHandNode = () => {
@@ -21,6 +22,10 @@ export const useHandNode = () => {
   const [editingRegisteredActions, setEditingRegisteredActions] = useRecoilState(
     editingRegisteredActionsState,
   );
+  const [editingHandRangePosition, setEditingHandPosition] = useRecoilState(
+    editingHandRangePositionState,
+  );
+
   const addStreetCard = useCallback(
     (cards: CardType[]) => {
       const nextState = produce(editingHandNode, (draft) => {
@@ -28,6 +33,7 @@ export const useHandNode = () => {
         editingNodePath.forEach((key) => {
           temp = temp[key];
         });
+        // この時点でtempはstreetNode
         const flopCardNode: CardNodeType = {
           id: '1',
           cards: cards,
@@ -35,10 +41,10 @@ export const useHandNode = () => {
             id: '4',
             position: 'OOP',
             type: 'PositionNode',
-            handRange: defaultHandRange,
+            handRange: { OOP: temp.handRange.OOP, IP: temp.handRange.IP },
           },
         };
-
+        temp['child'] = [];
         temp.child.push(flopCardNode);
       });
       setEditingHandNode(nextState);
@@ -53,7 +59,7 @@ export const useHandNode = () => {
       });
       temp.handRange = editingHandRange;
       const actionIDs = new Set<number>();
-      editingHandRange.forEach((row13) => {
+      editingHandRange[editingHandRangePosition].forEach((row13) => {
         row13.forEach((col13) => {
           col13.forEach((row4) => {
             row4.forEach((col) => {
@@ -66,6 +72,20 @@ export const useHandNode = () => {
       actionIDs.forEach((actionID) => {
         // no-defineとno-setを除外
         if (actionID == 0 || actionID == 1) return;
+        const nextHandRange = _.cloneDeep(editingHandRange[editingHandRangePosition]);
+        editingHandRange[editingHandRangePosition].forEach((row13, rowIndex13) => {
+          row13.forEach((col13, colIndex13) => {
+            col13.forEach((row4, rowIndex4) => {
+              row4.forEach((col, colIndex4) => {
+                if (col == actionID)
+                  nextHandRange[rowIndex13][colIndex13][rowIndex4][colIndex4] = 1; //no-set
+                else {
+                  nextHandRange[rowIndex13][colIndex13][rowIndex4][colIndex4] = 0; //no-define
+                }
+              });
+            });
+          });
+        });
         editingRegisteredActions.forEach((registeredAction) => {
           if (
             registeredAction.id == actionID &&
@@ -77,21 +97,37 @@ export const useHandNode = () => {
               move: registeredAction.action.move,
               size: registeredAction.action.size,
             };
-            if (registeredAction.action.move == 'CALL') {
+            if (temp.position == 'OOP' && registeredAction.action.move == 'CALL') {
+              // TODO 次のHandRangeをどこに保存するか。StreetNodeに保存するのがいいと思う
               actionNode['child'] = {
                 id: '1',
                 type: 'StreetNode',
                 street: 'FLOP',
+                handRange: { OOP: nextHandRange, IP: editingHandRange.IP },
                 stack: 100,
                 pot: 100,
               };
+              setEditingHandPosition('OOP');
+            } else if (temp.position == 'IP' && registeredAction.action.move == 'CALL') {
+              actionNode['child'] = {
+                id: '1',
+                type: 'StreetNode',
+                street: 'FLOP',
+                handRange: { OOP: editingHandRange.OOP, IP: nextHandRange },
+                stack: 100,
+                pot: 100,
+              };
+              setEditingHandPosition('OOP');
             } else if (temp.position == 'OOP') {
               actionNode['child'] = {
                 id: '1',
                 type: 'PositionNode',
                 position: 'IP',
-                handRange: defaultHandRange,
+                handRange: { OOP: nextHandRange, IP: editingHandRange.IP },
               };
+              setEditingHandPosition('IP');
+              setEditingHandRange({ OOP: nextHandRange, IP: editingHandRange.IP });
+              setEditingNodePath([...editingNodePath, 'child']);
             } else if (
               registeredAction.action.move == 'ALLIN' ||
               registeredAction.action.move == 'BET' ||
@@ -101,16 +137,22 @@ export const useHandNode = () => {
                 id: '1',
                 type: 'PositionNode',
                 position: 'OOP',
-                handRange: defaultHandRange,
+                handRange: { OOP: editingHandRange.OOP, IP: nextHandRange },
               };
+              setEditingHandPosition('OOP');
+              setEditingHandRange({ OOP: editingHandRange.OOP, IP: nextHandRange });
+              setEditingNodePath([...editingNodePath, 'child']);
             } else {
+              // TODO 次のHandRangeをどこに保存するか。StreetNodeに保存するのがいいと思う
               actionNode['child'] = {
                 id: '1',
                 type: 'StreetNode',
                 street: 'FLOP',
+                handRange: { OOP: editingHandRange.OOP, IP: nextHandRange },
                 stack: 100,
                 pot: 100,
               };
+              setEditingHandPosition('OOP');
             }
             actionNodes.push(actionNode);
           }
@@ -120,6 +162,12 @@ export const useHandNode = () => {
     });
 
     setEditingHandNode(nextState);
-  }, [editingHandNode, editingHandRange]);
+  }, [
+    editingHandNode,
+    editingHandRange,
+    editingHandRangePosition,
+    editingNodePath,
+    editingRegisteredActions,
+  ]);
   return { addStreetCard, registerHandRange };
 };

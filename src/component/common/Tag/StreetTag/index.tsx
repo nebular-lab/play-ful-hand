@@ -8,15 +8,16 @@ export type StreetTagProps = {
   pot: number;
   stack: number;
   onClick?: () => void;
+  isSelected: boolean;
 };
 
 export const StreetTag: FC<StreetTagProps> = (props) => {
-  const { street, pot, stack, onClick } = props;
+  const { street, pot, stack, onClick, isSelected } = props;
   return (
     <VStack
       w={32}
       border={'1px'}
-      borderColor={'gray.300'}
+      borderColor={isSelected ? 'violet' : 'gray.300'}
       rounded={'xl'}
       p={'2'}
       onClick={onClick}

@@ -1,4 +1,4 @@
-import { HandRangeType } from '../schema';
+import { HandRangeType } from '../types/schema';
 const pc = [
   [0, 1, 1, 1],
   [0, 0, 1, 1],

@@ -16,11 +16,11 @@ export const Draw: FC = (props) => {
     <Flex gap={'5'}>
       <VStack>
         <Text fontWeight={'bold'}>OOP</Text>
-        <HandRange />
+        <HandRange position={'OOP'} />
       </VStack>
       <VStack>
         <Text fontWeight={'bold'}>IP</Text>
-        <HandRange />
+        <HandRange position={'IP'} />
       </VStack>{' '}
       <Flex direction={'column'} gap={'3'} w={'full'}>
         <ActionIDRadioGroup />

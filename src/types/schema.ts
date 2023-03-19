@@ -68,15 +68,15 @@ export const HandRangeSchema = z
   .array(z.array(z.array(z.array(z.number()).length(4)).length(4)).length(13))
   .length(13);
 export type HandRangeType = z.infer<typeof HandRangeSchema>;
-
-
-
+export const PairHandRangeSchema = z.object({ OOP: HandRangeSchema, IP: HandRangeSchema });
+export type PairHandRangeType = z.infer<typeof PairHandRangeSchema>;
 export interface StreetNodeType {
   id: string;
   type: 'StreetNode';
   street: 'FLOP' | 'TURN' | 'RIVER';
   pot: number;
   stack: number;
+  handRange: PairHandRangeType;
   child?: CardNodeType[];
 }
 
@@ -90,7 +90,7 @@ export interface PositionNodeType {
   id: string;
   type: 'PositionNode';
   position: PositionType;
-  handRange: HandRangeType;
+  handRange: PairHandRangeType;
   child?: ActionNodeType[];
 }
 
@@ -114,6 +114,7 @@ export const StreetNodeTypeSchema: z.ZodSchema<StreetNodeType> = z.object({
   id: z.string(),
   type: z.literal('StreetNode'),
   street: StreetTypeSchema,
+  handRange: PairHandRangeSchema,
   pot: z.number(),
   stack: z.number(),
   child: z.lazy(() => z.array(CardNodeTypeSchema)).optional(),
@@ -129,7 +130,7 @@ export const PositionNodeTypeSchema: z.ZodSchema<PositionNodeType> = z.object({
   id: z.string(),
   type: z.literal('PositionNode'),
   position: PositionTypeSchema,
-  handRange: HandRangeSchema,
+  handRange: PairHandRangeSchema,
   child: z.lazy(() => z.array(ActionNodeTypeSchema)),
 });
 

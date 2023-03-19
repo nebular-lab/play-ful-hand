@@ -25,7 +25,17 @@ export const ActionTag: FC<ActionTagProps> = (props) => {
       ? 'blue.400'
       : '';
   return (
-    <Flex h={8} w={20} rounded={'xl'} border={'1px'} p={'2'} justifyContent={'center'} alignItems={'center'} borderColor={moveColor} bg={'white'}>
+    <Flex
+      h={8}
+      w={20}
+      rounded={'xl'}
+      border={'1px'}
+      p={'2'}
+      justifyContent={'center'}
+      alignItems={'center'}
+      borderColor={moveColor}
+      bg={'white'}
+    >
       {move} {size == 0 ? '' : size}
     </Flex>
   );

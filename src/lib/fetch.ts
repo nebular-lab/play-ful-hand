@@ -1,16 +1,13 @@
-import { collectionGroup, doc, getDoc, getDocs, query, where } from 'firebase/firestore';
-
-import { testSchema } from '@/types/schema';
+import { collectionGroup, getDocs, query, where } from 'firebase/firestore';
 
 import { firestore } from './firebase/client';
 
 export const fetchHandTree = async () => {
-  const docRef = doc(firestore, 'tree', '222');
-  const docSnap = await getDoc(docRef);
-  const data = docSnap.data();
-  console.log(data);
-  const parsedData = testSchema.parse(data);
-  return parsedData;
+  // const docRef = doc(firestore, 'tree', '222');
+  // const docSnap = await getDoc(docRef);
+  // const data = docSnap.data();
+  // const parsedData = testSchema.parse(data);
+  // return parsedData;
   // const handTree: HandNodeType = { id: document.id, flopNode: fetchStreetNode(document.id) };
 };
 

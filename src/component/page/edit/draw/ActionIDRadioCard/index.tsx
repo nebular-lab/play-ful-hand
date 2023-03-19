@@ -10,7 +10,7 @@ export const ActionIDRadioCard: FC<ActionIDRadioCardProps> = (props) => {
   const input = getInputProps();
   const checkbox = getCheckboxProps();
   return (
-    <Box as="label" >
+    <Box as="label">
       <input {...input} />
       <Box
         {...checkbox}
