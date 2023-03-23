@@ -20,7 +20,6 @@ export const HandTreePage: FC<HandTreePageProps> = (props) => {
   // const { handNode, treeInfo } = props;
   const [editingHandNode, setEditingHandNode] = useRecoilState(editingHandNodeState);
   const path: Array<number | string> = [];
-  console.log(editingHandNode);
   return (
     <Layout>
       <Box flex="1" overflowY="auto" px={10}>

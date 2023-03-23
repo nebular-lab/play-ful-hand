@@ -5,14 +5,14 @@ import { Meta, StoryObj } from '@storybook/react';
 
 import { <%= name %> } from '.';
 
-type T = typeof <%= name %>
-type Story = StoryObj<T>
+type T = typeof <%= name %>;
+type Story = StoryObj<T>;
 
 export default {
   component: <%= name %>,
   <% if (have_props) { -%>
-args: {}
+args: {},
 <% } -%>
-} as Meta<T>
+} as Meta<T>;
 
 export const Default: Story = {}

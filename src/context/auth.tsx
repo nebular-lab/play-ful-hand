@@ -1,59 +1,61 @@
-/* eslint-disable @typescript-eslint/no-misused-promises */
-import { onAuthStateChanged } from '@firebase/auth';
-import { doc, getDoc, setDoc } from '@firebase/firestore';
-import { createContext, ReactNode, useEffect, useState } from 'react';
+import { onIdTokenChanged, User } from 'firebase/auth';
+import nookies from 'nookies';
+import { createContext, useEffect, useState } from 'react';
 
-import { auth, firestore } from '@/lib/firebase/client';
+import { auth } from '@/lib/firebase/client';
 
-import { User } from '../types/user';
+export const AuthContext = createContext<{ user: User | null }>({
+  user: null,
+});
 
-type UserContextType = User | null | undefined;
+export function AuthProvider({ children }: any) {
+  const [user, setUser] = useState<User | null>(null);
 
-const AuthContext = createContext<UserContextType>(undefined);
-
-// 以下のコードを追加
-export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  // 配布したいデータの定義
-  const [user, setUser] = useState<UserContextType>();
-
+  // listen for token changes
+  // call setUser and write new token as a cookie
   useEffect(() => {
-    // ログイン状態を監視し、変化があったら発動
-    const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
-      if (firebaseUser) {
-        // ログインしていた場合、ユーザーコレクションからユーザーデータを参照
-        const ref = doc(firestore, `users/${firebaseUser.uid}`);
-        const snap = await getDoc(ref);
-
-        if (snap.exists()) {
-          // ユーザーデータを取得して格納
-          const appUser = (await getDoc(ref)).data() as User;
-          setUser(appUser);
-        } else {
-          // ユーザーが未作成の場合、新規作成して格納
-          const appUser: User = {
-            id: firebaseUser.uid,
-            name: firebaseUser.displayName ?? '',
-            photoURL: firebaseUser.photoURL ?? '',
-            email: firebaseUser.email ?? '',
-            createdAt: Date.now(),
-          };
-
-          // Firestoreにユーザーデータを保存
-          void setDoc(ref, appUser).then(() => {
-            // 保存に成功したらコンテクストにユーザーデータを格納
-            setUser(appUser);
-          });
-        }
-      } else {
-        // ログインしていない場合、ユーザー情報を空にする
+    const handleIdTokenChange = async (user: User | null) => {
+      // console.log('handleIdTokenChange');
+      if (!user) {
         setUser(null);
+        nookies.set(undefined, 'token', '', { path: '/' });
+      } else {
+        const token = await user.getIdToken();
+        setUser(user);
+        nookies.set(undefined, 'token', token, { path: '/' });
       }
-
-      // このコンポーネントが不要になったら監視を終了する
-      return unsubscribe;
+    };
+    const unsubscribe = onIdTokenChanged(auth, (user) => {
+      handleIdTokenChange(user).catch((error) => {
+        console.error('Error handling ID token change:', error);
+      });
     });
+
+    return () => {
+      unsubscribe();
+    };
   }, []);
 
-  // プロバイダーを作成し、配布物を格納する
-  return <AuthContext.Provider value={user}>{children}</AuthContext.Provider>;
-};
+  // force refresh the token every 10 minutes
+  useEffect(() => {
+    const refreshToken = async () => {
+      const user = auth.currentUser;
+      if (user) {
+        try {
+          await user.getIdToken(true);
+        } catch (error) {
+          console.error('Error refreshing token:', error);
+        }
+      }
+    };
+
+    const handle = setInterval(() => {
+      void refreshToken();
+    }, 10 * 60 * 1000);
+
+    // clean up setInterval
+    return () => clearInterval(handle);
+  }, []);
+
+  return <AuthContext.Provider value={{ user }}>{children}</AuthContext.Provider>;
+}

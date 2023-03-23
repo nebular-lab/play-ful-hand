@@ -102,41 +102,41 @@ export interface ActionNodeType {
 }
 export interface HandNodeType {
   id: string;
-  flopNode: StreetNodeType;
+  userName: string;
+  iconURL: string;
+  createdAt: number;
+  updatedAt: number;
+  preflopHandRange: PairHandRangeType;
+  child?: StreetNodeType;
 }
 
-export const HandNodeTypeSchema: z.ZodSchema<HandNodeType> = z.object({
-  id: z.string(),
-  flopNode: z.lazy(() => StreetNodeTypeSchema),
+export const HandNodeSchema: z.ZodSchema<Omit<HandNodeType, 'id' | 'child'>> = z.object({
+  userName: z.string(),
+  iconURL: z.string(),
+  createdAt: z.number(),
+  updatedAt: z.number(),
+  preflopHandRange: PairHandRangeSchema,
 });
 
-export const StreetNodeTypeSchema: z.ZodSchema<StreetNodeType> = z.object({
-  id: z.string(),
+export const StreetNodeSchema: z.ZodSchema<Omit<StreetNodeType, 'id' | 'child'>> = z.object({
   type: z.literal('StreetNode'),
   street: StreetTypeSchema,
   handRange: PairHandRangeSchema,
   pot: z.number(),
   stack: z.number(),
-  child: z.lazy(() => z.array(CardNodeTypeSchema)).optional(),
 });
 
-export const CardNodeTypeSchema = z.object({
-  id: z.string(),
+export const CardNodeSchema = z.object({
   cards: z.array(CardTypeSchema),
-  child: z.lazy(() => PositionNodeTypeSchema).optional(),
 });
 
-export const PositionNodeTypeSchema: z.ZodSchema<PositionNodeType> = z.object({
-  id: z.string(),
+export const PositionNodeSchema: z.ZodSchema<Omit<PositionNodeType, 'id' | 'child'>> = z.object({
   type: z.literal('PositionNode'),
   position: PositionTypeSchema,
   handRange: PairHandRangeSchema,
-  child: z.lazy(() => z.array(ActionNodeTypeSchema)),
 });
 
-export const ActionNodeTypeSchema: z.ZodSchema<ActionNodeType> = z.object({
-  id: z.string(),
+export const ActionNodeSchema: z.ZodSchema<Omit<ActionNodeType, 'id' | 'child'>> = z.object({
   move: MoveTypeSchema,
   size: z.number(),
-  child: z.lazy(() => z.union([StreetNodeTypeSchema, PositionNodeTypeSchema])).optional(),
 });
