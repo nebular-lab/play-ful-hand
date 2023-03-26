@@ -6,6 +6,7 @@ import _ from 'lodash';
 import { useCallback } from 'react';
 import { useRecoilState } from 'recoil';
 
+import { createHandNode } from '@/lib/firebase/firestore/createHandNode';
 import { editingActionIDState } from '@/store/editingActionIDState';
 import { editingHandNodeState } from '@/store/editingHandNodeState';
 import { editingHandRangePositionState } from '@/store/editingHandRangePosition';
@@ -169,5 +170,8 @@ export const useHandNode = () => {
     editingNodePath,
     editingRegisteredActions,
   ]);
-  return { addStreetCard, registerHandRange };
+  const saveHandNode = useCallback(async () => {
+    await createHandNode(_.omit(editingHandNode, ['id']));
+  }, [editingHandNode]);
+  return { addStreetCard, registerHandRange, saveHandNode };
 };

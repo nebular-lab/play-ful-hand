@@ -26,7 +26,7 @@ export const Draw: FC = (props) => {
         <ActionIDRadioGroup />
         <div>色塗りモード</div>
         <EditModeGroup />
-        <Button onClick={registerHandRange}>登録</Button>
+        <Button onClick={registerHandRange}>レンジ登録</Button>
       </Flex>
     </Flex>
   );

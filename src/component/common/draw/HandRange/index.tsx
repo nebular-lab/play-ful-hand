@@ -40,9 +40,10 @@ export const HandRange: FC<HandRangeProps> = memo((props) => {
                   position={position}
                   colIndex13={colIndex13}
                   rowIndex13={rowIndex13}
-                  isMouseDown={isMouseDown}
+                  // isMouseDown={isMouseDown}
                   updateEditingHandRangeSquare={updateEditingHandRangeSquare}
                   updateEditingHandRange={updateEditingHandRange}
+                  isMouseDown={isMouseDown}
                 />
               );
             })}

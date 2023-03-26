@@ -10,9 +10,5 @@ export type HandTreeProps = {
 };
 export const Tree: FC<HandTreeProps> = (props) => {
   const { handNode, path } = props;
-  return (
-    <>
-      <StreetNode {...handNode.flopNode} path={[...path, 'flopNode']} />
-    </>
-  );
+  return <>{handNode.child && <StreetNode {...handNode.child} path={[...path, 'child']} />}</>;
 };

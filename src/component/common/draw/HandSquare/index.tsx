@@ -66,8 +66,9 @@ export const HandSquare: FC<HandSquareProps> = memo((props) => {
                   key={rowIndex4}
                   hand={hand}
                   indexes={indexes}
-                  isMouseDown={isMouseDown}
+                  // isMouseDown={isMouseDown}
                   updateEditingHandRange={updateEditingHandRange}
+                  isMouseDown={isMouseDown}
                 />
               );
             })}

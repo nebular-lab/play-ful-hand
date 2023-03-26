@@ -1,18 +1,27 @@
 import { Avatar, Button, Flex, Heading, Spacer } from '@chakra-ui/react';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { type FC } from 'react';
 
-import { login, logout } from '@/lib/auth';
+import { useHandNode } from '@/hooks/useHandNode';
+import { logout } from '@/lib/firebase/auth/auth';
 
 export type HeaderProps = {
-  isLogin: boolean;
+  isEditPage?: boolean;
 };
 
 export const Header: FC<HeaderProps> = (props) => {
-  const { isLogin } = props;
-  const handleLogin = () => {
-    login().catch((error) => {
-      console.error(error);
-    });
+  const { isEditPage } = props;
+  const { saveHandNode } = useHandNode();
+  const router = useRouter();
+  const handleSaveHandNode = () => {
+    saveHandNode()
+      .then(async () => {
+        await router.push('/dashboard');
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
   const handleLogout = () => {
     logout().catch((error) => {
@@ -23,15 +32,20 @@ export const Header: FC<HeaderProps> = (props) => {
     <Flex h={14} px={7} alignItems={'center'} justifyContent={'center'} top={0} bg={'blue.50'}>
       <Heading>PLAYFUL HAND</Heading>
       <Spacer />
-      {isLogin ? (
-        <Flex gap={3}>
-          <Avatar src={'https://placehold.jp/40x40.png'} />
-          <Button>新規登録</Button>
-          <Button onClick={handleLogout}></Button>
-        </Flex>
-      ) : (
-        <Button onClick={handleLogin}>ログイン</Button>
-      )}
+
+      <Flex gap={3} alignItems={'center'} justifyContent={'center'}>
+        {isEditPage ? (
+          <Button onClick={handleSaveHandNode}>保存</Button>
+        ) : (
+          <>
+            <Avatar src={'https://placehold.jp/40x40.png'} />
+            <Link href="/edit">
+              <Button>ツリー作成</Button>
+            </Link>
+            <Button onClick={handleLogout}>ログアウト</Button>
+          </>
+        )}
+      </Flex>
     </Flex>
   );
 };

@@ -1,6 +1,8 @@
 import {
   collection,
+  doc,
   DocumentReference,
+  getDoc,
   getDocs,
   limit,
   query,
@@ -16,6 +18,7 @@ import {
   StreetNodeType,
 } from '@/types/schema';
 
+import { firestore } from '../init/client';
 import {
   actionNodeConverter,
   cardNodeConverter,
@@ -23,8 +26,8 @@ import {
   positionNodeConverter,
   streetNodeConverter,
 } from './converter';
-import { firestore } from './firebase/client';
 
+//dashboardに表示する用
 export const fetchHandNodesSnapshot = async (
   lim: number,
   nextCursor?: QueryDocumentSnapshot<Omit<HandNodeType, 'child'>>,
@@ -35,18 +38,18 @@ export const fetchHandNodesSnapshot = async (
       )
     : query(collection(firestore, 'handNode'), limit(lim)).withConverter(handNodeConverter);
   const querySnapshot = await getDocs(q);
-  const handNodes = await Promise.all(
-    querySnapshot.docs.map(async (doc) => {
-      const handNodeData = doc.data();
-      const streetNode = await fetchStreetNode(doc.ref);
-      const handNode: HandNodeType = {
-        ...handNodeData,
-        child: streetNode,
-      };
-      return handNode;
-    }),
-  );
-  return { handNodes, querySnapshot };
+  const handNodeDocDatas = querySnapshot.docs.map((doc) => doc.data());
+  return { handNodeDocDatas, querySnapshot };
+};
+
+export const fetchHandNode = async (id: string) => {
+  const documentRef = doc(firestore, 'handNode', id).withConverter(handNodeConverter);
+  const querySnapshot = await getDoc(documentRef);
+  if (!querySnapshot.exists()) throw new Error('handNode not found');
+  const handNodeDocData = querySnapshot.data();
+  const streetNodeData = await fetchStreetNode(querySnapshot.ref);
+  const handNode: HandNodeType = { ...handNodeDocData, child: streetNodeData };
+  return handNode;
 };
 const fetchStreetNode = async (ref: DocumentReference) => {
   const collectionRef = collection(ref, 'streetNode').withConverter(streetNodeConverter);

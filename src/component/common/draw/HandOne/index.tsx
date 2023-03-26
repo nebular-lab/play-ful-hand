@@ -26,7 +26,6 @@ export const HandOne: FC<HandOneProps> = memo((props) => {
   const actionColor = registeredActions.find(
     (registeredAction) => actionNumber == registeredAction.id,
   );
-
   const onMouseOver = () => {
     if (isMouseDown && editMode == 'one') {
       updateEditingHandRange(indexes);

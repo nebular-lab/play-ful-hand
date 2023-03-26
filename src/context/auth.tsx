@@ -1,8 +1,9 @@
 import { onIdTokenChanged, User } from 'firebase/auth';
+import { useRouter } from 'next/router';
 import nookies from 'nookies';
 import { createContext, useEffect, useState } from 'react';
 
-import { auth } from '@/lib/firebase/client';
+import { auth } from '@/lib/firebase/init/client';
 
 export const AuthContext = createContext<{ user: User | null }>({
   user: null,
@@ -10,15 +11,15 @@ export const AuthContext = createContext<{ user: User | null }>({
 
 export function AuthProvider({ children }: any) {
   const [user, setUser] = useState<User | null>(null);
-
+  const router = useRouter();
   // listen for token changes
   // call setUser and write new token as a cookie
   useEffect(() => {
     const handleIdTokenChange = async (user: User | null) => {
-      // console.log('handleIdTokenChange');
       if (!user) {
         setUser(null);
         nookies.set(undefined, 'token', '', { path: '/' });
+        await router.push('/login');
       } else {
         const token = await user.getIdToken();
         setUser(user);

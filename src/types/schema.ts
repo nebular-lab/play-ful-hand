@@ -68,8 +68,13 @@ export const HandRangeSchema = z
   .array(z.array(z.array(z.array(z.number()).length(4)).length(4)).length(13))
   .length(13);
 export type HandRangeType = z.infer<typeof HandRangeSchema>;
+
+export const HandRangeObjectSchema = z.record(z.record(z.record(z.record(z.number()))));
+export type HandRangeObjectType = z.infer<typeof HandRangeObjectSchema>;
+
 export const PairHandRangeSchema = z.object({ OOP: HandRangeSchema, IP: HandRangeSchema });
 export type PairHandRangeType = z.infer<typeof PairHandRangeSchema>;
+
 export interface StreetNodeType {
   id: string;
   type: 'StreetNode';
@@ -104,6 +109,7 @@ export interface HandNodeType {
   id: string;
   userName: string;
   iconURL: string;
+  title: string;
   createdAt: number;
   updatedAt: number;
   preflopHandRange: PairHandRangeType;
@@ -113,6 +119,7 @@ export interface HandNodeType {
 export const HandNodeSchema: z.ZodSchema<Omit<HandNodeType, 'id' | 'child'>> = z.object({
   userName: z.string(),
   iconURL: z.string(),
+  title: z.string(),
   createdAt: z.number(),
   updatedAt: z.number(),
   preflopHandRange: PairHandRangeSchema,

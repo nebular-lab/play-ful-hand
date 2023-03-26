@@ -32,6 +32,7 @@ export const Card: FC<CardProps> = (props) => {
       fontSize={'sm'}
       textColor={'white'}
       onClick={onClick}
+      cursor={onClick && 'pointer'}
     >
       {num}
     </Flex>

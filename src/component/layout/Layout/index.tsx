@@ -5,14 +5,15 @@ import { Header } from '@/component/common/Header';
 
 export type LayoutProps = {
   children: ReactNode;
+  isEditPage?: boolean;
 };
 
 export const Layout: FC<LayoutProps> = (props) => {
-  const { children } = props;
+  const { children,isEditPage } = props;
   return (
     <Flex direction="column" height="100vh" overflow={'hidden'}>
       <Box position="sticky" top="0" zIndex="1000" bg="white">
-        <Header isLogin={true} />
+        <Header isEditPage={isEditPage} />
       </Box>
       {children}
     </Flex>

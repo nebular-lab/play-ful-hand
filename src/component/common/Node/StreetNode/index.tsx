@@ -9,7 +9,7 @@ import { editingNodePathState } from '@/store/editingNodePathState';
 import { StreetNodeType } from '@/types/schema';
 
 import { CardNode } from '../CardNode';
-import { FlopCardModal } from '../FlopCardModal';
+import { FlopCardModal } from '../../../page/edit/FlopCardModal';
 
 export const StreetNode: FC<StreetNodeType & { path: Array<number | string> }> = (streetNode) => {
   const { isOpen, onOpen, onClose } = useDisclosure();

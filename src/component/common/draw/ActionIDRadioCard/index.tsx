@@ -1,4 +1,4 @@
-import { Box, useRadio, UseRadioProps } from '@chakra-ui/react';
+import { Box, Flex, useRadio, UseRadioProps } from '@chakra-ui/react';
 import { FC } from 'react';
 
 interface ActionIDRadioCardProps extends UseRadioProps {
@@ -12,7 +12,7 @@ export const ActionIDRadioCard: FC<ActionIDRadioCardProps> = (props) => {
   return (
     <Box as="label">
       <input {...input} />
-      <Box
+      <Flex
         {...checkbox}
         cursor="pointer"
         borderWidth="1px"
@@ -26,11 +26,10 @@ export const ActionIDRadioCard: FC<ActionIDRadioCardProps> = (props) => {
         _focus={{
           boxShadow: 'outline',
         }}
-        px={5}
-        py={3}
+        p={1}
       >
         {props.children}
-      </Box>
+      </Flex>
     </Box>
   );
 };

@@ -9,6 +9,7 @@ import {
   StreetNodeType,
 } from '@/types/schema';
 
+import { firestore } from '../init/client';
 import {
   actionNodeConverter,
   cardNodeConverter,
@@ -16,7 +17,6 @@ import {
   positionNodeConverter,
   streetNodeConverter,
 } from './converter';
-import { firestore } from './firebase/client';
 
 export const createHandNode = async (handNode: Omit<HandNodeType, 'id'>) => {
   const docRef = await addDoc(
