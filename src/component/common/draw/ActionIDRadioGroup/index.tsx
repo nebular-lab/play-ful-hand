@@ -1,4 +1,4 @@
-import { SimpleGrid, Text, useRadioGroup } from '@chakra-ui/react';
+import { SimpleGrid, useRadioGroup } from '@chakra-ui/react';
 import { FC } from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 
@@ -29,13 +29,7 @@ export const ActionIDRadioGroup: FC = (props) => {
         const move = action.action.move;
         const size = action.action.size;
         if (move == 'no-defined') return null;
-        return (
-          <ActionIDRadioCard key={action.id} {...radio}>
-            <Text fontSize={'sm'}>
-              {move == 'no-set' ? '消去' : move} {size == 0 ? '' : size}
-            </Text>
-          </ActionIDRadioCard>
-        );
+        return <ActionIDRadioCard key={action.id} move={move} size={size} {...radio} />;
       })}
     </SimpleGrid>
   );

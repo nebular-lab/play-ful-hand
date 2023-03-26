@@ -14,7 +14,7 @@ export const PositionTag: FC<PositionTagProps> = (props) => {
   return (
     <Flex
       onClick={onClick}
-      border={'1px'}
+      border={'2px'}
       borderColor={isSelected ? 'violet' : 'gray.300'}
       rounded={'xl'}
       p={'2'}

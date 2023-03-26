@@ -3,6 +3,7 @@ import {
   Button,
   Flex,
   Spacer,
+  Spinner,
   Table,
   TableContainer,
   Tbody,
@@ -23,7 +24,12 @@ import { timestampToDate } from '@/lib/getDate';
 export const DashboardPage: FC = () => {
   const { data, size, setSize } = useSWRInfinite(getKey, handNodeDocFetcher);
 
-  if (!data) return <div>Loading...</div>;
+  if (!data)
+    return (
+      <Layout>
+        <Spinner />
+      </Layout>
+    );
   return (
     <Layout>
       <Flex direction={'column'} px={'36'} py={10}>
@@ -61,8 +67,8 @@ export const DashboardPage: FC = () => {
               {data[size - 1]?.handNodes.map((handNode) => {
                 const { year, month, day } = timestampToDate(handNode.createdAt);
                 return (
-                  <Link href={`dashboard/${handNode.id}`} key={handNode.id}>
-                    <Tr>
+                  <Tr key={handNode.id}>
+                    <Link href={`dashboard/${handNode.id}`}>
                       <Td>
                         <Avatar />
                       </Td>
@@ -70,8 +76,8 @@ export const DashboardPage: FC = () => {
                       <Td>{handNode.title}</Td>
                       <Td>{handNode.title}</Td>
                       <Td>{`${year}年${month}月${day}日`}</Td>
-                    </Tr>
-                  </Link>
+                    </Link>
+                  </Tr>
                 );
               })}
             </Tbody>

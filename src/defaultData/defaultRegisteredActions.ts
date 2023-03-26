@@ -8,6 +8,7 @@ export const defaultRegisteredActions: RegisteredActionType[] = [
   { action: { move: 'BET', size: 120 }, id: 4, color: 'purple.300' },
   { action: { move: 'CHECK', size: 0 }, id: 5, color: 'green.300' },
   { action: { move: 'CALL', size: 0 }, id: 6, color: 'green.300' },
-  { action: { move: 'ALLIN', size: 0 }, id: 7, color: 'pink.300' },
-  { action: { move: 'RAISE', size: 50 }, id: 8, color: 'red.300' },
+  { action: { move: 'RAISE', size: 50 }, id: 7, color: 'red.300' },
+  { action: { move: 'ALLIN', size: 0 }, id: 8, color: 'pink.300' },
+  { action: { move: 'FOLD', size: 0 }, id: 9, color: 'blue.300' },
 ];

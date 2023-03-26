@@ -1,11 +1,15 @@
-import { Box, Flex, useRadio, UseRadioProps } from '@chakra-ui/react';
+import { Box, Flex, Text, useRadio, UseRadioProps } from '@chakra-ui/react';
 import { FC } from 'react';
 
+import { MoveTypeForException } from '@/types/schema';
+
 interface ActionIDRadioCardProps extends UseRadioProps {
-  children: React.ReactNode;
+  move: MoveTypeForException;
+  size: number;
 }
 
 export const ActionIDRadioCard: FC<ActionIDRadioCardProps> = (props) => {
+  const { move, size } = props;
   const { getInputProps, getCheckboxProps } = useRadio(props);
   const input = getInputProps();
   const checkbox = getCheckboxProps();
@@ -14,10 +18,13 @@ export const ActionIDRadioCard: FC<ActionIDRadioCardProps> = (props) => {
       <input {...input} />
       <Flex
         {...checkbox}
+        h={'14'}
         cursor="pointer"
         borderWidth="1px"
         borderRadius="md"
         boxShadow="md"
+        alignItems={'center'}
+        justifyContent={'center'}
         _checked={{
           bg: 'teal.600',
           color: 'white',
@@ -28,7 +35,9 @@ export const ActionIDRadioCard: FC<ActionIDRadioCardProps> = (props) => {
         }}
         p={1}
       >
-        {props.children}
+        <Text fontSize={'sm'}>
+          {move == 'no-set' ? '消去' : move} {size == 0 ? '' : size}
+        </Text>
       </Flex>
     </Box>
   );

@@ -3,18 +3,15 @@ import { GetServerSideProps, NextPage } from 'next';
 import nookies from 'nookies';
 
 import { adminApp } from '@/lib/firebase/init/server';
-type Props = {
-  message: string;
-};
-export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
+
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
   try {
     const cookies = nookies.get(ctx);
-    const token = await getAuth(adminApp).verifyIdToken(cookies.token);
+    await getAuth(adminApp).verifyIdToken(cookies.token);
     // the user is authenticated!
-    const { uid, email } = token;
 
     return {
-      props: { message: `Your email is ${email ?? ''} and your UID is ${uid}.` },
+      props: {},
     };
   } catch (err) {
     // either the `token` cookie didn't exist
@@ -31,8 +28,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
   }
 };
 
-const Page: NextPage<Props> = (props) => {
-  const { message } = props;
+const Page: NextPage = () => {
   return <>home</>;
 };
 export default Page;

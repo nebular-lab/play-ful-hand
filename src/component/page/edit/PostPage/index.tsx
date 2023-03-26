@@ -1,4 +1,4 @@
-import { Box } from '@chakra-ui/react';
+import { Box, Spinner } from '@chakra-ui/react';
 import { FC } from 'react';
 import { useRecoilState } from 'recoil';
 import useSWR from 'swr';
@@ -15,7 +15,7 @@ export const PostPage: FC<PostPageProps> = (props) => {
   const { id } = props;
   const { data, isLoading } = useSWR(id, fetchHandNode);
   const [editingHandNode, setEditingHandNode] = useRecoilState(editingHandNodeState);
-  if (isLoading || !data) return <Layout>loading</Layout>;
+  if (isLoading || !data) return <Layout><Spinner /></Layout>;
   setEditingHandNode(data);
   const path: Array<number | string> = [];
   return (

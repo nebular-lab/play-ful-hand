@@ -1,8 +1,10 @@
+import { useBreakpointValue } from '@chakra-ui/react';
 import { getAuth } from 'firebase-admin/auth';
 import { GetServerSideProps } from 'next';
 import nookies from 'nookies';
 
-import { DashboardPage } from '@/component/page/Dashboard';
+import { MobilePage } from '@/component/layout/MobilePage';
+import { HandTreePage } from '@/component/page/edit';
 import { adminApp } from '@/lib/firebase/init/server';
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
@@ -10,7 +12,6 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     const cookies = nookies.get(ctx);
     await getAuth(adminApp).verifyIdToken(cookies.token);
     // the user is authenticated!
-    // const { uid, email } = token;
 
     return {
       props: {},
@@ -30,6 +31,10 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   }
 };
 const Page = () => {
-  return <DashboardPage />;
+  const isMobile = useBreakpointValue({ base: true, md: false });
+  if (isMobile) {
+    return <MobilePage />;
+  }
+  return <HandTreePage />;
 };
 export default Page;

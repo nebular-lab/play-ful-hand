@@ -1,8 +1,11 @@
+import { useBreakpointValue } from '@chakra-ui/react';
 import { getAuth } from 'firebase-admin/auth';
 import { GetServerSideProps } from 'next';
+import { useRouter } from 'next/router';
 import nookies from 'nookies';
 
-import { DashboardPage } from '@/component/page/Dashboard';
+import { MobilePage } from '@/component/layout/MobilePage';
+import { PostPage } from '@/component/page/edit/PostPage';
 import { adminApp } from '@/lib/firebase/init/server';
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
@@ -30,6 +33,12 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   }
 };
 const Page = () => {
-  return <DashboardPage />;
+  const router = useRouter();
+  const { id } = router.query;
+  const isMobile = useBreakpointValue({ base: true, md: false });
+  if (isMobile) {
+    return <MobilePage />;
+  }
+  return <PostPage id={String(id)} />;
 };
 export default Page;

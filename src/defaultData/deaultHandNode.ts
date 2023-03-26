@@ -3,11 +3,11 @@ import { defaultHandRange } from './defaultHandRange';
 
 export const defaultHandNode: HandNodeType = {
   id: '111',
-  title: 'testTitle',
+  title: 'test title',
   userName: 'testUser',
   iconURL: 'test',
-  updatedAt: 92378462334987,
-  createdAt: 23104941282137,
+  updatedAt: Date.now(),
+  createdAt: Date.now(),
   preflopHandRange: { OOP: defaultHandRange, IP: defaultHandRange },
   child: {
     id: 'test',

@@ -15,6 +15,8 @@ import { editingNodePathState } from '@/store/editingNodePathState';
 import { editingRegisteredActionsState } from '@/store/editingRegisteredActionsState';
 import { ActionNodeType, CardNodeType, CardType } from '@/types/schema';
 
+import { useAuth } from './useAuth';
+
 export const useHandNode = () => {
   const [editingHandNode, setEditingHandNode] = useRecoilState(editingHandNodeState);
   const [editingNodePath, setEditingNodePath] = useRecoilState(editingNodePathState);
@@ -26,7 +28,7 @@ export const useHandNode = () => {
   const [editingHandRangePosition, setEditingHandPosition] = useRecoilState(
     editingHandRangePositionState,
   );
-
+  const { user } = useAuth();
   const addStreetCard = useCallback(
     (cards: CardType[]) => {
       const nextState = produce(editingHandNode, (draft) => {
@@ -170,8 +172,17 @@ export const useHandNode = () => {
     editingNodePath,
     editingRegisteredActions,
   ]);
+
   const saveHandNode = useCallback(async () => {
-    await createHandNode(_.omit(editingHandNode, ['id']));
+    if (!user) throw Error;
+    console.log(user);
+    const userName = user.displayName;
+    const iconURL = user.photoURL;
+    const nextState = produce(editingHandNode, (draft) => {
+      draft.userName = userName ?? '匿名';
+      draft.iconURL = iconURL ?? '';
+    });
+    await createHandNode(_.omit(nextState, ['id']));
   }, [editingHandNode]);
   return { addStreetCard, registerHandRange, saveHandNode };
 };
