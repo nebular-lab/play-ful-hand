@@ -42,3 +42,15 @@
 - MantineUI
 - Redux
 - React Query
+
+## 工夫した点
+- ディレクトリ構成 
+  
+  component配下のcommonはページをまたいで使われるコンポーネント、component配下のpageはそれぞれのページでしか使われないコンポーネントを入れている。
+atomicデザインよりもあえてゆるくしている。今回のアプリはそこまで大きくないため、コンポーネントが多少ごちゃごちゃしてもディレクトリを大きくまたぐ移動が少ないほうがよいと考えた。
+
+
+- firestoreのzodによる型チェック
+  
+  prismaなどを使えばデータベースのを同期的に取得出来るが、firestoreではそうはいかない。firestoreへの送信時とfirestoreからの取得時のvalidationチェックを出来るだけきれいにするためにzodを導入
+  lib/firestore/converter参照
