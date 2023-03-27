@@ -3,11 +3,20 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { FcGoogle } from 'react-icons/fc';
 
-import { login } from '@/lib/firebase/auth/auth';
+import { login, loginAnonymously } from '@/lib/firebase/auth/auth';
 export const LoginPage = () => {
   const router = useRouter();
   const handleLogin = () => {
     login()
+      .then(async () => {
+        await router.push('/dashboard');
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  const handleAnonymousLogin = () => {
+    loginAnonymously()
       .then(async () => {
         await router.push('/dashboard');
       })
@@ -23,8 +32,12 @@ export const LoginPage = () => {
       direction={'column'}
       gap={'5'}
     >
+      <Text fontSize={'xl'} fontWeight={'bold'}>
+        Playful Hand (仮) へようこそ
+      </Text>
       <Text>ハンドレンジ表に色塗りをするためのアプリです。</Text>
-      <Text>現在正式リリースに向けて開発中です。</Text>
+      <Text>ハンドレビューや戦略構築にご利用ください</Text>
+      <Text>※現在正式リリースに向けて開発中です。</Text>
       <Text> 実装予定の機能は以下のリンクから確認出来ます。</Text>
       <Link
         href={
@@ -33,8 +46,21 @@ export const LoginPage = () => {
       >
         <Text color={'blue.500'}>Notion</Text>
       </Link>
-
-      <Center p={8}>
+      <Text>
+        {' '}
+        ここに無くて実装して欲しい機能があったら
+        <Link href={'https://twitter.com/hirano_pos'}>@hirano_pos</Link>
+        にDMをください。
+      </Text>
+      <Text>積極的に参考にします。</Text>
+      <Center>
+        <Button onClick={handleAnonymousLogin} w={'full'} maxW={'md'} variant={'outline'}>
+          <Center>
+            <Text>匿名認証で体験</Text>
+          </Center>
+        </Button>
+      </Center>
+      <Center pt={8}>
         <Button
           onClick={handleLogin}
           w={'full'}
@@ -43,7 +69,7 @@ export const LoginPage = () => {
           leftIcon={<FcGoogle />}
         >
           <Center>
-            <Text>Googleログインして体験</Text>
+            <Text>Googleログインして体験(現在非推奨)</Text>
           </Center>
         </Button>
       </Center>

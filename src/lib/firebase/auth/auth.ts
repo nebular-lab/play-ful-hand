@@ -1,4 +1,10 @@
-import { GoogleAuthProvider, signInWithPopup, signOut, UserCredential } from 'firebase/auth';
+import {
+  GoogleAuthProvider,
+  signInAnonymously,
+  signInWithPopup,
+  signOut,
+  UserCredential,
+} from 'firebase/auth';
 
 import { auth } from '../init/client';
 
@@ -9,4 +15,7 @@ export const login = (): Promise<UserCredential> => {
 
 export const logout = (): Promise<void> => {
   return signOut(auth);
+};
+export const loginAnonymously = () => {
+  return signInAnonymously(auth);
 };

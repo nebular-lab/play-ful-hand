@@ -23,7 +23,7 @@ export const StreetTag: FC<StreetTagProps> = (props) => {
       onClick={onClick}
       cursor={'pointer'}
     >
-      <Box>{street}</Box>
+      {/* <Box>{street}</Box> */}
       <Box>POT {pot}</Box>
       <Box>STACK {stack}</Box>
     </VStack>

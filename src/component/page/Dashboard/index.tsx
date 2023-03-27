@@ -68,7 +68,7 @@ export const DashboardPage: FC = () => {
                 const { year, month, day } = timestampToDate(handNode.createdAt);
                 return (
                   <Tr key={handNode.id}>
-                    <Link href={`dashboard/${handNode.id}`}>
+                    <Link href={`edit/${handNode.id}`}>
                       <Td>
                         <Avatar />
                       </Td>

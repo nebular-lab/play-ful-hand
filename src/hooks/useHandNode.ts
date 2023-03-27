@@ -37,18 +37,18 @@ export const useHandNode = () => {
           temp = temp[key];
         });
         // この時点でtempはstreetNode
-        const flopCardNode: CardNodeType = {
-          id: '1',
+        const cardNode: CardNodeType = {
+          id: String(Date.now()),
           cards: cards,
           child: {
-            id: '4',
+            id: String(Date.now()),
             position: 'OOP',
             type: 'PositionNode',
             handRange: { OOP: temp.handRange.OOP, IP: temp.handRange.IP },
           },
         };
-        temp['child'] = [];
-        temp.child.push(flopCardNode);
+        if (!temp['child']) temp['child'] = [];
+        temp.child.push(cardNode);
       });
       setEditingHandNode(nextState);
     },
