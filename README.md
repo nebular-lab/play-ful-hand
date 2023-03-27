@@ -1,38 +1,44 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+## 概要
+- ポーカーのハンドレンジ構築アプリ
 
-## Getting Started
+## ターゲット
+- イマイチレンジ対レンジで考えられない人
+- ハンドレビューでメモを取るときに「AT+,67s,89o,..」みたいにわざわざテキストを入力することが面倒な人
 
-First, run the development server:
+## 実装予定の機能
+- [Notion](https://veil-marjoram-47c.notion.site/38a0b255390b4e6092ca90ca38963a53?v=b747904428e641899e5609c727c9f7de)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
+## 紹介動画
+- [Youtube](https://youtu.be/pZ9CXSozfZQ)
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 使用技術とその理由
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+- React
+- Nextjs DynamicRoutingやSSRなどが便利だが、SPAでも良かったかもしれない。Vercelでのデプロイが容易。
+- Vercel
+- TypeScript
+- ChakraUI tailwindにはないuseDisclosureなどのhooksが便利
+- firebase authentication 簡単に認証機能を実装出来る。ただし、フロントエンドでの認証なのでなりすまし出来てしまうのではないか心配。本アプリではSSRで認証している。
+- firebase firestore ツリー状のデータ構造をそのままsaveすることが出来る。RDBでツリー構造を実現しようとすると少々面倒。
+- storybook ボトムアップの開発形式で有用。storybook7がslableになったらアップデートしてunitテストを導入予定
+- eslint
+- prettier
+- immer ネストが深いobjectをimmutableに扱うことが出来る。
+- lodash
+- nookies サーバーサイドクッキーの設定に利用。認証をサーバーサイドで行う工夫をした。
+- recoil reduxほど大規模なグローバルState管理が必要でなかったためrecoilを採用。
+- swr 現在はクライアントサイドでデータfetchしているが、サーバーサイドに移行中。CSRではキャッシュを取っておきたい。SSRでも使えるらしい。
+- hygen
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+- Figma
+  [figmaファイル](https://www.figma.com/file/Np9CVTNeGCy35JAmpoOhNE/review-house?node-id=0%3A1&t=HzAgrMs7k1ANm3QD-1)
+- ChatGPT 便利
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+## ある程度触れるが使用しなかった技術
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- GraphQL 複雑なCRUDをしないため、オーバースペック。そもそもfirestoreでGraphQLを使う方法がわからない
+- supabase 今回はRDBは使わないことにした
+- tailwindCSS 今のところChakraのほうが使いやすい。
+- MantineUI
+- Redux
+- React Query
