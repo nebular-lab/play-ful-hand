@@ -1,5 +1,5 @@
 import { Flex } from '@chakra-ui/react';
-import { FC, memo } from 'react';
+import { FC, memo, MutableRefObject } from 'react';
 import { useRecoilValue } from 'recoil';
 
 import { editModeState } from '@/store/editModeState';
@@ -12,7 +12,7 @@ export type HandSquareProps = {
   position: PositionType;
   rowIndex13: number;
   colIndex13: number;
-  isMouseDown: boolean;
+  isMouseDownRef: MutableRefObject<boolean>;
   updateEditingHandRange: (indexes: {
     colIndex13: number;
     rowIndex13: number;
@@ -24,7 +24,7 @@ export type HandSquareProps = {
 
 export const HandSquare: FC<HandSquareProps> = memo((props) => {
   const {
-    isMouseDown,
+    isMouseDownRef,
     hands: handRange,
     rowIndex13,
     colIndex13,
@@ -34,11 +34,11 @@ export const HandSquare: FC<HandSquareProps> = memo((props) => {
   const editMode = useRecoilValue(editModeState);
 
   const onMouseOver = () => {
-    if (isMouseDown && editMode == 'square') {
+    if (isMouseDownRef.current && editMode == 'square') {
       updateEditingHandRangeSquare({ colIndex13: colIndex13, rowIndex13: rowIndex13 });
     }
   };
-  const onClick = () => {
+  const onMouseDown = () => {
     if (editMode == 'square')
       updateEditingHandRangeSquare({ colIndex13: colIndex13, rowIndex13: rowIndex13 });
   };
@@ -49,7 +49,7 @@ export const HandSquare: FC<HandSquareProps> = memo((props) => {
       borderColor={'gray.300'}
       w={'fit-content'}
       onMouseOver={onMouseOver}
-      onClick={onClick}
+      onMouseDown={onMouseDown}
     >
       {handRange.map((rows, colIndex4) => {
         return (
@@ -66,9 +66,8 @@ export const HandSquare: FC<HandSquareProps> = memo((props) => {
                   key={rowIndex4}
                   hand={hand}
                   indexes={indexes}
-                  // isMouseDown={isMouseDown}
                   updateEditingHandRange={updateEditingHandRange}
-                  isMouseDown={isMouseDown}
+                  isMouseDownRef={isMouseDownRef}
                 />
               );
             })}

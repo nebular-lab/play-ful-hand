@@ -1,5 +1,5 @@
 import { Box } from '@chakra-ui/react';
-import { FC, memo } from 'react';
+import { FC, memo, MutableRefObject } from 'react';
 import { useRecoilValue } from 'recoil';
 
 import { editingRegisteredActionsState } from '@/store/editingRegisteredActionsState';
@@ -7,7 +7,7 @@ import { editModeState } from '@/store/editModeState';
 
 export type HandOneProps = {
   hand: number;
-  isMouseDown: boolean;
+  isMouseDownRef: MutableRefObject<boolean>;
   indexes: { colIndex13: number; rowIndex13: number; colIndex4: number; rowIndex4: number };
   updateEditingHandRange: (indexes: {
     colIndex13: number;
@@ -18,7 +18,7 @@ export type HandOneProps = {
 };
 
 export const HandOne: FC<HandOneProps> = memo((props) => {
-  const { isMouseDown, hand: actionNumber, indexes, updateEditingHandRange } = props;
+  const { isMouseDownRef, hand: actionNumber, indexes, updateEditingHandRange } = props;
 
   const registeredActions = useRecoilValue(editingRegisteredActionsState);
   const editMode = useRecoilValue(editModeState);
@@ -27,11 +27,11 @@ export const HandOne: FC<HandOneProps> = memo((props) => {
     (registeredAction) => actionNumber == registeredAction.id,
   );
   const onMouseOver = () => {
-    if (isMouseDown && editMode == 'one') {
+    if (isMouseDownRef.current && editMode == 'one') {
       updateEditingHandRange(indexes);
     }
   };
-  const onClick = () => {
+  const onMouseDown = () => {
     if (editMode == 'one') updateEditingHandRange(indexes);
   };
 
@@ -44,7 +44,7 @@ export const HandOne: FC<HandOneProps> = memo((props) => {
         border={'1px'}
         borderColor={'gray.200'}
         onMouseOver={onMouseOver}
-        onClick={onClick}
+        onMouseDown={onMouseDown}
       ></Box>
     );
   } else {

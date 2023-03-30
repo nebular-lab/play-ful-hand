@@ -1,5 +1,5 @@
 import { Flex } from '@chakra-ui/react';
-import { FC, memo, useState } from 'react';
+import { FC, memo, useRef } from 'react';
 import { useRecoilValue } from 'recoil';
 
 import { useHandRange } from '@/hooks/useHandRange';
@@ -7,19 +7,20 @@ import { editingHandRangePositionState } from '@/store/editingHandRangePosition'
 import { PositionType } from '@/types/schema';
 
 import { HandSquare } from '../HandSquare';
+
 export type HandRangeProps = {
   position: PositionType;
 };
 export const HandRange: FC<HandRangeProps> = memo((props) => {
   const { position } = props;
-  const [isMouseDown, setIsMouseDown] = useState<boolean>(false);
+  const isMouseDownRef = useRef<boolean>(false);
   const { updateEditingHandRange, updateEditingHandRangeSquare, editingHandRange } = useHandRange();
   const editingHandRangePosition = useRecoilValue(editingHandRangePositionState);
   const onMouseDown = () => {
-    setIsMouseDown(true);
+    isMouseDownRef.current = true;
   };
   const onMouseUp = () => {
-    setIsMouseDown(false);
+    isMouseDownRef.current = false;
   };
 
   return (
@@ -43,7 +44,7 @@ export const HandRange: FC<HandRangeProps> = memo((props) => {
                   // isMouseDown={isMouseDown}
                   updateEditingHandRangeSquare={updateEditingHandRangeSquare}
                   updateEditingHandRange={updateEditingHandRange}
-                  isMouseDown={isMouseDown}
+                  isMouseDownRef={isMouseDownRef}
                 />
               );
             })}
