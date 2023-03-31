@@ -15,6 +15,11 @@ export const Header: FC<HeaderProps> = (props) => {
   const { saveHandNode } = useHandNode();
   const router = useRouter();
   const handleSaveHandNode = () => {
+    alert('ベータ版ではハンドツリーを保存することが出来ません。');
+    router.push('/dashboard').catch((error) => {
+      console.error(error);
+    });
+    return;
     saveHandNode()
       .then(async () => {
         await router.push('/dashboard');
