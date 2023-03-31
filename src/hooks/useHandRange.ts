@@ -46,5 +46,10 @@ export const useHandRange = () => {
     },
     [editingActionID, editingHandRangePosition],
   );
-  return { updateEditingHandRange, updateEditingHandRangeSquare, editingHandRange };
+  return {
+    updateEditingHandRange,
+    updateEditingHandRangeSquare,
+    editingHandRange,
+    editingActionID,
+  };
 };

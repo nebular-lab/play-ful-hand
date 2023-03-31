@@ -3,7 +3,6 @@ import { FC, memo, MutableRefObject } from 'react';
 import { useRecoilValue } from 'recoil';
 
 import { editingRegisteredActionsState } from '@/store/editingRegisteredActionsState';
-import { editModeState } from '@/store/editModeState';
 
 export type HandOneProps = {
   hand: number;
@@ -15,24 +14,30 @@ export type HandOneProps = {
     colIndex4: number;
     rowIndex4: number;
   }) => void;
+  editModeRef: MutableRefObject<'square' | 'one'>;
 };
 
 export const HandOne: FC<HandOneProps> = memo((props) => {
-  const { isMouseDownRef, hand: actionNumber, indexes, updateEditingHandRange } = props;
-
+  const {
+    isMouseDownRef,
+    hand: actionNumber,
+    indexes,
+    updateEditingHandRange,
+    editModeRef,
+  } = props;
   const registeredActions = useRecoilValue(editingRegisteredActionsState);
-  const editMode = useRecoilValue(editModeState);
+  // const editMode = useRecoilValue(editModeState);
 
   const actionColor = registeredActions.find(
     (registeredAction) => actionNumber == registeredAction.id,
   );
   const onMouseOver = () => {
-    if (isMouseDownRef.current && editMode == 'one') {
+    if (isMouseDownRef.current && editModeRef.current == 'one') {
       updateEditingHandRange(indexes);
     }
   };
   const onMouseDown = () => {
-    if (editMode == 'one') updateEditingHandRange(indexes);
+    if (editModeRef.current == 'one') updateEditingHandRange(indexes);
   };
 
   if (actionColor?.action.move !== 'no-defined' && actionColor !== undefined) {

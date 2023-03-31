@@ -1,8 +1,6 @@
 import { Flex } from '@chakra-ui/react';
 import { FC, memo, MutableRefObject } from 'react';
-import { useRecoilValue } from 'recoil';
 
-import { editModeState } from '@/store/editModeState';
 import { PositionType } from '@/types/schema';
 
 import { HandOne } from '../HandOne';
@@ -20,6 +18,7 @@ export type HandSquareProps = {
     rowIndex4: number;
   }) => void;
   updateEditingHandRangeSquare: (indexes: { colIndex13: number; rowIndex13: number }) => void;
+  editModeRef: MutableRefObject<'square' | 'one'>;
 };
 
 export const HandSquare: FC<HandSquareProps> = memo((props) => {
@@ -30,16 +29,16 @@ export const HandSquare: FC<HandSquareProps> = memo((props) => {
     colIndex13,
     updateEditingHandRange,
     updateEditingHandRangeSquare,
+    editModeRef,
   } = props;
-  const editMode = useRecoilValue(editModeState);
-
+  // const editMode = useRecoilValue(editModeState);
   const onMouseOver = () => {
-    if (isMouseDownRef.current && editMode == 'square') {
+    if (isMouseDownRef.current && editModeRef.current == 'square') {
       updateEditingHandRangeSquare({ colIndex13: colIndex13, rowIndex13: rowIndex13 });
     }
   };
   const onMouseDown = () => {
-    if (editMode == 'square')
+    if (editModeRef.current == 'square')
       updateEditingHandRangeSquare({ colIndex13: colIndex13, rowIndex13: rowIndex13 });
   };
   return (
@@ -68,6 +67,7 @@ export const HandSquare: FC<HandSquareProps> = memo((props) => {
                   indexes={indexes}
                   updateEditingHandRange={updateEditingHandRange}
                   isMouseDownRef={isMouseDownRef}
+                  editModeRef={editModeRef}
                 />
               );
             })}

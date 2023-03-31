@@ -1,5 +1,5 @@
 import { Flex } from '@chakra-ui/react';
-import { FC, memo, useRef } from 'react';
+import { FC, memo, MutableRefObject, useRef } from 'react';
 import { useRecoilValue } from 'recoil';
 
 import { useHandRange } from '@/hooks/useHandRange';
@@ -10,9 +10,10 @@ import { HandSquare } from '../HandSquare';
 
 export type HandRangeProps = {
   position: PositionType;
+  editModeRef: MutableRefObject<'square' | 'one'>;
 };
 export const HandRange: FC<HandRangeProps> = memo((props) => {
-  const { position } = props;
+  const { position ,editModeRef} = props;
   const isMouseDownRef = useRef<boolean>(false);
   const { updateEditingHandRange, updateEditingHandRangeSquare, editingHandRange } = useHandRange();
   const editingHandRangePosition = useRecoilValue(editingHandRangePositionState);
@@ -41,10 +42,10 @@ export const HandRange: FC<HandRangeProps> = memo((props) => {
                   position={position}
                   colIndex13={colIndex13}
                   rowIndex13={rowIndex13}
-                  // isMouseDown={isMouseDown}
                   updateEditingHandRangeSquare={updateEditingHandRangeSquare}
                   updateEditingHandRange={updateEditingHandRange}
                   isMouseDownRef={isMouseDownRef}
+                  editModeRef={editModeRef}
                 />
               );
             })}

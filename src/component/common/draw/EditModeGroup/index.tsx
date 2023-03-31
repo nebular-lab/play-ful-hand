@@ -1,13 +1,10 @@
 import { HStack, useRadioGroup } from '@chakra-ui/react';
 import { FC } from 'react';
-import { useSetRecoilState } from 'recoil';
-
-import { editModeState } from '@/store/editModeState';
 
 import { EditModeCard } from '../EditModeCard';
-
-export const EditModeGroup: FC = (props) => {
-  const setEditMode = useSetRecoilState(editModeState);
+export type EditModeGroupProps = { setEditMode: (value: 'square' | 'one') => void };
+export const EditModeGroup: FC<EditModeGroupProps> = (props) => {
+  const { setEditMode } = props;
   const options: Array<'one' | 'square'> = ['one', 'square'];
   const handleEditMode = (value: 'one' | 'square') => {
     setEditMode(value);
@@ -24,11 +21,7 @@ export const EditModeGroup: FC = (props) => {
     <HStack {...group}>
       {options.map((value) => {
         const radio = getRadioProps({ value });
-        return (
-          <EditModeCard key={value} {...radio}>
-            {value}
-          </EditModeCard>
-        );
+        return <EditModeCard key={value} value={value} radioProps={radio} />;
       })}
     </HStack>
   );

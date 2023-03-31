@@ -1,13 +1,15 @@
 import { Box, useRadio, UseRadioProps } from '@chakra-ui/react';
 import { FC } from 'react';
-interface EditModeCardProps extends UseRadioProps {
-  children: React.ReactNode;
+interface EditModeCardProps {
+  value: 'one' | 'square';
+  radioProps: UseRadioProps;
 }
 export const EditModeCard: FC<EditModeCardProps> = (props) => {
-  const { getInputProps, getCheckboxProps } = useRadio(props);
+  const { value, radioProps } = props;
+  const { getInputProps, getCheckboxProps } = useRadio(radioProps);
 
-  const input = getInputProps();
-  const checkbox = getCheckboxProps();
+  const input = getInputProps({});
+  const checkbox = getCheckboxProps({});
 
   return (
     <Box as="label">
@@ -29,7 +31,7 @@ export const EditModeCard: FC<EditModeCardProps> = (props) => {
         px={5}
         py={3}
       >
-        {props.children}
+        {value}
       </Box>
     </Box>
   );

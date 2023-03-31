@@ -1,6 +1,7 @@
+import { MutableRefObject } from 'react';
 import { atom } from 'recoil';
 
-export const editModeState = atom<'one' | 'square'>({
+export const editModeState = atom<MutableRefObject<'one'|'square'>>({
   key: 'editModeState',
-  default: 'square',
+  default: { current: 'square' },
 });
