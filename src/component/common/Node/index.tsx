@@ -1,8 +1,9 @@
+import { Flex } from '@chakra-ui/react';
 import { FC } from 'react';
 
 import { HandNodeType } from '@/types/schema';
 
-import { StreetNode } from './StreetNode';
+import { PositionNode } from './PositionNode';
 
 export type HandTreeProps = {
   handNode: HandNodeType;
@@ -10,5 +11,7 @@ export type HandTreeProps = {
 };
 export const Tree: FC<HandTreeProps> = (props) => {
   const { handNode, path } = props;
-  return <>{handNode.child && <StreetNode {...handNode.child} path={[...path, 'child']} />}</>;
+  return (
+    <Flex>{handNode.child && <PositionNode {...handNode.child} path={[...path, 'child']} />}</Flex>
+  );
 };

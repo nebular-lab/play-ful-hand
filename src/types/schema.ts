@@ -41,6 +41,7 @@ export const MoveTypeSchema = z.union([
   z.literal('CALL'),
   z.literal('CHECK'),
   z.literal('ALLIN'),
+  z.literal('PREFLOP'),
 ]);
 export type MoveType = z.infer<typeof MoveTypeSchema>;
 
@@ -112,8 +113,7 @@ export interface HandNodeType {
   title: string;
   createdAt: number;
   updatedAt: number;
-  preflopHandRange: PairHandRangeType;
-  child?: StreetNodeType;
+  child?: PositionNodeType;
 }
 
 export const HandNodeSchema: z.ZodSchema<Omit<HandNodeType, 'id' | 'child'>> = z.object({
@@ -122,7 +122,6 @@ export const HandNodeSchema: z.ZodSchema<Omit<HandNodeType, 'id' | 'child'>> = z
   title: z.string(),
   createdAt: z.number(),
   updatedAt: z.number(),
-  preflopHandRange: PairHandRangeSchema,
 });
 
 export const StreetNodeSchema: z.ZodSchema<Omit<StreetNodeType, 'id' | 'child'>> = z.object({

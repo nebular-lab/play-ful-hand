@@ -29,7 +29,7 @@ export const PositionNode: FC<PositionNodeType & { path: Array<number | string> 
         }}
       />
 
-      <UnorderedList m={0}>
+      <UnorderedList m={0} spacing={2}>
         {positionNode.child?.map((actionNode, index) => (
           <ActionNode
             key={actionNode.id}

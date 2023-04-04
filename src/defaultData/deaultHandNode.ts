@@ -8,13 +8,10 @@ export const defaultHandNode: HandNodeType = {
   iconURL: 'test',
   updatedAt: Date.now(),
   createdAt: Date.now(),
-  preflopHandRange: { OOP: defaultHandRange, IP: defaultHandRange },
   child: {
     id: 'test',
-    type: 'StreetNode',
-    street: 'FLOP',
-    pot: 100,
-    stack: 100,
+    type: 'PositionNode',
+    position: 'OOP',
     handRange: { OOP: defaultHandRange, IP: defaultHandRange },
   },
 };

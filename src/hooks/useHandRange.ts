@@ -2,13 +2,13 @@ import produce from 'immer';
 import { useCallback } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 
-import { editingActionIDState } from '@/store/editingActionIDState';
 import { editingHandRangePositionState } from '@/store/editingHandRangePosition';
 import { editingHandRangeState } from '@/store/editingHandRangeState';
+import { editingSelectedActionIDState } from '@/store/editingSelectedActionIDState';
 
 export const useHandRange = () => {
   const [editingHandRange, setEditingHandRange] = useRecoilState(editingHandRangeState);
-  const editingActionID = useRecoilValue(editingActionIDState);
+  const editingSelectedActionID = useRecoilValue(editingSelectedActionIDState);
   const editingHandRangePosition = useRecoilValue(editingHandRangePositionState);
 
   const updateEditingHandRange = useCallback(
@@ -17,12 +17,12 @@ export const useHandRange = () => {
         const nextState = produce(prev, (draft) => {
           draft[editingHandRangePosition][indexes.colIndex13][indexes.rowIndex13][
             indexes.colIndex4
-          ][indexes.rowIndex4] = editingActionID ?? 1;
+          ][indexes.rowIndex4] = editingSelectedActionID ?? 1;
         });
         return nextState;
       });
     },
-    [editingActionID, editingHandRangePosition],
+    [editingSelectedActionID, editingHandRangePosition],
   );
   const updateEditingHandRangeSquare = useCallback(
     (indexes: { colIndex13: number; rowIndex13: number }) => {
@@ -36,7 +36,7 @@ export const useHandRange = () => {
                 ] !== 0
               ) {
                 draft[editingHandRangePosition][indexes.colIndex13][indexes.rowIndex13][col][row] =
-                  editingActionID ?? 1;
+                  editingSelectedActionID ?? 1;
               }
             }
           }
@@ -44,12 +44,12 @@ export const useHandRange = () => {
         return nextState;
       });
     },
-    [editingActionID, editingHandRangePosition],
+    [editingSelectedActionID, editingHandRangePosition],
   );
   return {
     updateEditingHandRange,
     updateEditingHandRangeSquare,
     editingHandRange,
-    editingActionID,
+    editingSelectedActionID,
   };
 };

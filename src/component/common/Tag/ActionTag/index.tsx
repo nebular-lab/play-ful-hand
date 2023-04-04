@@ -10,6 +10,8 @@ export type ActionTagProps = {
 
 export const ActionTag: FC<ActionTagProps> = (props) => {
   const { move, size } = props;
+  console.log(move);
+  if (move == 'PREFLOP') return null;
   const moveColor =
     move == 'CALL'
       ? 'green.400'

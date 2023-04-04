@@ -10,7 +10,6 @@ export const EditModeCard: FC<EditModeCardProps> = (props) => {
 
   const input = getInputProps({});
   const checkbox = getCheckboxProps({});
-
   return (
     <Box as="label">
       <input {...input} />

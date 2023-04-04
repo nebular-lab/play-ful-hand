@@ -30,7 +30,7 @@ export const StreetNode: FC<StreetNodeType & { path: Array<number | string> }> =
         isSelected={_.isEqual(editingNodePath, streetNode.path)}
       />
       <FlopCardModal isOpen={isOpen} onClose={onClose} />
-      <UnorderedList m={0}>
+      <UnorderedList m={0} spacing={1}>
         {streetNode.child?.map((cardNode, index) => (
           <CardNode key={cardNode.id} {...cardNode} path={[...streetNode.path, 'child', index]} />
         ))}

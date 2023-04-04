@@ -6,13 +6,15 @@ import { MoveTypeForException } from '@/types/schema';
 interface ActionIDRadioCardProps extends UseRadioProps {
   move: MoveTypeForException;
   size: number;
+  color: string;
 }
 
 export const ActionIDRadioCard: FC<ActionIDRadioCardProps> = (props) => {
-  const { move, size } = props;
+  const { move, size, color } = props;
   const { getInputProps, getCheckboxProps } = useRadio(props);
-  const input = getInputProps();
-  const checkbox = getCheckboxProps();
+  const input = getInputProps({});
+  const checkbox = getCheckboxProps({});
+
   return (
     <Box as="label">
       <input {...input} />
@@ -26,9 +28,9 @@ export const ActionIDRadioCard: FC<ActionIDRadioCardProps> = (props) => {
         alignItems={'center'}
         justifyContent={'center'}
         _checked={{
-          bg: 'teal.600',
+          bg: color,
           color: 'white',
-          borderColor: 'teal.600',
+          borderColor: color,
         }}
         _focus={{
           boxShadow: 'outline',
