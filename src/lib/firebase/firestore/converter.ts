@@ -27,11 +27,10 @@ export const handNodeConverter: FirestoreDataConverter<Omit<HandNodeType, 'child
   toFirestore(handNode: HandNodeType): DocumentData {
     const childDeletedData = _.omit(handNode, ['child']);
     //TODO convertArrayToObjectは純粋関数だが、objectを渡すのは怖い
-    const OOPHandRangeObj = convertArrayToObject(handNode.preflopHandRange.OOP);
-    const IPHandRangeObj = convertArrayToObject(handNode.preflopHandRange.IP);
+
     const sendData = {
       ...childDeletedData,
-      preflopHandRange: { OOP: OOPHandRangeObj, IP: IPHandRangeObj },
+
       updatedAt: Date.now(),
     };
     return sendData;
@@ -40,13 +39,7 @@ export const handNodeConverter: FirestoreDataConverter<Omit<HandNodeType, 'child
     snapshot: QueryDocumentSnapshot,
     options: SnapshotOptions,
   ): Omit<HandNodeType, 'child'> {
-    const handNodeObj = produce(snapshot.data(options), (draftState) => {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-argument
-      draftState.preflopHandRange.OOP = convertObjectToArray(draftState.preflopHandRange.OOP);
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-argument
-      draftState.preflopHandRange.IP = convertObjectToArray(draftState.preflopHandRange.IP);
-    });
-    const result = HandNodeSchema.safeParse(handNodeObj);
+    const result = HandNodeSchema.safeParse(snapshot.data(options));
 
     const data = result.success ? result.data : _.omit(defaultHandNode, ['child']);
     return {

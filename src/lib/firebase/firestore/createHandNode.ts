@@ -23,7 +23,7 @@ export const createHandNode = async (handNode: Omit<HandNodeType, 'id'>) => {
     collection(firestore, 'handNode').withConverter(handNodeConverter),
     _.omit(handNode, ['child']),
   );
-  if (handNode.child) await createStreetNode(handNode.child, docRef);
+  if (handNode.child) await createPositionNode(handNode.child, docRef);
 };
 const createStreetNode = async (streetNode: StreetNodeType, parentDocRef: DocumentReference) => {
   const docRef = await addDoc(

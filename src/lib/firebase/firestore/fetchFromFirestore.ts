@@ -47,8 +47,8 @@ export const fetchHandNode = async (id: string) => {
   const querySnapshot = await getDoc(documentRef);
   if (!querySnapshot.exists()) throw new Error('handNode not found');
   const handNodeDocData = querySnapshot.data();
-  const streetNodeData = await fetchStreetNode(querySnapshot.ref);
-  const handNode: HandNodeType = { ...handNodeDocData, child: streetNodeData };
+  const PositionNodeData = await fetchPositionNode(querySnapshot.ref);
+  const handNode: HandNodeType = { ...handNodeDocData, child: PositionNodeData };
   return handNode;
 };
 const fetchStreetNode = async (ref: DocumentReference) => {
