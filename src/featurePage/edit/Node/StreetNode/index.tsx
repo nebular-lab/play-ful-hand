@@ -3,13 +3,13 @@ import _ from 'lodash';
 import { FC } from 'react';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 
-import { StreetTag } from '@/component/common/Tag/StreetTag';
+import { StreetTag } from '@/featurePage/edit/Tag/StreetTag';
 import { editingHandRangeState } from '@/store/editingHandRangeState';
 import { editingNodePathState } from '@/store/editingNodePathState';
 import { StreetNodeType } from '@/types/schema';
 
+import { FlopCardModal } from '../../FlopCardModal';
 import { CardNode } from '../CardNode';
-import { FlopCardModal } from '../../../page/edit/FlopCardModal';
 
 export const StreetNode: FC<StreetNodeType & { path: Array<number | string> }> = (streetNode) => {
   const { isOpen, onOpen, onClose } = useDisclosure();

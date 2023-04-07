@@ -1,7 +1,7 @@
 import { Box, Flex } from '@chakra-ui/react';
 import { FC, ReactNode } from 'react';
 
-import { Header } from '@/component/common/Header';
+import { Header } from '@/component/Header';
 
 export type LayoutProps = {
   children: ReactNode;

@@ -3,9 +3,9 @@ import { FC } from 'react';
 import { useRecoilState } from 'recoil';
 import useSWR from 'swr';
 
-import { Draw } from '@/component/common/draw';
-import { Tree } from '@/component/common/Node';
 import { Layout } from '@/component/layout/Layout';
+import { Draw } from '@/featurePage/edit/draw';
+import { Tree } from '@/featurePage/edit/Node';
 import { fetchHandNode } from '@/lib/firebase/firestore/fetchFromFirestore';
 import { editingHandNodeState } from '@/store/editingHandNodeState';
 export type PostPageProps = {
@@ -15,7 +15,12 @@ export const PostPage: FC<PostPageProps> = (props) => {
   const { id } = props;
   const { data, isLoading } = useSWR(id, fetchHandNode);
   const [editingHandNode, setEditingHandNode] = useRecoilState(editingHandNodeState);
-  if (isLoading || !data) return <Layout><Spinner /></Layout>;
+  if (isLoading || !data)
+    return (
+      <Layout>
+        <Spinner />
+      </Layout>
+    );
   setEditingHandNode(data);
   const path: Array<number | string> = [];
   return (

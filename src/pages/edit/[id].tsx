@@ -5,7 +5,7 @@ import { useRouter } from 'next/router';
 import nookies from 'nookies';
 
 import { MobilePage } from '@/component/layout/MobilePage';
-import { PostPage } from '@/component/page/edit/PostPage';
+import { PostPage } from '@/featurePage/edit/PostPage';
 import { adminApp } from '@/lib/firebase/init/server';
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {

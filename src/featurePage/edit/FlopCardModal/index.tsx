@@ -3,7 +3,7 @@ import produce from 'immer';
 import _ from 'lodash';
 import { FC, useState } from 'react';
 
-import { Card } from '@/component/common/Card';
+import { Card } from '@/component/Card';
 import { useHandNode } from '@/hooks/useHandNode';
 import { CardMarkType, CardNumType, CardType } from '@/types/schema';
 

@@ -5,8 +5,8 @@ import { useRecoilState } from 'recoil';
 import { Layout } from '@/component/layout/Layout';
 import { editingHandNodeState } from '@/store/editingHandNodeState';
 
-import { Draw } from '../../common/draw';
-import { Tree } from '../../common/Node';
+import { Draw } from './draw';
+import { Tree } from './Node';
 
 export const HandTreePage: FC = () => {
   const [editingHandNode] = useRecoilState(editingHandNodeState);

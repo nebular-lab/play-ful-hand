@@ -3,7 +3,7 @@ import { FC } from 'react';
 
 import { CardType } from '@/types/schema';
 
-import { Card } from '../../Card';
+import { Card } from '../../../../component/Card';
 
 export type CardTagProps = {
   cards: CardType[];
