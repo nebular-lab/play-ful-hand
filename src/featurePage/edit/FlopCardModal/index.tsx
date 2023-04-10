@@ -44,6 +44,10 @@ const CardForm: FC<CardFormProps> = (props) => {
     }
   };
   const onSubmit = () => {
+    if (!(selectedCards.length == 3 || selectedCards.length == 1)) {
+      alert('カードを正しく選択してください');
+      return;
+    }
     addStreetCard(selectedCards);
     onClose();
   };
