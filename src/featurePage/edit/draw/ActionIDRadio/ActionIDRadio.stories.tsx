@@ -1,12 +1,12 @@
 import { Meta, StoryObj } from '@storybook/react';
 
-import { ActionIDRadioGroup } from '.';
+import { ActionIDRadio } from '.';
 
-type T = typeof ActionIDRadioGroup;
+type T = typeof ActionIDRadio;
 type Story = StoryObj<T>;
 
 export default {
-  component: ActionIDRadioGroup,
+  component: ActionIDRadio,
   args: {},
 } as Meta<T>;
 

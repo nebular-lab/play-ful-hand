@@ -45,8 +45,9 @@ export const HandSquare: FC<HandSquareProps> = memo((props) => {
     <Flex
       direction={'column'}
       border={'2px'}
+
       borderColor={'gray.300'}
-      w={'fit-content'}
+      // w={'fit-content'}
       onMouseOver={onMouseOver}
       onMouseDown={onMouseDown}
     >

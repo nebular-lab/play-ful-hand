@@ -1,12 +1,12 @@
 import { Meta, StoryObj } from '@storybook/react';
 
-import { ActionIDRadioCard } from '.';
+import { EditModeRadio } from '.';
 
-type T = typeof ActionIDRadioCard;
+type T = typeof EditModeRadio;
 type Story = StoryObj<T>;
 
 export default {
-  component: ActionIDRadioCard,
+  component: EditModeRadio,
   args: {},
 } as Meta<T>;
 

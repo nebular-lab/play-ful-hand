@@ -1,19 +1,20 @@
-import { Flex } from '@chakra-ui/react';
+import { Box, Flex } from '@chakra-ui/react';
 import { FC, memo, MutableRefObject, useRef } from 'react';
 import { useRecoilValue } from 'recoil';
 
 import { useHandRange } from '@/hooks/useHandRange';
 import { editingHandRangePositionState } from '@/store/editingHandRangePosition';
-import { PositionType } from '@/types/schema';
+import { CardNumType, PositionType } from '@/types/schema';
 
-import { HandSquare } from '../HandSquare';
+import { RangeHeader } from '../RangeHeader';
+import { HandSquare } from './HandSquare';
 
 export type HandRangeProps = {
   position: PositionType;
   editModeRef: MutableRefObject<'square' | 'one'>;
 };
 export const HandRange: FC<HandRangeProps> = memo((props) => {
-  const { position ,editModeRef} = props;
+  const { position, editModeRef } = props;
   const isMouseDownRef = useRef<boolean>(false);
   const { updateEditingHandRange, updateEditingHandRangeSquare, editingHandRange } = useHandRange();
   const editingHandRangePosition = useRecoilValue(editingHandRangePositionState);
@@ -23,6 +24,8 @@ export const HandRange: FC<HandRangeProps> = memo((props) => {
   const onMouseUp = () => {
     isMouseDownRef.current = false;
   };
+  const squareSize = 2;
+  const cardNums: CardNumType[] = ['A', 'K', 'Q', 'J', 'T', '9', '8', '7', '6', '5', '4', '3', '2'];
 
   return (
     <Flex
@@ -31,9 +34,16 @@ export const HandRange: FC<HandRangeProps> = memo((props) => {
       onMouseUp={onMouseUp}
       pointerEvents={editingHandRangePosition == position ? 'auto' : 'none'}
     >
+      <Flex gap={0}>
+        <Box  h={squareSize * 4} w={squareSize * 4}></Box>
+        {cardNums.map((num) => {
+          return <RangeHeader key={num} num={num} direction={'row'} size={squareSize} />;
+        })}
+      </Flex>
       {editingHandRange[position].map((rows, colIndex13) => {
         return (
-          <Flex key={colIndex13}>
+          <Flex key={colIndex13} gap={0}>
+            <RangeHeader num={cardNums[colIndex13]} direction={'column'} size={squareSize} />
             {rows.map((hands, rowIndex13) => {
               return (
                 <HandSquare

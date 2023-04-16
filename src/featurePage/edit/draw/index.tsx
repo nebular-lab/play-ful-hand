@@ -6,28 +6,29 @@ import { FC } from 'react';
 import { useEditModeRef } from '@/hooks/useEditModeRef';
 import { useHandNode } from '@/hooks/useHandNode';
 
-import { ActionIDRadioGroup } from './ActionIDRadioGroup';
-import { EditModeGroup } from './EditModeGroup';
+
 import { HandRange } from './HandRange';
+import { ActionIDRadio } from './ActionIDRadio';
+import { EditModeRadio } from './EditModeRadio';
 
 export const Draw: FC = (props) => {
   const { registerHandRange } = useHandNode();
   //props渡しがきついが、仕方ない
-  const { editModeRef ,setEditMode} = useEditModeRef();
+  const { editModeRef, setEditMode } = useEditModeRef();
   return (
     <Flex gap={'5'}>
       <VStack>
         <Text fontWeight={'bold'}>OOP</Text>
-        <HandRange position={'OOP'} editModeRef={editModeRef}/>
+        <HandRange position={'OOP'} editModeRef={editModeRef} />
       </VStack>
       <VStack>
         <Text fontWeight={'bold'}>IP</Text>
         <HandRange position={'IP'} editModeRef={editModeRef} />
       </VStack>{' '}
       <Flex direction={'column'} gap={'3'} w={'full'}>
-        <ActionIDRadioGroup />
+        <ActionIDRadio />
         <div>色塗りモード</div>
-        <EditModeGroup setEditMode={setEditMode}/>
+        <EditModeRadio setEditMode={setEditMode} />
         <Button onClick={registerHandRange}>レンジ登録</Button>
       </Flex>
     </Flex>
