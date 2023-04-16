@@ -1,4 +1,4 @@
-import { Box, HStack, useRadio, useRadioGroup, UseRadioProps } from '@chakra-ui/react';
+import { Box, Flex, SimpleGrid, useRadio, useRadioGroup, UseRadioProps } from '@chakra-ui/react';
 import { FC } from 'react';
 
 export type EditModeRadioProps = { setEditMode: (value: 'square' | 'one') => void };
@@ -17,12 +17,12 @@ export const EditModeRadio: FC<EditModeRadioProps> = (props) => {
   const group = getRootProps();
 
   return (
-    <HStack {...group}>
+    <SimpleGrid columns={2} spacing={2} {...group}>
       {options.map((value) => {
         const radio = getRadioProps({ value });
         return <EditModeCard key={value} value={value} radioProps={radio} />;
       })}
-    </HStack>
+    </SimpleGrid>
   );
 };
 
@@ -39,12 +39,14 @@ const EditModeCard: FC<EditModeCardProps> = (props) => {
   return (
     <Box as="label">
       <input {...input} />
-      <Box
+      <Flex
         {...checkbox}
         cursor="pointer"
         borderWidth="1px"
         borderRadius="md"
         boxShadow="md"
+        alignItems={'center'}
+        justifyContent={'center'}
         _checked={{
           bg: 'teal.600',
           color: 'white',
@@ -57,7 +59,7 @@ const EditModeCard: FC<EditModeCardProps> = (props) => {
         py={3}
       >
         {value}
-      </Box>
+      </Flex>
     </Box>
   );
 };

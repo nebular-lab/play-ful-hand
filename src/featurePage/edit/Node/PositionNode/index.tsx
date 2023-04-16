@@ -17,6 +17,7 @@ export const PositionNode: FC<PositionNodeType & { path: Array<number | string> 
   const setEditingHandRange = useSetRecoilState(editingHandRangeState);
   const [editingNodePath, setEditingNodePath] = useRecoilState(editingNodePathState);
   const setEditingHandRangePosition = useSetRecoilState(editingHandRangePositionState);
+  console.log(positionNode.path);
   return (
     <>
       <PositionTag

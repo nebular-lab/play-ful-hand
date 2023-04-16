@@ -11,14 +11,21 @@ export type HandSquareProps = {
   rowIndex13: number;
   colIndex13: number;
   isMouseDownRef: MutableRefObject<boolean>;
-  updateEditingHandRange: (indexes: {
-    colIndex13: number;
-    rowIndex13: number;
-    colIndex4: number;
-    rowIndex4: number;
-  }) => void;
-  updateEditingHandRangeSquare: (indexes: { colIndex13: number; rowIndex13: number }) => void;
+  updateEditingHandRange: (
+    indexes: {
+      colIndex13: number;
+      rowIndex13: number;
+      colIndex4: number;
+      rowIndex4: number;
+    },
+    selectedActionID: number,
+  ) => void;
+  updateEditingHandRangeSquare: (
+    indexes: { colIndex13: number; rowIndex13: number },
+    selectedActionID: number,
+  ) => void;
   editModeRef: MutableRefObject<'square' | 'one'>;
+  selectedActionIDRef: MutableRefObject<number>;
 };
 
 export const HandSquare: FC<HandSquareProps> = memo((props) => {
@@ -30,23 +37,30 @@ export const HandSquare: FC<HandSquareProps> = memo((props) => {
     updateEditingHandRange,
     updateEditingHandRangeSquare,
     editModeRef,
+    selectedActionIDRef,
   } = props;
   // const editMode = useRecoilValue(editModeState);
   const onMouseOver = () => {
     if (isMouseDownRef.current && editModeRef.current == 'square') {
-      updateEditingHandRangeSquare({ colIndex13: colIndex13, rowIndex13: rowIndex13 });
+      updateEditingHandRangeSquare(
+        { colIndex13: colIndex13, rowIndex13: rowIndex13 },
+        selectedActionIDRef.current,
+      );
     }
   };
   const onMouseDown = () => {
     if (editModeRef.current == 'square')
-      updateEditingHandRangeSquare({ colIndex13: colIndex13, rowIndex13: rowIndex13 });
+      updateEditingHandRangeSquare(
+        { colIndex13: colIndex13, rowIndex13: rowIndex13 },
+        selectedActionIDRef.current,
+      );
   };
+  const borderColor = colIndex13 == rowIndex13 ? 'blue.300' : 'gray.300';
   return (
     <Flex
       direction={'column'}
       border={'2px'}
-
-      borderColor={'gray.300'}
+      borderColor={borderColor}
       // w={'fit-content'}
       onMouseOver={onMouseOver}
       onMouseDown={onMouseDown}
@@ -69,6 +83,7 @@ export const HandSquare: FC<HandSquareProps> = memo((props) => {
                   updateEditingHandRange={updateEditingHandRange}
                   isMouseDownRef={isMouseDownRef}
                   editModeRef={editModeRef}
+                  selectedActionIDRef={selectedActionIDRef}
                 />
               );
             })}

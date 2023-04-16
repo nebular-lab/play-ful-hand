@@ -12,9 +12,10 @@ import { HandSquare } from './HandSquare';
 export type HandRangeProps = {
   position: PositionType;
   editModeRef: MutableRefObject<'square' | 'one'>;
+  selectedActionIDRef: MutableRefObject<number>;
 };
 export const HandRange: FC<HandRangeProps> = memo((props) => {
-  const { position, editModeRef } = props;
+  const { position, editModeRef,selectedActionIDRef } = props;
   const isMouseDownRef = useRef<boolean>(false);
   const { updateEditingHandRange, updateEditingHandRangeSquare, editingHandRange } = useHandRange();
   const editingHandRangePosition = useRecoilValue(editingHandRangePositionState);
@@ -56,6 +57,7 @@ export const HandRange: FC<HandRangeProps> = memo((props) => {
                   updateEditingHandRange={updateEditingHandRange}
                   isMouseDownRef={isMouseDownRef}
                   editModeRef={editModeRef}
+                  selectedActionIDRef={selectedActionIDRef}
                 />
               );
             })}

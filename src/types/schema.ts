@@ -49,9 +49,13 @@ export const MoveTypeSchemaForException = MoveTypeSchema.or(
   z.union([z.literal('no-set'), z.literal('no-defined')]),
 );
 export type MoveTypeForException = z.infer<typeof MoveTypeSchemaForException>;
+
+export const ActionSizeSchema = z.union([z.literal('S'), z.literal('M'), z.literal('L'), z.literal(0)]);
+export type ActionSizeType = z.infer<typeof ActionSizeSchema>;
+
 export const ActionTypeSchema = z.object({
   move: MoveTypeSchemaForException,
-  size: z.number(),
+  size: ActionSizeSchema,
 });
 export type ActionType = z.infer<typeof ActionTypeSchema>;
 

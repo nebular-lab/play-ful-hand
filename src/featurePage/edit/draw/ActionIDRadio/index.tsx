@@ -8,31 +8,35 @@ import {
   UseRadioProps,
 } from '@chakra-ui/react';
 import { FC } from 'react';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilValue } from 'recoil';
 
+import { editingActionsIDState } from '@/store/editingActionsIDState';
 import { editingRegisteredActionsState } from '@/store/editingRegisteredActionsState';
-import { editingSelectedActionIDState } from '@/store/editingSelectedActionIDState';
-import { MoveTypeForException } from '@/types/schema';
+import { ActionSizeType, MoveTypeForException } from '@/types/schema';
 
-
-export const ActionIDRadio: FC = (props) => {
-  const setEditingSelectedActionID = useSetRecoilState(editingSelectedActionIDState);
+export type ActionIDRadioProps = {
+  setSelectActionID: (value: number) => void;
+};
+export const ActionIDRadio: FC<ActionIDRadioProps> = (props) => {
+  const { setSelectActionID } = props;
   const registeredActions = useRecoilValue(editingRegisteredActionsState);
+  const editingActionIDs = useRecoilValue(editingActionsIDState);
   const handleChange = (value: string) => {
-    setEditingSelectedActionID(Number(value));
+    setSelectActionID(Number(value));
   };
 
   const { getRootProps, getRadioProps } = useRadioGroup({
     name: 'colorMode',
-    defaultValue: '1',
+    defaultValue: '2',
     onChange: handleChange,
   });
 
   const group = getRootProps();
 
   return (
-    <SimpleGrid columns={4} spacing={2} {...group}>
+    <SimpleGrid columns={2} spacing={2} {...group}>
       {registeredActions.map((action) => {
+        if (!editingActionIDs.includes(action.id)) return null;
         const radio = getRadioProps({ value: String(action.id) });
         const move = action.action.move;
         const size = action.action.size;
@@ -48,7 +52,7 @@ export const ActionIDRadio: FC = (props) => {
 
 interface ActionIDRadioCardProps extends UseRadioProps {
   move: MoveTypeForException;
-  size: number;
+  size: ActionSizeType;
   color: string;
 }
 

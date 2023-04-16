@@ -4,28 +4,30 @@ import { useRecoilState, useRecoilValue } from 'recoil';
 
 import { editingHandRangePositionState } from '@/store/editingHandRangePosition';
 import { editingHandRangeState } from '@/store/editingHandRangeState';
-import { editingSelectedActionIDState } from '@/store/editingSelectedActionIDState';
 
 export const useHandRange = () => {
   const [editingHandRange, setEditingHandRange] = useRecoilState(editingHandRangeState);
-  const editingSelectedActionID = useRecoilValue(editingSelectedActionIDState);
   const editingHandRangePosition = useRecoilValue(editingHandRangePositionState);
 
   const updateEditingHandRange = useCallback(
-    (indexes: { colIndex13: number; rowIndex13: number; colIndex4: number; rowIndex4: number }) => {
+    (
+      indexes: { colIndex13: number; rowIndex13: number; colIndex4: number; rowIndex4: number },
+      selectedActionID: number,
+    ) => {
       return setEditingHandRange((prev) => {
         const nextState = produce(prev, (draft) => {
           draft[editingHandRangePosition][indexes.colIndex13][indexes.rowIndex13][
             indexes.colIndex4
-          ][indexes.rowIndex4] = editingSelectedActionID ?? 1;
+          ][indexes.rowIndex4] = selectedActionID ?? 1;
         });
         return nextState;
       });
     },
-    [editingSelectedActionID, editingHandRangePosition],
+    [editingHandRangePosition],
   );
   const updateEditingHandRangeSquare = useCallback(
-    (indexes: { colIndex13: number; rowIndex13: number }) => {
+    (indexes: { colIndex13: number; rowIndex13: number }, selectedActionID: number) => {
+
       return setEditingHandRange((prev) => {
         const nextState = produce(prev, (draft) => {
           for (let row = 0; row < 4; row++) {
@@ -36,7 +38,7 @@ export const useHandRange = () => {
                 ] !== 0
               ) {
                 draft[editingHandRangePosition][indexes.colIndex13][indexes.rowIndex13][col][row] =
-                  editingSelectedActionID ?? 1;
+                  selectedActionID ?? 1;
               }
             }
           }
@@ -44,12 +46,11 @@ export const useHandRange = () => {
         return nextState;
       });
     },
-    [editingSelectedActionID, editingHandRangePosition],
+    [editingHandRangePosition],
   );
   return {
     updateEditingHandRange,
     updateEditingHandRangeSquare,
     editingHandRange,
-    editingSelectedActionID,
   };
 };
