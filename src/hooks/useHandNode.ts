@@ -43,6 +43,7 @@ export const useHandNode = () => {
             id: String(Date.now()),
             position: 'OOP',
             type: 'PositionNode',
+            actionIDs: [3, 4, 5, 6, 9],
             handRange: { OOP: tempNode.handRange.OOP, IP: tempNode.handRange.IP },
           },
         };
@@ -106,6 +107,7 @@ export const useHandNode = () => {
                 id: '1',
                 type: 'PositionNode',
                 position: 'IP',
+                actionIDs: [2],
                 handRange: { OOP: nextHandRange, IP: editingHandRange.IP },
               };
               setEditingHandPosition('IP');
@@ -133,10 +135,23 @@ export const useHandNode = () => {
               };
               setEditingHandPosition('OOP');
             } else if (tempNodePosition == 'OOP') {
+              let actionIDs: number[];
+              if (tempNodeMove == 'CHECK') {
+                actionIDs = [3, 4, 5, 6, 9];
+              } else if (tempNodeMove == 'BET') {
+                actionIDs = [7, 8, 9, 10];
+              } else if (tempNodeMove == 'RAISE') {
+                actionIDs = [7, 8, 9, 10];
+              } else if (tempNodeMove == 'ALLIN') {
+                actionIDs = [7, 8, 9];
+              } else {
+                actionIDs = [];
+              }
               actionNode['child'] = {
                 id: '1',
                 type: 'PositionNode',
                 position: 'IP',
+                actionIDs: actionIDs,
                 handRange: { OOP: nextHandRange, IP: editingHandRange.IP },
               };
               setEditingHandPosition('IP');
@@ -158,10 +173,20 @@ export const useHandNode = () => {
               tempNodePosition == 'IP' &&
               (tempNodeMove == 'ALLIN' || tempNodeMove == 'BET' || tempNodeMove == 'RAISE')
             ) {
+              let actionIDs: number[];
+              if (tempNodeMove == 'ALLIN') {
+                actionIDs = [7, 8, 9];
+              } else if (tempNodeMove == 'BET' || tempNodeMove == 'RAISE') {
+                actionIDs = [7, 8, 9, 10];
+              } else {
+                actionIDs = [];
+              }
+
               actionNode['child'] = {
                 id: '1',
                 type: 'PositionNode',
                 position: 'OOP',
+                actionIDs: actionIDs,
                 handRange: { OOP: editingHandRange.OOP, IP: nextHandRange },
               };
               setEditingHandPosition('OOP');

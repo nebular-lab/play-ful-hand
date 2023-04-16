@@ -50,7 +50,12 @@ export const MoveTypeSchemaForException = MoveTypeSchema.or(
 );
 export type MoveTypeForException = z.infer<typeof MoveTypeSchemaForException>;
 
-export const ActionSizeSchema = z.union([z.literal('S'), z.literal('M'), z.literal('L'), z.literal(0)]);
+export const ActionSizeSchema = z.union([
+  z.literal('S'),
+  z.literal('M'),
+  z.literal('L'),
+  z.literal(0),
+]);
 export type ActionSizeType = z.infer<typeof ActionSizeSchema>;
 
 export const ActionTypeSchema = z.object({
@@ -101,13 +106,14 @@ export interface PositionNodeType {
   type: 'PositionNode';
   position: PositionType;
   handRange: PairHandRangeType;
+  actionIDs: number[];
   child?: ActionNodeType[];
 }
 
 export interface ActionNodeType {
   id: string;
   move: MoveType;
-  size: number;
+  size: ActionSizeType;
   child?: StreetNodeType | PositionNodeType;
 }
 export interface HandNodeType {
@@ -143,10 +149,11 @@ export const CardNodeSchema = z.object({
 export const PositionNodeSchema: z.ZodSchema<Omit<PositionNodeType, 'id' | 'child'>> = z.object({
   type: z.literal('PositionNode'),
   position: PositionTypeSchema,
+  actionIDs: z.array(z.number()),
   handRange: PairHandRangeSchema,
 });
 
 export const ActionNodeSchema: z.ZodSchema<Omit<ActionNodeType, 'id' | 'child'>> = z.object({
   move: MoveTypeSchema,
-  size: z.number(),
+  size: ActionSizeSchema,
 });

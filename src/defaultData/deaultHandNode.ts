@@ -12,6 +12,7 @@ export const defaultHandNode: HandNodeType = {
     id: 'test',
     type: 'PositionNode',
     position: 'OOP',
+    actionIDs:[2],
     handRange: { OOP: defaultHandRange, IP: defaultHandRange },
   },
 };

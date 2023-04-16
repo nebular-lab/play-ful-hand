@@ -4,6 +4,7 @@ import { FC } from 'react';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 
 import { PositionTag } from '@/featurePage/edit/Tag/PositionTag';
+import { editingActionsIDState } from '@/store/editingActionsIDState';
 import { editingHandRangePositionState } from '@/store/editingHandRangePosition';
 import { editingHandRangeState } from '@/store/editingHandRangeState';
 import { editingNodePathState } from '@/store/editingNodePathState';
@@ -17,7 +18,9 @@ export const PositionNode: FC<PositionNodeType & { path: Array<number | string> 
   const setEditingHandRange = useSetRecoilState(editingHandRangeState);
   const [editingNodePath, setEditingNodePath] = useRecoilState(editingNodePathState);
   const setEditingHandRangePosition = useSetRecoilState(editingHandRangePositionState);
-  console.log(positionNode.path);
+  const setEditingActionIDs = useSetRecoilState(editingActionsIDState);
+  console.log(positionNode.actionIDs);
+
   return (
     <>
       <PositionTag
@@ -27,6 +30,7 @@ export const PositionNode: FC<PositionNodeType & { path: Array<number | string> 
           setEditingHandRange(positionNode.handRange);
           setEditingNodePath(positionNode.path);
           setEditingHandRangePosition(positionNode.position);
+          setEditingActionIDs(positionNode.actionIDs);
         }}
       />
 

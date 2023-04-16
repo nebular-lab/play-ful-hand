@@ -32,11 +32,10 @@ export const ActionIDRadio: FC<ActionIDRadioProps> = (props) => {
   });
 
   const group = getRootProps();
-
   return (
     <SimpleGrid columns={2} spacing={2} {...group}>
       {registeredActions.map((action) => {
-        if (!editingActionIDs.includes(action.id)) return null;
+        if (!editingActionIDs.includes(action.id) && action.id !== 1) return null;
         const radio = getRadioProps({ value: String(action.id) });
         const move = action.action.move;
         const size = action.action.size;

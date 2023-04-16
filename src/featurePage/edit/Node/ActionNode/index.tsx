@@ -32,6 +32,7 @@ export const ActionNode: FC<ActionNodeType & { path: Array<number | string> }> =
           path={[...actionNode.path, 'child']}
           position={actionNode.child.position}
           handRange={actionNode.child.handRange}
+          actionIDs={actionNode.child.actionIDs}
           child={actionNode.child.child}
         />
       )}
