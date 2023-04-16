@@ -15,8 +15,11 @@ export const PositionTag: FC<PositionTagProps> = (props) => {
     <Flex
       onClick={onClick}
       border={'2px'}
-      borderColor={isSelected ? 'violet' : 'gray.300'}
+      borderColor={'stroke'}
+      color={'paragraph'}
+      bg={isSelected ? 'main' : 'bg'}
       rounded={'xl'}
+      _hover={{ bg: 'main' }}
       p={'2'}
       h={8}
       w={20}

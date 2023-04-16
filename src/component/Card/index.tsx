@@ -30,6 +30,7 @@ export const Card: FC<CardProps> = (props) => {
       justifyContent={'center'}
       rounded={'sm'}
       fontSize={'sm'}
+      fontWeight={'bold'}
       textColor={'white'}
       onClick={onClick}
       cursor={onClick && 'pointer'}

@@ -12,22 +12,21 @@ export const RangeHeader: FC<HeaderType> = (props) => {
   const { num, size, direction } = props;
   const cardMarks: CardMarkType[] = ['s', 'h', 'd', 'c'];
 
-  const w = direction == 'row' ? size * 4 + 1 : size * 4;
-  const h = direction == 'row' ? size * 4 : size * 4 + 1;
+  const w = `${size * 4 * 4 + 2}px`;
+  const h = `${size * 4 * 4 + 2}px`;
   return (
     <Flex
       w={w}
       h={h}
       direction={direction == 'row' ? 'column' : 'row'}
       border={'1px'}
-      borderColor={'gray.300'}
+      borderColor={'stroke'}
+      boxSizing={'border-box'}
       alignItems={'center'}
       pl={direction == 'column' ? 1 : 0}
-      pr={direction == 'column' ? '1px' : 0}
-      pb={direction == 'row' ? '1px' : 0}
       justifyContent={'space-between'}
     >
-      <Center w={3} userSelect={'none'}>
+      <Center w={3} userSelect={'none'} color={'paragraph'} fontWeight={'bold'}>
         {num}
       </Center>
       <Flex direction={direction}>
@@ -49,6 +48,7 @@ export const RangeHeader: FC<HeaderType> = (props) => {
               h={size}
               bgColor={bgColor}
               border={'1px'}
+              boxSizing={'border-box'}
               borderColor={'gray.200'}
             />
           );

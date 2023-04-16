@@ -9,10 +9,10 @@ export type LayoutProps = {
 };
 
 export const Layout: FC<LayoutProps> = (props) => {
-  const { children,isEditPage } = props;
+  const { children, isEditPage } = props;
   return (
     <Flex direction="column" height="100vh" overflow={'hidden'}>
-      <Box position="sticky" top="0" zIndex="1000" bg="white">
+      <Box position="sticky" top="0" zIndex="1000" bg="bg">
         <Header isEditPage={isEditPage} />
       </Box>
       {children}

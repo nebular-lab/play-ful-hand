@@ -15,7 +15,7 @@ export type HandRangeProps = {
   selectedActionIDRef: MutableRefObject<number>;
 };
 export const HandRange: FC<HandRangeProps> = memo((props) => {
-  const { position, editModeRef,selectedActionIDRef } = props;
+  const { position, editModeRef, selectedActionIDRef } = props;
   const isMouseDownRef = useRef<boolean>(false);
   const { updateEditingHandRange, updateEditingHandRangeSquare, editingHandRange } = useHandRange();
   const editingHandRangePosition = useRecoilValue(editingHandRangePositionState);
@@ -34,9 +34,16 @@ export const HandRange: FC<HandRangeProps> = memo((props) => {
       onMouseDown={onMouseDown}
       onMouseUp={onMouseUp}
       pointerEvents={editingHandRangePosition == position ? 'auto' : 'none'}
+      border={'1px'}
+      borderColor={'stroke'}
     >
       <Flex gap={0}>
-        <Box  h={squareSize * 4} w={squareSize * 4}></Box>
+        <Box
+          h={`${squareSize * 4 * 4 + 2}px`}
+          w={`${squareSize * 4 * 4 + 2}px`}
+          border={'1px'}
+          borderColor={'stroke'}
+        ></Box>
         {cardNums.map((num) => {
           return <RangeHeader key={num} num={num} direction={'row'} size={squareSize} />;
         })}

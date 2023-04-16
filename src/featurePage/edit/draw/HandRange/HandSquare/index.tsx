@@ -55,13 +55,14 @@ export const HandSquare: FC<HandSquareProps> = memo((props) => {
         selectedActionIDRef.current,
       );
   };
-  const borderColor = colIndex13 == rowIndex13 ? 'blue.300' : 'gray.300';
+  const border = colIndex13 == rowIndex13 ? '1px':'1px';
   return (
     <Flex
       direction={'column'}
-      border={'2px'}
-      borderColor={borderColor}
+      border={border}
+      borderColor={'stroke'}
       // w={'fit-content'}
+      boxSizing={'border-box'}
       onMouseOver={onMouseOver}
       onMouseDown={onMouseDown}
     >

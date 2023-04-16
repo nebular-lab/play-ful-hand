@@ -53,6 +53,8 @@ export const HandOne: FC<HandOneProps> = memo((props) => {
         bg={actionColor.color}
         border={'1px'}
         borderColor={'gray.200'}
+        shadow={'xl'}
+        boxSizing={'border-box'}
         onMouseOver={onMouseOver}
         onMouseDown={onMouseDown}
       ></Box>

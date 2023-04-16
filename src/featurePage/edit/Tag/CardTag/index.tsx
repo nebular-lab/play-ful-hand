@@ -13,14 +13,15 @@ export const CardTag: FC<CardTagProps> = (props) => {
   const { cards } = props;
   return (
     <Flex
-      border={'1px'}
-      borderColor={'gray.300'}
+      border={'2px'}
+      borderColor={'stroke'}
       rounded={'xl'}
       p={'2'}
       h={8}
       w={20}
       justifyContent={'center'}
       alignItems={'center'}
+      gap={1}
     >
       {cards.map((card) => (
         <Card key={card.num + card.mark} num={card.num} mark={card.mark} size={'sm'} />

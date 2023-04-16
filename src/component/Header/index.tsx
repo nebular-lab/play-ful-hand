@@ -34,15 +34,15 @@ export const Header: FC<HeaderProps> = (props) => {
     });
   };
   return (
-    <Flex h={14} px={7} alignItems={'center'} justifyContent={'center'} top={0} bg={'blue.50'}>
-      <Text fontWeight={'bold'} fontSize={'2xl'}>
+    <Flex h={14} px={7} alignItems={'center'} justifyContent={'center'} top={0} bg={'main'}>
+      <Text fontWeight={'bold'} fontSize={'2xl'} color={'headline'}>
         PLAYFUL HAND
       </Text>
       <Spacer />
 
       <Flex gap={3} alignItems={'center'} justifyContent={'center'}>
         {isEditPage ? (
-          <Button colorScheme="orange" onClick={handleSaveHandNode}>
+          <Button bg={'button'} color={'buttonText'} _hover={{bg:'buttonHover'}} onClick={handleSaveHandNode}>
             保存
           </Button>
         ) : (

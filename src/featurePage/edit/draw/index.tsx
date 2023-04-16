@@ -35,7 +35,7 @@ export const Draw: FC = (props) => {
         />
       </VStack>{' '}
       <Flex direction={'column'} gap={'3'} w={'full'} pt={10}>
-        <Button onClick={registerHandRange}>レンジ登録</Button>
+        <Button onClick={registerHandRange} bg={'button'} color={'buttonText'}>レンジ登録</Button>
         <ActionIDRadio setSelectActionID={setSelectedActionIDRef} />
         <EditModeRadio setEditMode={setEditMode} />
       </Flex>

@@ -19,7 +19,8 @@ export const StreetTag: FC<StreetTagProps> = (props) => {
       h={8}
       border={'2px'}
       bg={'gray.200'}
-      borderColor={isSelected ? 'violet' : 'gray.300'}
+      borderColor={isSelected ? 'violet' : 'stroke'}
+      _hover={{ bg: 'main' }}
       rounded={'full'}
       p={'2'}
       onClick={onClick}
