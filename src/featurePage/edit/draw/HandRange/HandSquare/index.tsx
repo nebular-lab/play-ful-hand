@@ -63,6 +63,7 @@ export const HandSquare: FC<HandSquareProps> = memo((props) => {
       borderColor={'stroke'}
       // w={'fit-content'}
       boxSizing={'border-box'}
+      bg={'white'}
       onMouseOver={onMouseOver}
       onMouseDown={onMouseDown}
     >

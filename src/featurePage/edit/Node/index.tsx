@@ -12,6 +12,6 @@ export type HandTreeProps = {
 export const Tree: FC<HandTreeProps> = (props) => {
   const { handNode, path } = props;
   return (
-    <Flex>{handNode.child && <PositionNode {...handNode.child} path={[...path, 'child']} />}</Flex>
+    <Flex >{handNode.child && <PositionNode {...handNode.child} path={[...path, 'child']} />}</Flex>
   );
 };

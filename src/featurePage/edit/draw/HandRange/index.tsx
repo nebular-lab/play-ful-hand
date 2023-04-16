@@ -42,6 +42,7 @@ export const HandRange: FC<HandRangeProps> = memo((props) => {
           h={`${squareSize * 4 * 4 + 2}px`}
           w={`${squareSize * 4 * 4 + 2}px`}
           border={'1px'}
+          bg={'white'}
           borderColor={'stroke'}
         ></Box>
         {cardNums.map((num) => {

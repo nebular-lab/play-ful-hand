@@ -30,12 +30,12 @@ export const ActionTag: FC<ActionTagProps> = (props) => {
       h={8}
       w={20}
       rounded={'xl'}
-      border={'1px'}
+      border={'4px'}
       p={'2'}
       justifyContent={'center'}
       alignItems={'center'}
       borderColor={moveColor}
-      bg={'white'}
+ 
     >
       {move} {size == 0 ? '' : size}
     </Flex>
