@@ -13,7 +13,8 @@
     "fc": "npx hygen fc new",
     "firebase": "firebase emulators:start --import=data/v0 --export-on-exit",
     "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
+    "build-storybook": "build-storybook",
+    "test": "jest"
   },
   "dependencies": {
     "@chakra-ui/react": "^2.5.1",
@@ -55,6 +56,8 @@
     "@storybook/manager-webpack5": "^6.5.16",
     "@storybook/react": "^6.5.16",
     "@storybook/testing-library": "^0.0.13",
+    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/react": "^14.0.0",
     "autoprefixer": "^10.4.13",
     "babel-loader": "^8.3.0",
     "eslint-config-prettier": "^8.5.0",
@@ -63,10 +66,13 @@
     "eslint-plugin-unused-imports": "^2.0.0",
     "firebase-tools": "^11.24.0",
     "hygen": "^6.2.11",
+    "jest": "^29.5.0",
+    "jest-environment-jsdom": "^29.5.0",
     "postcss": "^8.4.21",
     "prettier": "^2.8.4",
     "prettier-plugin-tailwindcss": "^0.2.3",
     "storybook-addon-next": "^1.7.3",
-    "tailwindcss": "^3.2.7"
+    "tailwindcss": "^3.2.7",
+    "ts-jest": "^29.1.0"
   }
 }

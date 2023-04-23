@@ -84,13 +84,44 @@ export type HandRangeObjectType = z.infer<typeof HandRangeObjectSchema>;
 
 export const PairHandRangeSchema = z.object({ OOP: HandRangeSchema, IP: HandRangeSchema });
 export type PairHandRangeType = z.infer<typeof PairHandRangeSchema>;
+export const HandKindSchema = z.object({
+  straightFlush: z.array(CardTypeSchema),
+  fourCard: z.array(CardTypeSchema),
+  fullHouse: z.array(CardTypeSchema),
+  flush: z.array(CardTypeSchema),
+  straight: z.array(CardTypeSchema),
+  threeCard: z.array(CardTypeSchema),
+  twoPair: z.array(CardTypeSchema),
+  overPocket: z.array(CardTypeSchema),
+  topHit: z.array(CardTypeSchema),
+  secondPocket: z.array(CardTypeSchema),
+  middleHit: z.array(CardTypeSchema),
+  lowPocket: z.array(CardTypeSchema),
+  lowPair: z.array(CardTypeSchema),
+  AHigh: z.array(CardTypeSchema),
+  KHigh: z.array(CardTypeSchema),
+  twoOver: z.array(CardTypeSchema),
+  onOver: z.array(CardTypeSchema),
+  nothing: z.array(CardTypeSchema),
+});
+export type HandKindType = z.infer<typeof HandKindSchema>;
+
+export const DrawKindSchema = z.object({
+  ComboDraw: z.array(CardTypeSchema),
+  OESD: z.array(CardTypeSchema),
+  GSSD: z.array(CardTypeSchema),
+  BDSD: z.array(CardTypeSchema),
+  TwoCardFlushDraw: z.array(CardTypeSchema),
+  OneCardFlushDraw: z.array(CardTypeSchema),
+  NoDraw: z.array(CardTypeSchema),
+});
+export type DrawKindType = z.infer<typeof DrawKindSchema>;
 
 export interface StreetNodeType {
   id: string;
   type: 'StreetNode';
   street: 'FLOP' | 'TURN' | 'RIVER';
-  pot: number;
-  stack: number;
+  board: CardType[];
   handRange: PairHandRangeType;
   child?: CardNodeType[];
 }
@@ -107,6 +138,8 @@ export interface PositionNodeType {
   position: PositionType;
   handRange: PairHandRangeType;
   actionIDs: number[];
+  handKind: HandKindType;
+  drawKind: DrawKindType;
   child?: ActionNodeType[];
 }
 
@@ -138,6 +171,7 @@ export const StreetNodeSchema: z.ZodSchema<Omit<StreetNodeType, 'id' | 'child'>>
   type: z.literal('StreetNode'),
   street: StreetTypeSchema,
   handRange: PairHandRangeSchema,
+  board: z.array(CardTypeSchema),
   pot: z.number(),
   stack: z.number(),
 });
@@ -150,6 +184,8 @@ export const PositionNodeSchema: z.ZodSchema<Omit<PositionNodeType, 'id' | 'chil
   type: z.literal('PositionNode'),
   position: PositionTypeSchema,
   actionIDs: z.array(z.number()),
+  handKind: HandKindSchema,
+  drawKind: DrawKindSchema,
   handRange: PairHandRangeSchema,
 });
 
