@@ -1,5 +1,6 @@
 import { HandNodeType } from '../types/schema';
 import { defaultHandRange } from './defaultHandRange';
+import { defaultDrawKind, defaultHandKind } from './handKind';
 
 export const defaultHandNode: HandNodeType = {
   id: '111',
@@ -13,6 +14,9 @@ export const defaultHandNode: HandNodeType = {
     type: 'PositionNode',
     position: 'OOP',
     actionIDs:[2],
+    handKind: defaultHandKind,
+    drawKind: defaultDrawKind,
+    board: [],
     handRange: { OOP: defaultHandRange, IP: defaultHandRange },
   },
 };

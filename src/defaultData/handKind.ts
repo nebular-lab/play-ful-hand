@@ -1,0 +1,25 @@
+export const defaultHandKind = {
+  straightFlush: [],
+  fourCard: [],
+  fullHouse: [],
+  flush: [],
+  straight: [],
+  threeCard: [],
+  twoPair: [],
+  overPocket: [],
+  topHit: [],
+  secondPocket: [],
+  secondHit: [],
+  lowPair: [],
+  AHigh: [],
+  KHigh: [],
+  nothing: [],
+};
+export const defaultDrawKind = {
+  comboDraw: [],
+  OESD: [],
+  GSSD: [],
+  BDSD: [],
+  flushDraw: [],
+  noDraw: [],
+};

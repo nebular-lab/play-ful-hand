@@ -5,6 +5,7 @@ import { useRecoilState, useSetRecoilState } from 'recoil';
 
 import { PositionTag } from '@/featurePage/edit/Tag/PositionTag';
 import { editingActionsIDState } from '@/store/editingActionsIDState';
+import { editingBoardState } from '@/store/editingBoard';
 import { editingHandRangePositionState } from '@/store/editingHandRangePosition';
 import { editingHandRangeState } from '@/store/editingHandRangeState';
 import { editingNodePathState } from '@/store/editingNodePathState';
@@ -19,8 +20,7 @@ export const PositionNode: FC<PositionNodeType & { path: Array<number | string> 
   const [editingNodePath, setEditingNodePath] = useRecoilState(editingNodePathState);
   const setEditingHandRangePosition = useSetRecoilState(editingHandRangePositionState);
   const setEditingActionIDs = useSetRecoilState(editingActionsIDState);
-  console.log(positionNode.actionIDs);
-
+  const setEditingBoard = useSetRecoilState(editingBoardState);
   return (
     <>
       <PositionTag
@@ -31,6 +31,7 @@ export const PositionNode: FC<PositionNodeType & { path: Array<number | string> 
           setEditingNodePath(positionNode.path);
           setEditingHandRangePosition(positionNode.position);
           setEditingActionIDs(positionNode.actionIDs);
+          setEditingBoard(positionNode.board);
         }}
       />
 

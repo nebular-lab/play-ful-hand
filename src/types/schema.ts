@@ -31,6 +31,20 @@ export const CardTypeSchema = z.object({
 });
 export type CardType = z.infer<typeof CardTypeSchema>;
 
+export const NumCardTypeSchema = z.object({
+  num: z.number(),
+  mark: z.number(),
+});
+export type NumCardType = z.infer<typeof NumCardTypeSchema>;
+
+export const CardIndexSchema = z.object({
+  col13: z.number(),
+  col4: z.number(),
+  row13: z.number(),
+  row4: z.number(),
+});
+export type CardIndex = z.infer<typeof CardIndexSchema>;
+
 export const PositionTypeSchema = z.union([z.literal('OOP'), z.literal('IP')]);
 export type PositionType = z.infer<typeof PositionTypeSchema>;
 
@@ -85,35 +99,31 @@ export type HandRangeObjectType = z.infer<typeof HandRangeObjectSchema>;
 export const PairHandRangeSchema = z.object({ OOP: HandRangeSchema, IP: HandRangeSchema });
 export type PairHandRangeType = z.infer<typeof PairHandRangeSchema>;
 export const HandKindSchema = z.object({
-  straightFlush: z.array(CardTypeSchema),
-  fourCard: z.array(CardTypeSchema),
-  fullHouse: z.array(CardTypeSchema),
-  flush: z.array(CardTypeSchema),
-  straight: z.array(CardTypeSchema),
-  threeCard: z.array(CardTypeSchema),
-  twoPair: z.array(CardTypeSchema),
-  overPocket: z.array(CardTypeSchema),
-  topHit: z.array(CardTypeSchema),
-  secondPocket: z.array(CardTypeSchema),
-  middleHit: z.array(CardTypeSchema),
-  lowPocket: z.array(CardTypeSchema),
-  lowPair: z.array(CardTypeSchema),
-  AHigh: z.array(CardTypeSchema),
-  KHigh: z.array(CardTypeSchema),
-  twoOver: z.array(CardTypeSchema),
-  onOver: z.array(CardTypeSchema),
-  nothing: z.array(CardTypeSchema),
+  straightFlush: z.array(CardIndexSchema),
+  fourCard: z.array(CardIndexSchema),
+  fullHouse: z.array(CardIndexSchema),
+  flush: z.array(CardIndexSchema),
+  straight: z.array(CardIndexSchema),
+  threeCard: z.array(CardIndexSchema),
+  twoPair: z.array(CardIndexSchema),
+  overPocket: z.array(CardIndexSchema),
+  topHit: z.array(CardIndexSchema),
+  secondPocket: z.array(CardIndexSchema),
+  secondHit: z.array(CardIndexSchema),
+  lowPair: z.array(CardIndexSchema),
+  AHigh: z.array(CardIndexSchema),
+  KHigh: z.array(CardIndexSchema),
+  nothing: z.array(CardIndexSchema),
 });
 export type HandKindType = z.infer<typeof HandKindSchema>;
 
 export const DrawKindSchema = z.object({
-  ComboDraw: z.array(CardTypeSchema),
-  OESD: z.array(CardTypeSchema),
-  GSSD: z.array(CardTypeSchema),
-  BDSD: z.array(CardTypeSchema),
-  TwoCardFlushDraw: z.array(CardTypeSchema),
-  OneCardFlushDraw: z.array(CardTypeSchema),
-  NoDraw: z.array(CardTypeSchema),
+  comboDraw: z.array(CardIndexSchema),
+  OESD: z.array(CardIndexSchema),
+  GSSD: z.array(CardIndexSchema),
+  BDSD: z.array(CardIndexSchema),
+  flushDraw: z.array(CardIndexSchema),
+  noDraw: z.array(CardIndexSchema),
 });
 export type DrawKindType = z.infer<typeof DrawKindSchema>;
 
@@ -140,6 +150,7 @@ export interface PositionNodeType {
   actionIDs: number[];
   handKind: HandKindType;
   drawKind: DrawKindType;
+  board: CardType[];
   child?: ActionNodeType[];
 }
 
@@ -186,6 +197,7 @@ export const PositionNodeSchema: z.ZodSchema<Omit<PositionNodeType, 'id' | 'chil
   actionIDs: z.array(z.number()),
   handKind: HandKindSchema,
   drawKind: DrawKindSchema,
+  board: z.array(CardTypeSchema),
   handRange: PairHandRangeSchema,
 });
 

@@ -4,15 +4,18 @@
 import produce from 'immer';
 import _ from 'lodash';
 import { useCallback } from 'react';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 
+import { defaultDrawKind, defaultHandKind } from '@/defaultData/handKind';
+import { deletedHandRange } from '@/lib/deletedHandRange';
 import { createHandNode } from '@/lib/firebase/firestore/createHandNode';
+import { editingBoardState } from '@/store/editingBoard';
 import { editingHandNodeState } from '@/store/editingHandNodeState';
 import { editingHandRangePositionState } from '@/store/editingHandRangePosition';
 import { editingHandRangeState } from '@/store/editingHandRangeState';
 import { editingNodePathState } from '@/store/editingNodePathState';
 import { editingRegisteredActionsState } from '@/store/editingRegisteredActionsState';
-import { ActionNodeType, CardNodeType, CardType } from '@/types/schema';
+import { ActionNodeType, CardNodeType, CardType, HandRangeSchema } from '@/types/schema';
 
 import { useAuth } from './useAuth';
 
@@ -27,24 +30,35 @@ export const useHandNode = () => {
   const [editingHandRangePosition, setEditingHandPosition] = useRecoilState(
     editingHandRangePositionState,
   );
+  const editingBoard = useRecoilValue(editingBoardState);
   const { user } = useAuth();
+
   const addStreetCard = useCallback(
-    (cards: CardType[]) => {
+    (addCards: CardType[]) => {
       const nextState = produce(editingHandNode, (draft) => {
         let tempNode: any = draft;
         editingNodePath.forEach((key) => {
           tempNode = tempNode[key];
         });
         // この時点でtempNodeはstreetNode
+        const OOPHandRange = HandRangeSchema.parse(tempNode.handRange.OOP);
+        const IPHandRange = HandRangeSchema.parse(tempNode.handRange.IP);
+        // const { handKinds, drawKinds } = handDrawKind(OOPHandRange, editingBoard);
         const cardNode: CardNodeType = {
           id: String(Date.now()),
-          cards: cards,
+          cards: addCards,
           child: {
             id: String(Date.now()),
             position: 'OOP',
             type: 'PositionNode',
             actionIDs: [3, 4, 5, 6, 9],
-            handRange: { OOP: tempNode.handRange.OOP, IP: tempNode.handRange.IP },
+            drawKind: defaultDrawKind,
+            handKind: defaultHandKind,
+            board: [...editingBoard, ...addCards],
+            handRange: {
+              OOP: deletedHandRange(OOPHandRange, [...addCards, ...editingBoard]),
+              IP: deletedHandRange(IPHandRange, [...addCards, ...editingBoard]),
+            },
           },
         };
         if (!tempNode['child']) tempNode['child'] = [];
@@ -52,8 +66,9 @@ export const useHandNode = () => {
       });
       setEditingHandNode(nextState);
     },
-    [editingHandNode, editingNodePath],
+    [editingHandNode, editingNodePath, editingBoard],
   );
+
   const registerHandRange = useCallback(() => {
     const nextState = produce(editingHandNode, (draft) => {
       let tempNode: any = draft;
@@ -89,6 +104,7 @@ export const useHandNode = () => {
             });
           });
         });
+        const deletedNextHandRange = deletedHandRange(nextHandRange, editingBoard);
         editingRegisteredActions.forEach((registeredAction) => {
           if (
             registeredAction.id == actionID &&
@@ -108,7 +124,10 @@ export const useHandNode = () => {
                 type: 'PositionNode',
                 position: 'IP',
                 actionIDs: [2],
-                handRange: { OOP: nextHandRange, IP: editingHandRange.IP },
+                handKind: defaultHandKind,
+                drawKind: defaultDrawKind,
+                board: editingBoard,
+                handRange: { OOP: deletedNextHandRange, IP: editingHandRange.IP },
               };
               setEditingHandPosition('IP');
             } else if (tempNodeMove == 'PREFLOP' && tempNodePosition == 'IP') {
@@ -116,9 +135,8 @@ export const useHandNode = () => {
                 id: '123',
                 type: 'StreetNode',
                 street: 'FLOP',
-                stack: 100,
-                pot: 100,
-                handRange: { OOP: editingHandRange.OOP, IP: nextHandRange },
+                board: [],
+                handRange: { OOP: editingHandRange.OOP, IP: deletedNextHandRange },
               };
               setEditingHandPosition('OOP');
             } else if (tempNodeMove == 'FOLD') {
@@ -129,9 +147,8 @@ export const useHandNode = () => {
                 id: '1',
                 type: 'StreetNode',
                 street: 'FLOP',
-                handRange: { OOP: nextHandRange, IP: editingHandRange.IP },
-                stack: 100,
-                pot: 100,
+                board: editingBoard,
+                handRange: { OOP: deletedNextHandRange, IP: editingHandRange.IP },
               };
               setEditingHandPosition('OOP');
             } else if (tempNodePosition == 'OOP') {
@@ -152,10 +169,13 @@ export const useHandNode = () => {
                 type: 'PositionNode',
                 position: 'IP',
                 actionIDs: actionIDs,
-                handRange: { OOP: nextHandRange, IP: editingHandRange.IP },
+                handKind: defaultHandKind,
+                drawKind: defaultDrawKind,
+                board: editingBoard,
+                handRange: { OOP: deletedNextHandRange, IP: editingHandRange.IP },
               };
               setEditingHandPosition('IP');
-              setEditingHandRange({ OOP: nextHandRange, IP: editingHandRange.IP });
+              setEditingHandRange({ OOP: deletedNextHandRange, IP: editingHandRange.IP });
             } else if (
               tempNodePosition == 'IP' &&
               (tempNodeMove == 'CALL' || tempNodeMove == 'CHECK')
@@ -164,9 +184,8 @@ export const useHandNode = () => {
                 id: '1',
                 type: 'StreetNode',
                 street: 'FLOP',
-                handRange: { OOP: editingHandRange.OOP, IP: nextHandRange },
-                stack: 100,
-                pot: 100,
+                board: editingBoard,
+                handRange: { OOP: editingHandRange.OOP, IP: deletedNextHandRange },
               };
               setEditingHandPosition('OOP');
             } else if (
@@ -187,7 +206,10 @@ export const useHandNode = () => {
                 type: 'PositionNode',
                 position: 'OOP',
                 actionIDs: actionIDs,
-                handRange: { OOP: editingHandRange.OOP, IP: nextHandRange },
+                handKind: defaultHandKind,
+                drawKind: defaultDrawKind,
+                board: editingBoard,
+                handRange: { OOP: editingHandRange.OOP, IP: deletedNextHandRange },
               };
               setEditingHandPosition('OOP');
               setEditingHandRange({ OOP: editingHandRange.OOP, IP: nextHandRange });
@@ -197,9 +219,8 @@ export const useHandNode = () => {
                 id: '1',
                 type: 'StreetNode',
                 street: 'FLOP',
-                handRange: { OOP: editingHandRange.OOP, IP: nextHandRange },
-                stack: 100,
-                pot: 100,
+                board: editingBoard,
+                handRange: { OOP: editingHandRange.OOP, IP: deletedNextHandRange },
               };
               setEditingHandPosition('OOP');
             }
@@ -221,7 +242,6 @@ export const useHandNode = () => {
 
   const saveHandNode = useCallback(async () => {
     if (!user) throw Error;
-    console.log(user);
     const userName = user.displayName;
     const iconURL = user.photoURL;
     const nextState = produce(editingHandNode, (draft) => {

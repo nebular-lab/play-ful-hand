@@ -1,15 +1,12 @@
-type Card = {
-  num: number;
-  mark: number;
-};
+import { NumCardType } from '@/types/schema';
 
 // カードの配列を昇順に並べ替える関数
-function sortCards(cards: Card[]): Card[] {
+function sortCards(cards: NumCardType[]): NumCardType[] {
   return cards.sort((a, b) => a.num - b.num);
 }
 
 // 同じ数字のカードの数を数える関数
-function countSameNumberCards(cards: Card[]): { num: number; count: number }[] {
+function countSameNumberCards(cards: NumCardType[]): { num: number; count: number }[] {
   const counts: { [key: number]: number } = {};
 
   cards.forEach((card) => {
@@ -29,7 +26,7 @@ type HandResult = {
 };
 
 // ストレートとフラッシュを同時に判定する関数
-function getStraightAndFlush(cards: Card[]): HandResult {
+function getStraightAndFlush(cards: NumCardType[]): HandResult {
   const sortedCards = sortCards(cards);
   const markCounts: { [key: number]: number } = {};
   const numCounts: { [key: number]: number } = {};
@@ -90,7 +87,7 @@ function getStraightAndFlush(cards: Card[]): HandResult {
   };
 }
 // 役を判定する関数
-export const judgeHand = (boardCards: Card[], handCards: Card[]) => {
+export const judgeHand = (boardCards: NumCardType[], handCards: NumCardType[]) => {
   const cards = sortCards([...boardCards, ...handCards]);
   const sortedBoardCards = sortCards(boardCards);
   const sortedHandCards = sortCards(handCards);
@@ -145,22 +142,8 @@ export const judgeHand = (boardCards: Card[], handCards: Card[]) => {
     return 'secondHit';
   }
 
-  // ローポケットペア
-  if (
-    handCards[0].num === handCards[1].num &&
-    handCards[0].num > sortedBoardCards[1].num &&
-    handCards[0].num < sortedBoardCards[2].num &&
-    !pairBoard
-  ) {
-    return 'lowPocket';
-  }
-
-  // サードペア
-  const pairs = handCards.filter((handCard) =>
-    boardCards.some((boardCard) => handCard.num === boardCard.num),
-  );
-  if (pairs.length === 1 && !pairBoard) {
-    return 'thirdPair';
+  if (onePair && !pairBoard) {
+    return 'lowPair';
   }
 
   // ペアがない場合

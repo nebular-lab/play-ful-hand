@@ -5,14 +5,12 @@ import { StreetType } from '@/types/schema';
 
 export type StreetTagProps = {
   street: StreetType;
-  pot: number;
-  stack: number;
   onClick?: () => void;
   isSelected: boolean;
 };
 
 export const StreetTag: FC<StreetTagProps> = (props) => {
-  const { street, pot, stack, onClick, isSelected } = props;
+  const { street, onClick, isSelected } = props;
   return (
     <VStack
       w={8}
@@ -26,9 +24,6 @@ export const StreetTag: FC<StreetTagProps> = (props) => {
       onClick={onClick}
       cursor={'pointer'}
     >
-      {/* <Box>{street}</Box> */}
-      {/* <Box>POT {pot}</Box>
-      <Box>STACK {stack}</Box> */}
     </VStack>
   );
 };

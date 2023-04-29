@@ -16,11 +16,10 @@ export const ActionNode: FC<ActionNodeType & { path: Array<number | string> }> =
       {childType == 'StreetNode' && (
         <StreetNode
           id={actionNode.child?.id ?? ''}
-          pot={actionNode.child?.pot ?? 0}
           street={actionNode.child?.street ?? 'FLOP'}
-          stack={actionNode.child?.stack ?? 0}
           type={actionNode.child?.type ?? 'StreetNode'}
           path={[...actionNode.path, 'child']}
+          board={actionNode.child?.board ?? []}
           handRange={actionNode.child?.handRange ?? { OOP: defaultHandRange, IP: defaultHandRange }}
           child={actionNode.child?.child}
         />
@@ -31,7 +30,10 @@ export const ActionNode: FC<ActionNodeType & { path: Array<number | string> }> =
           type={actionNode.child.type}
           path={[...actionNode.path, 'child']}
           position={actionNode.child.position}
+          handKind={actionNode.child.handKind}
+          drawKind={actionNode.child.drawKind}
           handRange={actionNode.child.handRange}
+          board={actionNode.child.board}
           actionIDs={actionNode.child.actionIDs}
           child={actionNode.child.child}
         />
