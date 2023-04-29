@@ -78,9 +78,7 @@ const ActionIDRadioCard: FC<ActionIDRadioCardProps> = (props) => {
           color: 'white',
           borderColor: color,
         }}
-        _focus={{
-          boxShadow: 'outline',
-        }}
+
         p={1}
       >
         <Text fontSize={'sm'}>

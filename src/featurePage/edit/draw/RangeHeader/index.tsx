@@ -20,7 +20,7 @@ export const RangeHeader: FC<HeaderType> = (props) => {
       h={h}
       direction={direction == 'row' ? 'column' : 'row'}
       border={'1px'}
-      bg={'white'}
+      bg={'rangeBg'}
       borderColor={'stroke'}
       boxSizing={'border-box'}
       alignItems={'center'}
@@ -50,7 +50,7 @@ export const RangeHeader: FC<HeaderType> = (props) => {
               bgColor={bgColor}
               border={'1px'}
               boxSizing={'border-box'}
-              borderColor={'gray.200'}
+              borderColor={'white'}
             />
           );
         })}

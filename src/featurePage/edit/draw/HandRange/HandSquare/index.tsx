@@ -55,15 +55,15 @@ export const HandSquare: FC<HandSquareProps> = memo((props) => {
         selectedActionIDRef.current,
       );
   };
-  const border = colIndex13 == rowIndex13 ? '1px':'1px';
+  const bg = colIndex13 == rowIndex13 ? 'rangeBg':'rangeBg';
   return (
     <Flex
       direction={'column'}
-      border={border}
+      border={'1px'}
       borderColor={'stroke'}
       // w={'fit-content'}
       boxSizing={'border-box'}
-      bg={'white'}
+      bg={bg}
       onMouseOver={onMouseOver}
       onMouseDown={onMouseDown}
     >

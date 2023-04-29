@@ -15,7 +15,7 @@ export const CardTag: FC<CardTagProps> = (props) => {
     <Flex
       border={'2px'}
       borderColor={'stroke'}
-      rounded={'xl'}
+      rounded={'md'}
       p={'2'}
       h={8}
       w={20}

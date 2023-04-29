@@ -24,7 +24,6 @@ export const StreetNode: FC<StreetNodeType & { path: Array<number | string> }> =
     <Flex gap={1}>
       <StreetTag
         street={streetNode.street}
-        
         onClick={onClick}
         isSelected={_.isEqual(editingNodePath, streetNode.path)}
       />
