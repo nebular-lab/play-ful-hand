@@ -5,6 +5,7 @@ import produce from 'immer';
 import _ from 'lodash';
 import { useCallback } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
+import { UUID } from 'uuidjs';
 
 import { defaultDrawKind, defaultHandKind } from '@/defaultData/handKind';
 import { deletedHandRange } from '@/lib/deletedHandRange';
@@ -15,7 +16,7 @@ import { editingHandRangePositionState } from '@/store/editingHandRangePosition'
 import { editingHandRangeState } from '@/store/editingHandRangeState';
 import { editingNodePathState } from '@/store/editingNodePathState';
 import { editingRegisteredActionsState } from '@/store/editingRegisteredActionsState';
-import { ActionNodeType, CardNodeType, CardType, HandRangeSchema } from '@/types/schema';
+import { ActionNodeType, CardNodeType, CardType, HandRangeSchema, StreetNodeType } from '@/types/schema';
 
 import { useAuth } from './useAuth';
 
@@ -41,8 +42,9 @@ export const useHandNode = () => {
           tempNode = tempNode[key];
         });
         // この時点でtempNodeはstreetNode
-        const OOPHandRange = HandRangeSchema.parse(tempNode.handRange.OOP);
-        const IPHandRange = HandRangeSchema.parse(tempNode.handRange.IP);
+        const streetNode:StreetNodeType= tempNode;
+        const OOPHandRange = HandRangeSchema.parse(streetNode.handRange.OOP);
+        const IPHandRange = HandRangeSchema.parse(streetNode.handRange.IP);
         // const { handKinds, drawKinds } = handDrawKind(OOPHandRange, editingBoard);
         const cardNode: CardNodeType = {
           id: String(Date.now()),
@@ -61,8 +63,8 @@ export const useHandNode = () => {
             },
           },
         };
-        if (!tempNode['child']) tempNode['child'] = [];
-        tempNode.child.push(cardNode);
+        if (!streetNode['child']) streetNode['child'] = [];
+        streetNode.child.push(cardNode);
       });
       setEditingHandNode(nextState);
     },
@@ -75,6 +77,7 @@ export const useHandNode = () => {
       editingNodePath.forEach((key) => {
         tempNode = tempNode[key];
       });
+      
       tempNode.handRange = editingHandRange;
       const actionIDs = new Set<number>();
       editingHandRange[editingHandRangePosition].forEach((row13) => {
@@ -90,6 +93,8 @@ export const useHandNode = () => {
       actionIDs.forEach((actionID) => {
         // no-defineとno-setを除外
         if (actionID == 0 || actionID == 1) return;
+
+        //次のハンドレンジを作成
         const nextHandRange = _.cloneDeep(editingHandRange[editingHandRangePosition]);
         editingHandRange[editingHandRangePosition].forEach((row13, rowIndex13) => {
           row13.forEach((col13, colIndex13) => {
@@ -105,6 +110,7 @@ export const useHandNode = () => {
           });
         });
         const deletedNextHandRange = deletedHandRange(nextHandRange, editingBoard);
+
         editingRegisteredActions.forEach((registeredAction) => {
           if (
             registeredAction.id == actionID &&
@@ -116,11 +122,11 @@ export const useHandNode = () => {
               move: registeredAction.action.move,
               size: registeredAction.action.size,
             };
-            const tempNodePosition = tempNode.position == 'OOP' ? 'OOP' : 'IP';
-            const tempNodeMove = registeredAction.action.move;
-            if (tempNodeMove == 'PREFLOP' && tempNodePosition == 'OOP') {
+            const position = tempNode.position == 'OOP' ? 'OOP' : 'IP';
+            const move = registeredAction.action.move;
+            if (move == 'PREFLOP' && position == 'OOP') {
               actionNode['child'] = {
-                id: '1',
+                id: UUID.generate(),
                 type: 'PositionNode',
                 position: 'IP',
                 actionIDs: [2],
@@ -130,42 +136,42 @@ export const useHandNode = () => {
                 handRange: { OOP: deletedNextHandRange, IP: editingHandRange.IP },
               };
               setEditingHandPosition('IP');
-            } else if (tempNodeMove == 'PREFLOP' && tempNodePosition == 'IP') {
+            } else if (move == 'PREFLOP' && position == 'IP') {
               actionNode['child'] = {
-                id: '123',
+                id: UUID.generate(),
                 type: 'StreetNode',
                 street: 'FLOP',
                 board: [],
                 handRange: { OOP: editingHandRange.OOP, IP: deletedNextHandRange },
               };
               setEditingHandPosition('OOP');
-            } else if (tempNodeMove == 'FOLD') {
+            } else if (move == 'FOLD') {
               //何もしない
               const _ = 1;
-            } else if (tempNodePosition == 'OOP' && tempNodeMove == 'CALL') {
+            } else if (position == 'OOP' && move == 'CALL') {
               actionNode['child'] = {
-                id: '1',
+                id: UUID.generate(),
                 type: 'StreetNode',
                 street: 'FLOP',
                 board: editingBoard,
                 handRange: { OOP: deletedNextHandRange, IP: editingHandRange.IP },
               };
               setEditingHandPosition('OOP');
-            } else if (tempNodePosition == 'OOP') {
+            } else if (position == 'OOP') {
               let actionIDs: number[];
-              if (tempNodeMove == 'CHECK') {
+              if (move == 'CHECK') {
                 actionIDs = [3, 4, 5, 6, 9];
-              } else if (tempNodeMove == 'BET') {
+              } else if (move == 'BET') {
                 actionIDs = [7, 8, 9, 10];
-              } else if (tempNodeMove == 'RAISE') {
+              } else if (move == 'RAISE') {
                 actionIDs = [7, 8, 9, 10];
-              } else if (tempNodeMove == 'ALLIN') {
+              } else if (move == 'ALLIN') {
                 actionIDs = [7, 8, 9];
               } else {
                 actionIDs = [];
               }
               actionNode['child'] = {
-                id: '1',
+                id: UUID.generate(),
                 type: 'PositionNode',
                 position: 'IP',
                 actionIDs: actionIDs,
@@ -176,33 +182,27 @@ export const useHandNode = () => {
               };
               setEditingHandPosition('IP');
               setEditingHandRange({ OOP: deletedNextHandRange, IP: editingHandRange.IP });
-            } else if (
-              tempNodePosition == 'IP' &&
-              (tempNodeMove == 'CALL' || tempNodeMove == 'CHECK')
-            ) {
+            } else if (position == 'IP' && (move == 'CALL' || move == 'CHECK')) {
               actionNode['child'] = {
-                id: '1',
+                id: UUID.generate(),
                 type: 'StreetNode',
                 street: 'FLOP',
                 board: editingBoard,
                 handRange: { OOP: editingHandRange.OOP, IP: deletedNextHandRange },
               };
               setEditingHandPosition('OOP');
-            } else if (
-              tempNodePosition == 'IP' &&
-              (tempNodeMove == 'ALLIN' || tempNodeMove == 'BET' || tempNodeMove == 'RAISE')
-            ) {
+            } else if (position == 'IP' && (move == 'ALLIN' || move == 'BET' || move == 'RAISE')) {
               let actionIDs: number[];
-              if (tempNodeMove == 'ALLIN') {
+              if (move == 'ALLIN') {
                 actionIDs = [7, 8, 9];
-              } else if (tempNodeMove == 'BET' || tempNodeMove == 'RAISE') {
+              } else if (move == 'BET' || move == 'RAISE') {
                 actionIDs = [7, 8, 9, 10];
               } else {
                 actionIDs = [];
               }
 
               actionNode['child'] = {
-                id: '1',
+                id: UUID.generate(),
                 type: 'PositionNode',
                 position: 'OOP',
                 actionIDs: actionIDs,
@@ -216,7 +216,7 @@ export const useHandNode = () => {
               // setEditingNodePath([...editingNodePath, 'child']);
             } else {
               actionNode['child'] = {
-                id: '1',
+                id: UUID.generate(),
                 type: 'StreetNode',
                 street: 'FLOP',
                 board: editingBoard,
@@ -238,6 +238,7 @@ export const useHandNode = () => {
     editingHandRangePosition,
     editingNodePath,
     editingRegisteredActions,
+    editingBoard,
   ]);
 
   const saveHandNode = useCallback(async () => {
