@@ -1,17 +1,23 @@
 import { Flex } from '@chakra-ui/react';
 import { FC } from 'react';
+import { useRecoilState } from 'recoil';
 
-import { HandNodeType } from '@/types/schema';
+import { editingHandNodeState } from '@/store/editingHandNodeState';
 
 import { PositionNode } from './PositionNode';
 
 export type HandTreeProps = {
-  handNode: HandNodeType;
   path: Array<number | string>;
 };
 export const Tree: FC<HandTreeProps> = (props) => {
-  const { handNode, path } = props;
+  const { path } = props;
+  const [editingHandNode] = useRecoilState(editingHandNodeState);
+
   return (
-    <Flex >{handNode.child && <PositionNode {...handNode.child} path={[...path, 'child']} />}</Flex>
+    <Flex>
+      {editingHandNode.child && (
+        <PositionNode {...editingHandNode.child} path={[...path, 'child']} />
+      )}
+    </Flex>
   );
 };

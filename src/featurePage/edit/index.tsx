@@ -14,7 +14,7 @@ export const HandTreePage: FC = () => {
   return (
     <Layout isEditPage={true}>
       <Box flex="1" overflowY="auto" px={5} py={5} bg="bg">
-        <Tree handNode={editingHandNode} path={path} />
+        <Tree path={path} />
       </Box>
       <Box position="sticky" bottom="0" zIndex="1000" bg="bg" px={2} pb={5}>
         <Draw />
