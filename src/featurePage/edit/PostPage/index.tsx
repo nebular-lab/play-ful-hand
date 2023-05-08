@@ -26,7 +26,7 @@ export const PostPage: FC<PostPageProps> = (props) => {
   return (
     <Layout>
       <Box flex="1" overflowY="auto" px={10}>
-        <Tree handNode={editingHandNode} path={path} />
+        <Tree path={path} />
       </Box>
       <Box position="sticky" bottom="0" zIndex="1000" bg="white" px={10} pb={5}>
         <Draw />
