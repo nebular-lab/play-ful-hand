@@ -29,8 +29,8 @@ export const ActionTag: FC<ActionTagProps> = (props) => {
     <Flex
       h={8}
       w={20}
-      rounded={'xl'}
-      border={'4px'}
+      rounded={'md'}
+      border={'2px'}
       p={'2'}
       justifyContent={'center'}
       alignItems={'center'}
