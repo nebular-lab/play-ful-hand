@@ -4,9 +4,9 @@ import { useRecoilState } from 'recoil';
 import useSWR from 'swr';
 
 import { Layout } from '@/component/layout/Layout';
-import { Draw } from '@/featurePage/edit/draw';
-import { Tree } from '@/featurePage/edit/Node';
 import { fetchHandNode } from '@/lib/firebase/firestore/fetchFromFirestore';
+import { Draw } from '@/page/edit/draw';
+import { Node } from '@/page/edit/Node';
 import { editingHandNodeState } from '@/store/editingHandNodeState';
 export type PostPageProps = {
   id: string;
@@ -26,7 +26,7 @@ export const PostPage: FC<PostPageProps> = (props) => {
   return (
     <Layout>
       <Box flex="1" overflowY="auto" px={10}>
-        <Tree path={path} />
+        <Node path={path} />
       </Box>
       <Box position="sticky" bottom="0" zIndex="1000" bg="white" px={10} pb={5}>
         <Draw />

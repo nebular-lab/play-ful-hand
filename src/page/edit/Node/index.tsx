@@ -6,10 +6,10 @@ import { editingHandNodeState } from '@/store/editingHandNodeState';
 
 import { PositionNode } from './PositionNode';
 
-export type HandTreeProps = {
+export type NodeProps = {
   path: Array<number | string>;
 };
-export const Tree: FC<HandTreeProps> = (props) => {
+export const Node: FC<NodeProps> = (props) => {
   const { path } = props;
   const [editingHandNode] = useRecoilState(editingHandNodeState);
 

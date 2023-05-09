@@ -1,7 +1,7 @@
 import { Flex, ListItem } from '@chakra-ui/react';
 import { FC } from 'react';
 
-import { CardTag } from '@/featurePage/edit/Tag/CardTag';
+import { CardTag } from '@/page/edit/Tag/CardTag';
 import { CardNodeType } from '@/types/schema';
 
 import { PositionNode } from '../PositionNode';

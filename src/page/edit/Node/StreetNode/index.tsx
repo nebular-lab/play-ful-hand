@@ -3,7 +3,7 @@ import _ from 'lodash';
 import { FC } from 'react';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 
-import { StreetTag } from '@/featurePage/edit/Tag/StreetTag';
+import { StreetTag } from '@/page/edit/Tag/StreetTag';
 import { editingHandRangeState } from '@/store/editingHandRangeState';
 import { editingNodePathState } from '@/store/editingNodePathState';
 import { StreetNodeType } from '@/types/schema';

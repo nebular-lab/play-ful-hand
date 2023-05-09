@@ -2,8 +2,8 @@ import { getAuth } from 'firebase-admin/auth';
 import { GetServerSideProps } from 'next';
 import nookies from 'nookies';
 
-import { DashboardPage } from '@/featurePage/Dashboard';
 import { adminApp } from '@/lib/firebase/init/server';
+import { DashboardPage } from '@/page/Dashboard';
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   try {

@@ -3,7 +3,7 @@ import _ from 'lodash';
 import { FC } from 'react';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 
-import { PositionTag } from '@/featurePage/edit/Tag/PositionTag';
+import { PositionTag } from '@/page/edit/Tag/PositionTag';
 import { editingActionsIDState } from '@/store/editingActionsIDState';
 import { editingBoardState } from '@/store/editingBoard';
 import { editingHandRangePositionState } from '@/store/editingHandRangePosition';
