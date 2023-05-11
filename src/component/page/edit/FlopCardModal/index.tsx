@@ -43,12 +43,12 @@ const CardForm: FC<CardFormProps> = (props) => {
       setSelectedCards(nextState);
     }
   };
-  const onSubmit = () => {
+  const onSubmit = async () => {
     if (!(selectedCards.length == 3 || selectedCards.length == 1)) {
       alert('カードを正しく選択してください');
       return;
     }
-    addStreetCard(selectedCards);
+    await addStreetCard(selectedCards);
     onClose();
   };
   return (

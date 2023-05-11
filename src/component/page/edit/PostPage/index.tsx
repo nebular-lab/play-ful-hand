@@ -5,9 +5,11 @@ import useSWR from 'swr';
 
 import { Layout } from '@/component/layout/Layout';
 import { fetchHandNode } from '@/lib/firebase/firestore/fetchFromFirestore';
-import { Draw } from '@/page/edit/draw';
-import { Node } from '@/page/edit/Node';
 import { editingHandNodeState } from '@/store/editingHandNodeState';
+
+import { Draw } from '../draw';
+import { Node } from '../Node';
+
 export type PostPageProps = {
   id: string;
 };

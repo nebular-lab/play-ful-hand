@@ -3,7 +3,7 @@ import { GetServerSideProps } from 'next';
 import nookies from 'nookies';
 
 import { adminApp } from '@/lib/firebase/init/server';
-import { DashboardPage } from '@/page/Dashboard';
+import { DashboardPage } from '@/component/page/Dashboard';
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   try {

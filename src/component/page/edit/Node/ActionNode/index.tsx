@@ -2,9 +2,9 @@ import { Flex } from '@chakra-ui/react';
 import { FC } from 'react';
 
 import { defaultHandRange } from '@/defaultData/defaultHandRange';
-import { ActionTag } from '@/page/edit/Tag/ActionTag';
 import { ActionNodeType } from '@/types/schema';
 
+import { ActionTag } from '../../Tag/ActionTag';
 import { PositionNode } from '../PositionNode';
 import { StreetNode } from '../StreetNode';
 

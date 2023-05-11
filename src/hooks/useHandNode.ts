@@ -4,7 +4,7 @@
 import produce from 'immer';
 import _ from 'lodash';
 import { useCallback } from 'react';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilCallback, useRecoilState, useRecoilValue } from 'recoil';
 import { UUID } from 'uuidjs';
 
 import { defaultDrawKind, defaultHandKind } from '@/defaultData/handKind';
@@ -16,7 +16,13 @@ import { editingHandRangePositionState } from '@/store/editingHandRangePosition'
 import { editingHandRangeState } from '@/store/editingHandRangeState';
 import { editingNodePathState } from '@/store/editingNodePathState';
 import { editingRegisteredActionsState } from '@/store/editingRegisteredActionsState';
-import { ActionNodeType, CardNodeType, CardType, HandRangeSchema, StreetNodeType } from '@/types/schema';
+import {
+  ActionNodeType,
+  CardNodeType,
+  CardType,
+  HandRangeSchema,
+  StreetNodeType,
+} from '@/types/schema';
 
 import { useAuth } from './useAuth';
 
@@ -34,41 +40,45 @@ export const useHandNode = () => {
   const editingBoard = useRecoilValue(editingBoardState);
   const { user } = useAuth();
 
-  const addStreetCard = useCallback(
-    (addCards: CardType[]) => {
-      const nextState = produce(editingHandNode, (draft) => {
-        let tempNode: any = draft;
-        editingNodePath.forEach((key) => {
-          tempNode = tempNode[key];
-        });
-        // この時点でtempNodeはstreetNode
-        const streetNode:StreetNodeType= tempNode;
-        const OOPHandRange = HandRangeSchema.parse(streetNode.handRange.OOP);
-        const IPHandRange = HandRangeSchema.parse(streetNode.handRange.IP);
-        // const { handKinds, drawKinds } = handDrawKind(OOPHandRange, editingBoard);
-        const cardNode: CardNodeType = {
-          id: String(Date.now()),
-          cards: addCards,
-          child: {
+  const addStreetCard = useRecoilCallback(
+    ({ snapshot, set }) =>
+      async (addCards: CardType[]) => {
+        const editingHandNodeSnap = await snapshot.getPromise(editingHandNodeState);
+        const editingNodePathSnap = await snapshot.getPromise(editingNodePathState);
+        const editingBoardSnap = await snapshot.getPromise(editingBoardState);
+        const nextState = produce(editingHandNodeSnap, (draft) => {
+          let tempNode: any = draft;
+          editingNodePathSnap.forEach((key) => {
+            tempNode = tempNode[key];
+          });
+          // この時点でtempNodeはstreetNode
+          const streetNode: StreetNodeType = tempNode;
+          const OOPHandRange = HandRangeSchema.parse(streetNode.handRange.OOP);
+          const IPHandRange = HandRangeSchema.parse(streetNode.handRange.IP);
+          // const { handKinds, drawKinds } = handDrawKind(OOPHandRange, editingBoard);
+          const cardNode: CardNodeType = {
             id: String(Date.now()),
-            position: 'OOP',
-            type: 'PositionNode',
-            actionIDs: [3, 4, 5, 6, 9],
-            drawKind: defaultDrawKind,
-            handKind: defaultHandKind,
-            board: [...editingBoard, ...addCards],
-            handRange: {
-              OOP: deletedHandRange(OOPHandRange, [...addCards, ...editingBoard]),
-              IP: deletedHandRange(IPHandRange, [...addCards, ...editingBoard]),
+            cards: addCards,
+            child: {
+              id: String(Date.now()),
+              position: 'OOP',
+              type: 'PositionNode',
+              actionIDs: [3, 4, 5, 6, 9],
+              drawKind: defaultDrawKind,
+              handKind: defaultHandKind,
+              board: [...editingBoardSnap, ...addCards],
+              handRange: {
+                OOP: deletedHandRange(OOPHandRange, [...addCards, ...editingBoardSnap]),
+                IP: deletedHandRange(IPHandRange, [...addCards, ...editingBoardSnap]),
+              },
             },
-          },
-        };
-        if (!streetNode['child']) streetNode['child'] = [];
-        streetNode.child.push(cardNode);
-      });
-      setEditingHandNode(nextState);
-    },
-    [editingHandNode, editingNodePath, editingBoard],
+          };
+          if (!streetNode['child']) streetNode['child'] = [];
+          streetNode.child.push(cardNode);
+        });
+        set(editingHandNodeState, nextState);
+      },
+    [],
   );
 
   const registerHandRange = useCallback(() => {
@@ -77,7 +87,7 @@ export const useHandNode = () => {
       editingNodePath.forEach((key) => {
         tempNode = tempNode[key];
       });
-      
+
       tempNode.handRange = editingHandRange;
       const actionIDs = new Set<number>();
       editingHandRange[editingHandRangePosition].forEach((row13) => {
