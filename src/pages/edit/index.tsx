@@ -5,7 +5,7 @@ import nookies from 'nookies';
 
 import { MobilePage } from '@/component/layout/MobilePage';
 import { HandTreePage } from '@/component/page/edit';
-import { adminApp } from '@/lib/firebase/init/server';
+import { adminApp } from '@/hooks/lib/firebase/init/server';
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   try {

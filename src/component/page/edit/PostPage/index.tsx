@@ -4,7 +4,7 @@ import { useRecoilState } from 'recoil';
 import useSWR from 'swr';
 
 import { Layout } from '@/component/layout/Layout';
-import { fetchHandNode } from '@/lib/firebase/firestore/fetchFromFirestore';
+import { fetchHandNode } from '@/hooks/lib/firebase/firestore/fetchFromFirestore';
 import { editingHandNodeState } from '@/store/editingHandNodeState';
 
 import { Draw } from '../draw';
@@ -16,7 +16,8 @@ export type PostPageProps = {
 export const PostPage: FC<PostPageProps> = (props) => {
   const { id } = props;
   const { data, isLoading } = useSWR(id, fetchHandNode);
-  const [editingHandNode, setEditingHandNode] = useRecoilState(editingHandNodeState);
+  const [editingHandNode, setEditingHandNode] =
+    useRecoilState(editingHandNodeState);
   if (isLoading || !data)
     return (
       <Layout>
