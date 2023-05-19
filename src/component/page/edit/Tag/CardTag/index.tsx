@@ -1,9 +1,8 @@
 import { Flex } from '@chakra-ui/react';
 import { FC } from 'react';
 
+import { Card } from '@/component/Card';
 import { CardType } from '@/types/schema';
-
-import { Card } from '../../../../component/Card';
 
 export type CardTagProps = {
   cards: CardType[];

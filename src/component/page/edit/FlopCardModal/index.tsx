@@ -1,4 +1,10 @@
-import { Button, Flex, Modal, ModalContent, ModalOverlay } from '@chakra-ui/react';
+import {
+  Button,
+  Flex,
+  Modal,
+  ModalContent,
+  ModalOverlay,
+} from '@chakra-ui/react';
 import produce from 'immer';
 import _ from 'lodash';
 import { FC, useState } from 'react';
@@ -27,13 +33,29 @@ type CardFormProps = {
 const CardForm: FC<CardFormProps> = (props) => {
   const { onClose } = props;
   const { addStreetCard } = useHandNode();
-  const nums: CardNumType[] = ['A', 'K', 'Q', 'J', 'T', '9', '8', '7', '6', '5', '4', '3', '2'];
+  const nums: CardNumType[] = [
+    'A',
+    'K',
+    'Q',
+    'J',
+    'T',
+    '9',
+    '8',
+    '7',
+    '6',
+    '5',
+    '4',
+    '3',
+    '2',
+  ];
   const marks: CardMarkType[] = ['s', 'd', 'c', 'h'];
   const [selectedCards, setSelectedCards] = useState<CardType[]>([]);
   const onCardClick = (clickedCard: CardType) => {
     if (_.some(selectedCards, clickedCard)) {
       const nextState = produce(selectedCards, (draft) => {
-        return draft.filter((selectedCard) => !_.isEqual(clickedCard, selectedCard));
+        return draft.filter(
+          (selectedCard) => !_.isEqual(clickedCard, selectedCard)
+        );
       });
       setSelectedCards(nextState);
     } else {
@@ -43,12 +65,12 @@ const CardForm: FC<CardFormProps> = (props) => {
       setSelectedCards(nextState);
     }
   };
-  const onSubmit = () => {
+  const onSubmit = async () => {
     if (!(selectedCards.length == 3 || selectedCards.length == 1)) {
       alert('カードを正しく選択してください');
       return;
     }
-    addStreetCard(selectedCards);
+    await addStreetCard(selectedCards);
     onClose();
   };
   return (
@@ -57,7 +79,12 @@ const CardForm: FC<CardFormProps> = (props) => {
         <Flex h={'10'} gap={1}>
           {selectedCards.map((card) => {
             return (
-              <Card key={`${card.mark} ${card.num}`} num={card.num} mark={card.mark} size={'md'} />
+              <Card
+                key={`${card.mark} ${card.num}`}
+                num={card.num}
+                mark={card.mark}
+                size={'md'}
+              />
             );
           })}
         </Flex>
@@ -79,7 +106,7 @@ const CardForm: FC<CardFormProps> = (props) => {
           })}
         </Flex>
       </Flex>
-      <Button onClick={onSubmit}>決定</Button>
+      <Button onClick={() => void onSubmit()}>決定</Button>
     </Flex>
   );
 };

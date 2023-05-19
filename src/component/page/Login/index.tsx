@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { FcGoogle } from 'react-icons/fc';
 
-import { login, loginAnonymously } from '@/lib/firebase/auth/auth';
+import { login, loginAnonymously } from '@/hooks/lib/firebase/auth/auth';
 export const LoginPage = () => {
   const router = useRouter();
   const handleLogin = () => {
@@ -46,6 +46,11 @@ export const LoginPage = () => {
       >
         <Text color={'blue.500'}>Notion</Text>
       </Link> */}
+      混合戦略での入力が可能なバージョンは
+      <Link href={'https://play-ful-hand-mix.vercel.app/'}>
+        <Text color={'blue.500'}>こちら</Text>
+      </Link>
+      で開発中です。
       <Flex>
         要望がありましたら
         <Link href={'https://twitter.com/hirano_pos'}>
@@ -54,7 +59,12 @@ export const LoginPage = () => {
         に連絡をください。
       </Flex>
       <Center>
-        <Button onClick={handleAnonymousLogin} w={'full'} maxW={'md'} colorScheme={'blue'}>
+        <Button
+          onClick={handleAnonymousLogin}
+          w={'full'}
+          maxW={'md'}
+          colorScheme={'blue'}
+        >
           <Center>
             <Text>体験する</Text>
           </Center>

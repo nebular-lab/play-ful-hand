@@ -3,7 +3,6 @@ import _ from 'lodash';
 import { FC } from 'react';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 
-import { PositionTag } from '@/featurePage/edit/Tag/PositionTag';
 import { editingActionsIDState } from '@/store/editingActionsIDState';
 import { editingBoardState } from '@/store/editingBoard';
 import { editingHandRangePositionState } from '@/store/editingHandRangePosition';
@@ -11,6 +10,7 @@ import { editingHandRangeState } from '@/store/editingHandRangeState';
 import { editingNodePathState } from '@/store/editingNodePathState';
 import { PositionNodeType } from '@/types/schema';
 
+import { PositionTag } from '../../Tag/PositionTag';
 import { ActionNode } from '../ActionNode';
 
 export const PositionNode: FC<PositionNodeType & { path: Array<number | string> }> = (

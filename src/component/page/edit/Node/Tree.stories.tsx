@@ -2,13 +2,13 @@ import { Meta, StoryObj } from '@storybook/react';
 
 import { defaultHandRange } from '@/defaultData/defaultHandRange';
 
-import { Tree } from '.';
+import { Node } from '.';
 
-type T = typeof Tree;
+type T = typeof Node;
 type Story = StoryObj<T>;
 
 export default {
-  component: Tree,
+  component: Node,
   args: {
     treeInfo: {
       IP: 'BTN',

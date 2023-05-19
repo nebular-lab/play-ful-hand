@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import nookies from 'nookies';
 import { createContext, useEffect, useState } from 'react';
 
-import { auth } from '@/lib/firebase/init/client';
+import { auth } from '@/hooks/lib/firebase/init/client';
 
 export const AuthContext = createContext<{ user: User | null }>({
   user: null,
@@ -58,5 +58,7 @@ export function AuthProvider({ children }: any) {
     return () => clearInterval(handle);
   }, []);
 
-  return <AuthContext.Provider value={{ user }}>{children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider value={{ user }}>{children}</AuthContext.Provider>
+  );
 }

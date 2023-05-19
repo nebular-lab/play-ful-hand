@@ -27,7 +27,6 @@ export const useHandRange = () => {
   );
   const updateEditingHandRangeSquare = useCallback(
     (indexes: { colIndex13: number; rowIndex13: number }, selectedActionID: number) => {
-
       return setEditingHandRange((prev) => {
         const nextState = produce(prev, (draft) => {
           for (let row = 0; row < 4; row++) {

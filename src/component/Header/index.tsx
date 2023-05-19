@@ -3,8 +3,8 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { type FC } from 'react';
 
+import { logout } from '@/hooks/lib/firebase/auth/auth';
 import { useHandNode } from '@/hooks/useHandNode';
-import { logout } from '@/lib/firebase/auth/auth';
 
 export type HeaderProps = {
   isEditPage?: boolean;
@@ -34,7 +34,14 @@ export const Header: FC<HeaderProps> = (props) => {
     });
   };
   return (
-    <Flex h={14} px={7} alignItems={'center'} justifyContent={'center'} top={0} bg={'main'}>
+    <Flex
+      h={14}
+      px={7}
+      alignItems={'center'}
+      justifyContent={'center'}
+      top={0}
+      bg={'main'}
+    >
       <Text fontWeight={'bold'} fontSize={'2xl'} color={'headline'}>
         PLAYFUL HAND
       </Text>
@@ -42,7 +49,12 @@ export const Header: FC<HeaderProps> = (props) => {
 
       <Flex gap={3} alignItems={'center'} justifyContent={'center'}>
         {isEditPage ? (
-          <Button bg={'button'} color={'buttonText'} _hover={{bg:'buttonHover'}} onClick={handleSaveHandNode}>
+          <Button
+            bg={'button'}
+            color={'buttonText'}
+            _hover={{ bg: 'buttonHover' }}
+            onClick={handleSaveHandNode}
+          >
             保存
           </Button>
         ) : (
